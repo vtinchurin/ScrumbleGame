@@ -1,15 +1,12 @@
 package ru.vtinch.scramblegame
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-
-import org.junit.Test
-import org.junit.runner.RunWith
-
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import ru.vtinch.scramblegame.game.GamePage
 
 
 @RunWith(AndroidJUnit4::class)
@@ -18,7 +15,7 @@ class ScenarioTest {
     @get:Rule
     val activityScenarioRule = ActivityScenarioRule(MainActivity::class.java)
 
-    private lateinit var gamePage:GamePage
+    private lateinit var gamePage: GamePage
 
     @Before
     fun setup(){
