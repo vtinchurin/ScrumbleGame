@@ -5,6 +5,7 @@ import android.view.View
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.pressKey
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
@@ -26,7 +27,7 @@ class InputUi(containerIdMatcher: Matcher<View>, containerClassTypeMatcher: Matc
     )
 
     fun addInput(text: String) {
-        interaction.perform(click()).perform(typeText(text))
+        interaction.perform(click()).perform(typeText(text), closeSoftKeyboard())
     }
 
     fun removeLetter() {
