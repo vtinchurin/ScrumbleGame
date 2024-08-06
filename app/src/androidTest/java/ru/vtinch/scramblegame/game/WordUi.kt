@@ -27,13 +27,14 @@ WordUi(
             containerClassTypeMatcher,
             withId(R.id.answerText),
             withText(text),
-            isAssignableFrom(TextView::class.java)
+            isAssignableFrom(TextView::class.java),
+            isDisplayed()
         )
     )
 
 
     fun assertStrikeColor(strokeColorResId: Int) {
-        interaction.check(matches(isDisplayed()))
+        //interaction.check(matches(isDisplayed()))
         interaction.check(matches(hasBackground(strokeColorResId)))
     }
 
