@@ -7,8 +7,7 @@
     android:id="@+id/rootLayout"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:padding="24dp"
-    tools:context=".MainActivity">
+    android:padding="24dp">
 
 
     <Button
@@ -25,15 +24,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:tag="iii"
         android:background="@drawable/bg_gray"
         android:gravity="center"
-        tools:text="WORD">
+        tools:text="WORD" />
 
-    </TextView>
 
 
     <com.google.android.material.textfield.TextInputLayout
-
         android:id="@+id/textInputL"
         style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
         android:layout_width="match_parent"
@@ -49,11 +47,7 @@
             android:id="@+id/inputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="input"
-
-            />
-
-
+            android:hint="@string/input" />
     </com.google.android.material.textfield.TextInputLayout>
 
 

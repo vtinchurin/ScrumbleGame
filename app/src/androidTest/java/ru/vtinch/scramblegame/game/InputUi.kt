@@ -17,10 +17,11 @@ import ru.vtinch.scramblegame.R
 
 class InputUi(containerIdMatcher: Matcher<View>, containerClassTypeMatcher: Matcher<View>) {
 
+
     private val interaction: ViewInteraction = onView(
         allOf(
-            containerIdMatcher,
-            containerClassTypeMatcher,
+            //containerIdMatcher,
+            //withParent(withId(R.id.textInputL)),
             withId(R.id.inputEditText),
             isAssignableFrom(TextInputEditText::class.java)
         )

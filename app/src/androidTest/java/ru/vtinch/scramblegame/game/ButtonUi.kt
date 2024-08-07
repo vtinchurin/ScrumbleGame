@@ -1,7 +1,7 @@
 package ru.vtinch.scramblegame.game
 
 import android.view.View
-import androidx.appcompat.widget.AppCompatButton
+import android.widget.Button
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
@@ -13,6 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isNotEnabled
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
 
 class ButtonUi(
@@ -28,7 +29,7 @@ class ButtonUi(
             containerClassTypeMatcher,
             withId(id),
             withText(text),
-            isAssignableFrom(AppCompatButton::class.java)
+            isAssignableFrom(Button::class.java)
         )
     )
 
@@ -42,6 +43,10 @@ class ButtonUi(
     }
 
     fun assertInvisible() {
+        interaction.check(matches(not(isDisplayed())))
+    }
+
+    fun assertGone() {
         interaction.check(doesNotExist())
     }
 

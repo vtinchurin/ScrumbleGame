@@ -3,4 +3,5 @@
     <string name="skip">skip</string>
     <string name="next">next</string>
     <string name="check">check</string>
+    <string name="input">Input</string>
 </resources>

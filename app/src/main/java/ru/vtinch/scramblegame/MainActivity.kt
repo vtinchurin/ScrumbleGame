@@ -13,7 +13,7 @@ import ru.vtinch.scramblegame.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private val list = listOf("world", "show", "collapse")
+    private val list = listOf("input", "world", "prediction", "fold")
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

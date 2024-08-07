@@ -46,7 +46,7 @@ class GamePage(
     )
 
     fun assertInitialState() {
-        wordUi.assertStrikeColor(strokeColorResId = R.color.gray)
+        wordUi.assertBg(bgResId = R.drawable.bg_gray)
         skipUi.assertEnabled()
         nextUi.assertInvisible()
         checkUi.assertNotEnabled()
@@ -63,7 +63,7 @@ class GamePage(
     }
 
     fun assertCorrectAnswerState() {
-        wordUi.assertStrikeColor(strokeColorResId = R.color.green)
+        wordUi.assertBg(bgResId = R.drawable.bg_green)
         checkUi.assertInvisible()
         skipUi.assertInvisible()
         nextUi.assertVisible()
@@ -83,7 +83,7 @@ class GamePage(
     }
 
     fun assertIncorrectAnswerState() {
-        wordUi.assertStrikeColor(strokeColorResId = R.color.red)
+        wordUi.assertBg(bgResId = R.drawable.bg_red)
         checkUi.assertNotEnabled()
         skipUi.assertVisible()
         nextUi.assertInvisible()
