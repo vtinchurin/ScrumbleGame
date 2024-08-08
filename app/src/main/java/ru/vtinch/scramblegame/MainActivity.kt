@@ -1,5 +1,6 @@
 package ru.vtinch.scramblegame
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -11,10 +12,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.vtinch.scramblegame.databinding.ActivityMainBinding
 
+@SuppressLint("ResourceAsColor")
 class MainActivity : AppCompatActivity() {
 
-    private val list = listOf("input", "world", "prediction", "fold")
+    private val list = listOf("input", "world", "prediction", "snow","gors")
     private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -31,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         binding.nextButton.setOnClickListener {
             index += 1
             binding.answerText.text = list[index].reversed()
-            UiState.InitialState().show(
+            UiState.InitialState.show(
                 binding.skipButton,
                 binding.checkButton,
                 binding.nextButton,
@@ -44,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         binding.skipButton.setOnClickListener {
             index += 1
             binding.answerText.text = list[index].reversed()
-            UiState.InitialState().show(
+            UiState.InitialState.show(
                 binding.skipButton,
                 binding.checkButton,
                 binding.nextButton,
@@ -58,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             if (binding.inputEditText.text.toString() == binding.answerText.text.reversed()
                     .toString()
             ) {
-                UiState.CorrectAnswerState().show(
+                UiState.CorrectAnswerState.show(
                     binding.skipButton,
                     binding.checkButton,
                     binding.nextButton,
@@ -68,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                 )
                 binding.textInputL.visibility = View.INVISIBLE
             } else {
-                UiState.IncorrectAnswerState().show(
+                UiState.IncorrectAnswerState.show(
                     binding.skipButton,
                     binding.checkButton,
                     binding.nextButton,
@@ -78,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                 )
                 CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch {
                     delay(1500)
-                    UiState.InitialState().show(
+                    UiState.InitialState.show(
                         binding.skipButton,
                         binding.checkButton,
                         binding.nextButton,

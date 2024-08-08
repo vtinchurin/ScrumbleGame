@@ -32,8 +32,7 @@ class GamePage(
     )
     private val checkUi = ButtonUi(
         id = R.id.checkButton,
-        text =
-        R.string.check,
+        text =R.string.check,
         containerIdMatcher = containerIdMatcher,
         containerClassTypeMatcher = classTypeMatcher
     )

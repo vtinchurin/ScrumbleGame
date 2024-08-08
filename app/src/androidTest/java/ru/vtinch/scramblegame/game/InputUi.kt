@@ -10,29 +10,39 @@ import androidx.test.espresso.action.ViewActions.pressKey
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import ru.vtinch.scramblegame.R
 
 class InputUi(containerIdMatcher: Matcher<View>, containerClassTypeMatcher: Matcher<View>) {
 
-
-    private val interaction: ViewInteraction = onView(
+    private val layoutInteraction : ViewInteraction = onView(
         allOf(
-            //containerIdMatcher,
-            //withParent(withId(R.id.textInputL)),
+            containerIdMatcher,
+            containerClassTypeMatcher,
+            isAssignableFrom(TextInputLayout::class.java),
+            withId(R.id.textInputL)
+        )
+    )
+
+    private val inputInteraction: ViewInteraction = onView(
+        allOf(
+            isAssignableFrom(TextInputEditText::class.java),
             withId(R.id.inputEditText),
-            isAssignableFrom(TextInputEditText::class.java)
+            //withParent(withId(R.id.textInputL)),
+            //withParent(isAssignableFrom(TextInputLayout::class.java))
         )
     )
 
     fun addInput(text: String) {
-        interaction.perform(click()).perform(typeText(text), closeSoftKeyboard())
+        inputInteraction.perform(click(),typeText(text), closeSoftKeyboard())
     }
 
     fun removeLetter() {
-        interaction.perform(click()).perform(pressKey(KeyEvent.KEYCODE_DEL))
+        inputInteraction.perform(click(),(pressKey(KeyEvent.KEYCODE_DEL)))
     }
 
 }

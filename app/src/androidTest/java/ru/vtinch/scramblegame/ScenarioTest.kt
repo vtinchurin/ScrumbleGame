@@ -22,11 +22,8 @@ class ScenarioTest {
         gamePage = GamePage(word = "input".reversed())
     }
 
-//
-
     @Test
     fun caseNumber1() {
-
         gamePage.assertInitialState()
         gamePage.addInput(text = "inpu")
         gamePage.assertInitialState()
@@ -41,6 +38,7 @@ class ScenarioTest {
 
     }
 
+    @Test
     fun caseNumber2(){
         gamePage.assertInitialState()
         gamePage.clickSkip()
@@ -57,16 +55,16 @@ class ScenarioTest {
         gamePage.assetCorrectPredictionState()
         gamePage.clickCheck()
         gamePage.assertIncorrectAnswerState()
-        gamePage.assertInitialState()
         gamePage.clickSkip()
-        gamePage = GamePage(word = "fold".reversed())
+        gamePage = GamePage(word = "snow".reversed())
         gamePage.assertInitialState()
-        gamePage.addInput(text = "fold")
+        gamePage.addInput(text = "sno")
+        gamePage.assertInitialState()
+        gamePage.addInput(text = "w")
         gamePage.assetCorrectPredictionState()
         gamePage.removeLastLetter()
-        gamePage.assertIncorrectAnswerState()
-        gamePage.addInput(text = "d")
+        gamePage.assertInitialState()
+        gamePage.addInput(text = "w")
         gamePage.assetCorrectPredictionState()
-
     }
 }

@@ -30,16 +30,7 @@ WordUi(
     )
 
     fun assertBg(bgResId: Int) {
-        interaction.check(matches(BackgroundColourMatcher(bgResId)))
-//        onView(
-//            allOf(
-//                withParent(withId(R.id.rootLayout)),
-//                withParent(isAssignableFrom(LinearLayout::class.java)),
-//                withId(R.id.answerText),
-//                //withText("tupni"),
-//                isAssignableFrom(TextView::class.java),
-//            )
-//        ).check(matches(isDisplayed()))
+        interaction.check(matches(BackgroundDrawableMatcher(bgResId)))
     }
 
 }
