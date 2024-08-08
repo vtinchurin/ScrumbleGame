@@ -17,7 +17,7 @@ interface UiState {
         input: TextInputEditText
     )
 
-    class InitialState() : UiState {
+    object InitialState : UiState {
         override fun show(
             skip: Button,
             check: Button,
@@ -36,7 +36,7 @@ interface UiState {
         }
     }
 
-    class CorrectAnswerState() : UiState {
+    object CorrectAnswerState : UiState {
         override fun show(
             skip: Button,
             check: Button,
@@ -55,7 +55,7 @@ interface UiState {
         }
     }
 
-    class IncorrectAnswerState() : UiState {
+    object IncorrectAnswerState : UiState {
         override fun show(
             skip: Button,
             check: Button,

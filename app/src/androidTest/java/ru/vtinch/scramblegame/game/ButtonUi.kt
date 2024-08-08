@@ -4,7 +4,6 @@ import android.view.View
 import android.widget.Button
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
-import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -46,9 +45,6 @@ class ButtonUi(
         interaction.check(matches(not(isDisplayed())))
     }
 
-    fun assertGone() {
-        interaction.check(doesNotExist())
-    }
 
     fun assertVisible() {
         interaction.check(matches(isDisplayed()))
