@@ -24,25 +24,31 @@ class GamePage(
         containerClassTypeMatcher = classTypeMatcher
     )
     private val skipUi = ButtonUi(
+        id = R.id.skipButton,
+        text =
         R.string.skip,
         containerIdMatcher = containerIdMatcher,
         containerClassTypeMatcher = classTypeMatcher
     )
     private val checkUi = ButtonUi(
-        R.string.next,
+        id = R.id.checkButton,
+        text =
+        R.string.check,
         containerIdMatcher = containerIdMatcher,
         containerClassTypeMatcher = classTypeMatcher
     )
     private val nextUi = ButtonUi(
+        id = R.id.nextButton,
+        text =
         R.string.next,
         containerIdMatcher = containerIdMatcher,
         containerClassTypeMatcher = classTypeMatcher
     )
 
     fun assertInitialState() {
-        wordUi.assertStrikeColor(color = R.color.gray)
+        wordUi.assertBg(bgResId = R.drawable.bg_gray)
         skipUi.assertEnabled()
-        nextUi.assertGone()
+        nextUi.assertInvisible()
         checkUi.assertNotEnabled()
     }
 
@@ -53,12 +59,12 @@ class GamePage(
     fun assetCorrectPredictionState() {
         skipUi.assertEnabled()
         checkUi.assertEnabled()
-        nextUi.assertGone()
+        nextUi.assertInvisible()
     }
 
     fun assertCorrectAnswerState() {
-        wordUi.assertStrikeColor(color = R.color.green)
-        checkUi.assertGone()
+        wordUi.assertBg(bgResId = R.drawable.bg_green)
+        checkUi.assertInvisible()
         skipUi.assertInvisible()
         nextUi.assertVisible()
 
@@ -77,10 +83,10 @@ class GamePage(
     }
 
     fun assertIncorrectAnswerState() {
-        wordUi.assertStrikeColor(color = R.color.red)
-        checkUi.assertNotEnable()
+        wordUi.assertBg(bgResId = R.drawable.bg_red)
+        checkUi.assertNotEnabled()
         skipUi.assertVisible()
-        nextUi.assertGone()
+        nextUi.assertInvisible()
     }
 
     fun removeLastLetter() {

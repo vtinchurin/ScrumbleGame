@@ -22,8 +22,11 @@ class ScenarioTest {
         gamePage = GamePage(word = "input".reversed())
     }
 
+//
+
     @Test
     fun caseNumber1() {
+
         gamePage.assertInitialState()
         gamePage.addInput(text = "inpu")
         gamePage.assertInitialState()
