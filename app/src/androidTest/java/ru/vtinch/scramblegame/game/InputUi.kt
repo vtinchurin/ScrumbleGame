@@ -10,7 +10,6 @@ import androidx.test.espresso.action.ViewActions.pressKey
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withParent
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import org.hamcrest.CoreMatchers.allOf
@@ -24,7 +23,7 @@ class InputUi(containerIdMatcher: Matcher<View>, containerClassTypeMatcher: Matc
             containerIdMatcher,
             containerClassTypeMatcher,
             isAssignableFrom(TextInputLayout::class.java),
-            withId(R.id.textInputL)
+            withId(R.id.inputLayout)
         )
     )
 
@@ -32,7 +31,7 @@ class InputUi(containerIdMatcher: Matcher<View>, containerClassTypeMatcher: Matc
         allOf(
             isAssignableFrom(TextInputEditText::class.java),
             withId(R.id.inputEditText),
-            //withParent(withId(R.id.textInputL)),
+            //withParent(withId(R.id.inputLayout)),
             //withParent(isAssignableFrom(TextInputLayout::class.java))
         )
     )

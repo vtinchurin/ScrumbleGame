@@ -46,9 +46,9 @@ class GamePage(
 
     fun assertInitialState() {
         wordUi.assertBg(bgResId = R.drawable.bg_gray)
+        checkUi.assertNotEnabled()
         skipUi.assertEnabled()
         nextUi.assertInvisible()
-        checkUi.assertNotEnabled()
     }
 
     fun addInput(text: String) {
@@ -56,8 +56,8 @@ class GamePage(
     }
 
     fun assetCorrectPredictionState() {
-        skipUi.assertEnabled()
         checkUi.assertEnabled()
+        skipUi.assertEnabled()
         nextUi.assertInvisible()
     }
 

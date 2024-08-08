@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                 binding.checkButton,
                 binding.nextButton,
                 binding.answerText,
-                binding.textInputL,
+                binding.inputLayout,
                 binding.inputEditText
             )
         }
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                 binding.checkButton,
                 binding.nextButton,
                 binding.answerText,
-                binding.textInputL,
+                binding.inputLayout,
                 binding.inputEditText
             )
         }
@@ -66,17 +66,17 @@ class MainActivity : AppCompatActivity() {
                     binding.checkButton,
                     binding.nextButton,
                     binding.answerText,
-                    binding.textInputL,
+                    binding.inputLayout,
                     binding.inputEditText
                 )
-                binding.textInputL.visibility = View.INVISIBLE
+                binding.inputLayout.visibility = View.INVISIBLE
             } else {
                 UiState.IncorrectAnswerState.show(
                     binding.skipButton,
                     binding.checkButton,
                     binding.nextButton,
                     binding.answerText,
-                    binding.textInputL,
+                    binding.inputLayout,
                     binding.inputEditText
                 )
                 CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch {
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                         binding.checkButton,
                         binding.nextButton,
                         binding.answerText,
-                        binding.textInputL,
+                        binding.inputLayout,
                         binding.inputEditText
                     )
                 }

@@ -60,7 +60,7 @@ class ScenarioTest {
         gamePage.assertInitialState()
         gamePage.addInput(text = "sno")
         gamePage.assertInitialState()
-        gamePage.addInput(text = "w")
+        gamePage.addInput(text = "show")
         gamePage.assetCorrectPredictionState()
         gamePage.removeLastLetter()
         gamePage.assertInitialState()
