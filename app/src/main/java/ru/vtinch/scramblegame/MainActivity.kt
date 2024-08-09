@@ -2,14 +2,10 @@ package ru.vtinch.scramblegame
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import ru.vtinch.scramblegame.data.DataSource
+import ru.vtinch.scramblegame.data.RepositoryImpl
 import ru.vtinch.scramblegame.databinding.ActivityMainBinding
 
 @SuppressLint("ResourceAsColor")
@@ -19,7 +15,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel = MainViewModel(
         liveDataWrapper = UiStateLiveDataWrapper.Base(),
-        questions = QuestionLiveDataWrapper.Base()
+        questions = QuestionLiveDataWrapper.Base(),
+        repository = RepositoryImpl(
+            dataSource = DataSource()
+        )
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

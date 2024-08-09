@@ -6,18 +6,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.vtinch.scramblegame.domain.Repository
 
 class MainViewModel(
     private val liveDataWrapper: UiStateLiveDataWrapper.Mutable,
-    private val questions: QuestionLiveDataWrapper.Mutable
+    private val questions: QuestionLiveDataWrapper.Mutable,
+    private val repository: Repository,
 ) : UiStateLiveDataWrapper.Read {
 
-    private var index = 0
-    private val list = listOf("input", "world", "prediction", "snow", "horse","nevermore","dog")
+    private var current : String
+
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     init {
-        questions.update(list[index])
+        current = repository.nextWord()
+        questions.update(current)
     }
 
 
@@ -25,9 +28,9 @@ class MainViewModel(
         if (questions.liveData().value == prediction) {
             liveDataWrapper.update(UiState.CorrectAnswerState)
         } else {
-            viewModelScope.launch(Dispatchers.Main) {
             liveDataWrapper.update(UiState.IncorrectAnswerState)
-                delay(3000)
+            viewModelScope.launch {
+                delay(1500)
                 liveDataWrapper.update(UiState.InitialState)
             }
 
@@ -36,8 +39,8 @@ class MainViewModel(
     }
 
     fun skip() {
-        index++
-        questions.update(list[index])
+        current = repository.nextWord()
+        questions.update(current)
         liveDataWrapper.update(UiState.InitialState)
     }
 

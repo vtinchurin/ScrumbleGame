@@ -92,4 +92,7 @@ class GamePage(
         inputUi.removeLetter()
     }
 
+//    fun waitWhileInit(timeout: Long) {
+//        inputUi.waitWhileInit(timeout)
+//    }
 }

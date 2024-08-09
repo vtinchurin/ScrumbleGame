@@ -29,9 +29,9 @@ interface UiState {
             input: TextInputEditText
         ) {
             input.isEnabled = true
+            textView.setBackgroundResource(R.drawable.bg_gray)
             input.setText("")
             textInputLayout.visibility = View.VISIBLE
-            textView.setBackgroundResource(R.drawable.bg_gray)
             skip.visibility = View.VISIBLE
             check.visibility = View.VISIBLE
             next.visibility = View.GONE
