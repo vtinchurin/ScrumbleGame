@@ -9,11 +9,14 @@ import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.pressKey
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
+import ru.easycode.zerotoheroandroidtdd.waitTillDisplayed
 import ru.vtinch.scramblegame.R
 
 class InputUi(containerIdMatcher: Matcher<View>, containerClassTypeMatcher: Matcher<View>) {
@@ -44,4 +47,7 @@ class InputUi(containerIdMatcher: Matcher<View>, containerClassTypeMatcher: Matc
         inputInteraction.perform(click(),(pressKey(KeyEvent.KEYCODE_DEL)))
     }
 
+//    fun waitWhileInit(timeout: Long) {
+//       inputInteraction.perform(waitTillDisplayed(R.id.inputEditText,timeout))
+//    }
 }

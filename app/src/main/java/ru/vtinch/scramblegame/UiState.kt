@@ -8,6 +8,7 @@ import com.google.android.material.textfield.TextInputLayout
 
 interface UiState {
 
+
     fun show(
         skip: Button,
         check: Button,
@@ -18,6 +19,7 @@ interface UiState {
     )
 
     object InitialState : UiState {
+
         override fun show(
             skip: Button,
             check: Button,
@@ -26,9 +28,10 @@ interface UiState {
             textInputLayout: TextInputLayout,
             input: TextInputEditText
         ) {
+            input.isEnabled = true
+            textView.setBackgroundResource(R.drawable.bg_gray)
             input.setText("")
             textInputLayout.visibility = View.VISIBLE
-            textView.setBackgroundResource(R.drawable.bg_gray)
             skip.visibility = View.VISIBLE
             check.visibility = View.VISIBLE
             next.visibility = View.GONE
@@ -45,10 +48,11 @@ interface UiState {
             textInputLayout: TextInputLayout,
             input: TextInputEditText
         ) {
+            input.setText("")
+            check.visibility = View.GONE
             textView.setBackgroundResource(R.drawable.bg_green)
             textInputLayout.visibility = View.INVISIBLE
             skip.visibility = View.INVISIBLE
-            check.visibility = View.GONE
             next.isEnabled = true
             next.visibility = View.VISIBLE
             input.clearFocus()
@@ -66,6 +70,7 @@ interface UiState {
         ) {
             textView.setBackgroundResource(R.drawable.bg_red)
             input.setText("")
+            input.isEnabled = false
             input.clearFocus()
 //            input.visibility = View.VISIBLE
 //            skip.visibility = View.VISIBLE

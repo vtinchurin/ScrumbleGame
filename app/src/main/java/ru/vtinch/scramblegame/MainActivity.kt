@@ -2,95 +2,63 @@ package ru.vtinch.scramblegame
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import ru.vtinch.scramblegame.data.DataSource
+import ru.vtinch.scramblegame.data.RepositoryImpl
 import ru.vtinch.scramblegame.databinding.ActivityMainBinding
 
 @SuppressLint("ResourceAsColor")
 class MainActivity : AppCompatActivity() {
 
-    private val list = listOf("input", "world", "prediction", "snow","gors")
+
     private lateinit var binding: ActivityMainBinding
+    private val viewModel = MainViewModel(
+        liveDataWrapper = UiStateLiveDataWrapper.Base(),
+        questions = QuestionLiveDataWrapper.Base(),
+        repository = RepositoryImpl(
+            dataSource = DataSource()
+        )
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        var index = 0
 
-        binding.answerText.text = list[index].reversed()
+        viewModel.questions().observe(this) {
+            binding.answerText.text = it.reversed()
+        }
 
+        viewModel.liveData().observe(this){
+            it.show(
+                skip=binding.skipButton,
+                check = binding.checkButton,
+                next = binding.nextButton,
+                textView= binding.answerText,
+                textInputLayout=binding.inputLayout,
+                input = binding.inputEditText,
+            )
+        }
 
         binding.inputEditText.addTextChangedListener {
             binding.checkButton.isEnabled = it?.length == binding.answerText.length()
         }
 
         binding.nextButton.setOnClickListener {
-            index += 1
-            binding.answerText.text = list[index].reversed()
-            UiState.InitialState.show(
-                binding.skipButton,
-                binding.checkButton,
-                binding.nextButton,
-                binding.answerText,
-                binding.inputLayout,
-                binding.inputEditText
-            )
+            viewModel.next()
         }
 
         binding.skipButton.setOnClickListener {
-            index += 1
-            binding.answerText.text = list[index].reversed()
-            UiState.InitialState.show(
-                binding.skipButton,
-                binding.checkButton,
-                binding.nextButton,
-                binding.answerText,
-                binding.inputLayout,
-                binding.inputEditText
-            )
+            viewModel.skip()
         }
 
         binding.checkButton.setOnClickListener {
-            if (binding.inputEditText.text.toString() == binding.answerText.text.reversed()
-                    .toString()
-            ) {
-                UiState.CorrectAnswerState.show(
-                    binding.skipButton,
-                    binding.checkButton,
-                    binding.nextButton,
-                    binding.answerText,
-                    binding.inputLayout,
-                    binding.inputEditText
-                )
-                binding.inputLayout.visibility = View.INVISIBLE
-            } else {
-                UiState.IncorrectAnswerState.show(
-                    binding.skipButton,
-                    binding.checkButton,
-                    binding.nextButton,
-                    binding.answerText,
-                    binding.inputLayout,
-                    binding.inputEditText
-                )
-                CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate).launch {
-                    delay(1500)
-                    UiState.InitialState.show(
-                        binding.skipButton,
-                        binding.checkButton,
-                        binding.nextButton,
-                        binding.answerText,
-                        binding.inputLayout,
-                        binding.inputEditText
-                    )
-                }
-            }
+            viewModel.check(
+                binding.inputEditText.text.toString()
+            )
         }
     }
 }
+
+
