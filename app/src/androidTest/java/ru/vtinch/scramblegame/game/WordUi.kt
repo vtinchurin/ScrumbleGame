@@ -24,10 +24,13 @@ WordUi(
             containerIdMatcher,
             containerClassTypeMatcher,
             withId(R.id.answerText),
-            withText(text),
             isAssignableFrom(TextView::class.java),
         )
     )
+
+    fun assertText(text: String){
+        interaction.check(matches(withText(text)))
+    }
 
     fun assertBg(bgResId: Int) {
         interaction.check(matches(BackgroundDrawableMatcher(bgResId)))

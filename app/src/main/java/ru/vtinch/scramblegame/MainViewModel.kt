@@ -5,43 +5,61 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import ru.vtinch.scramblegame.domain.Repository
 
 class MainViewModel(
     private val liveDataWrapper: UiStateLiveDataWrapper.Mutable,
-    private val questions: QuestionLiveDataWrapper.Mutable,
     private val repository: Repository,
 ) : UiStateLiveDataWrapper.Read {
 
-    private var current : String
-
+    private var question: String = repository.getQuestion()
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private val uiState = MutableStateFlow<UiState>(UiState.InitialState(question))
+    val _uiState = uiState.asStateFlow()
 
-    init {
-        current = repository.nextWord()
-        questions.update(current)
+
+    fun init() {
+        viewModelScope.launch {
+            question = repository.getQuestion()
+            liveDataWrapper.update(UiState.InitialState(question))
+            uiState.collect()
+        }
     }
 
+    fun handleUserInput(input: String) {
+        viewModelScope.launch {
+            if (input.length == question.length) {
+                liveDataWrapper.update(UiState.CorrectPrediction(question))
+                uiState.emit(UiState.CorrectPrediction(question))
+            } else {
+                liveDataWrapper.update(UiState.IncorrectPrediction(question))
+                uiState.emit(UiState.IncorrectAnswerState(question))
+            }
+        }
+    }
 
     fun check(prediction: String) {
-        if (questions.liveData().value == prediction) {
-            liveDataWrapper.update(UiState.CorrectAnswerState)
-        } else {
-            liveDataWrapper.update(UiState.IncorrectAnswerState)
-            viewModelScope.launch {
+        viewModelScope.launch {
+            val answer = repository.getAnswer()
+            if (answer == prediction) {
+                liveDataWrapper.update(UiState.CorrectAnswerState(answer))
+                uiState.emit(UiState.CorrectPrediction(answer))
+            } else {
+                liveDataWrapper.update(UiState.IncorrectAnswerState(question))
+                uiState.emit(UiState.IncorrectPrediction(question))
                 delay(1500)
-                liveDataWrapper.update(UiState.InitialState)
+                uiState.emit(UiState.InitialState(question))
+                liveDataWrapper.update(UiState.InitialState(question))
             }
-
         }
-
     }
 
     fun skip() {
-        current = repository.nextWord()
-        questions.update(current)
-        liveDataWrapper.update(UiState.InitialState)
+        repository.next()
+        init()
     }
 
     fun next() {
@@ -52,7 +70,4 @@ class MainViewModel(
         return liveDataWrapper.liveData()
     }
 
-    fun questions(): LiveData<String> {
-        return questions.liveData()
-    }
 }

@@ -45,6 +45,7 @@ class GamePage(
     )
 
     fun assertInitialState() {
+        wordUi.assertText(word)
         wordUi.assertBg(bgResId = R.drawable.bg_gray)
         checkUi.assertNotEnabled()
         skipUi.assertEnabled()
@@ -62,6 +63,7 @@ class GamePage(
     }
 
     fun assertCorrectAnswerState() {
+        wordUi.assertText(word.reversed())
         wordUi.assertBg(bgResId = R.drawable.bg_green)
         checkUi.assertInvisible()
         skipUi.assertInvisible()
@@ -82,6 +84,7 @@ class GamePage(
     }
 
     fun assertIncorrectAnswerState() {
+        wordUi.assertText(word)
         wordUi.assertBg(bgResId = R.drawable.bg_red)
         checkUi.assertNotEnabled()
         skipUi.assertVisible()
