@@ -4,45 +4,35 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import ru.vtinch.scramblegame.data.DataSource
-import ru.vtinch.scramblegame.data.RepositoryImpl
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.observeOn
 import ru.vtinch.scramblegame.databinding.ActivityMainBinding
+import kotlin.coroutines.CoroutineContext
 
 @SuppressLint("ResourceAsColor")
 class MainActivity : AppCompatActivity() {
 
 
     private lateinit var binding: ActivityMainBinding
-    private val viewModel = MainViewModel(
-        liveDataWrapper = UiStateLiveDataWrapper.Base(),
-        questions = QuestionLiveDataWrapper.Base(),
-        repository = RepositoryImpl(
-            dataSource = DataSource()
-        )
-    )
+    private val viewModel = MainViewModel(repository = Repository.Base(), liveDataWrapper = UiStateLiveDataWrapper.Base())
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.questions().observe(this) {
-            binding.answerText.text = it.reversed()
-        }
+        val flow = viewModel._uiState
 
-        viewModel.liveData().observe(this){
-            it.show(
-                skip=binding.skipButton,
-                check = binding.checkButton,
-                next = binding.nextButton,
-                textView= binding.answerText,
-                textInputLayout=binding.inputLayout,
-                input = binding.inputEditText,
-            )
-        }
+        flow.value.show(binding)
+//        viewModel.liveData().observe(this){
+//            it.show(binding)
+//        }
 
         binding.inputEditText.addTextChangedListener {
-            binding.checkButton.isEnabled = it?.length == binding.answerText.length()
+            viewModel.handleUserInput(it.toString())
         }
 
         binding.nextButton.setOnClickListener {
@@ -58,6 +48,8 @@ class MainActivity : AppCompatActivity() {
                 binding.inputEditText.text.toString()
             )
         }
+
+        viewModel.init()
     }
 }
 

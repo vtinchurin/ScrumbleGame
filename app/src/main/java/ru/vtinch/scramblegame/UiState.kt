@@ -1,81 +1,66 @@
 package ru.vtinch.scramblegame
 
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
+import ru.vtinch.scramblegame.databinding.ActivityMainBinding
 
 interface UiState {
 
 
-    fun show(
-        skip: Button,
-        check: Button,
-        next: Button,
-        textView: TextView,
-        textInputLayout: TextInputLayout,
-        input: TextInputEditText
-    )
+    fun show(binding: ActivityMainBinding)
 
-    object InitialState : UiState {
+    data class InitialState(private val question:String) : UiState {
 
-        override fun show(
-            skip: Button,
-            check: Button,
-            next: Button,
-            textView: TextView,
-            textInputLayout: TextInputLayout,
-            input: TextInputEditText
-        ) {
-            input.isEnabled = true
-            textView.setBackgroundResource(R.drawable.bg_gray)
-            input.setText("")
-            textInputLayout.visibility = View.VISIBLE
-            skip.visibility = View.VISIBLE
-            check.visibility = View.VISIBLE
-            next.visibility = View.GONE
-            input.clearFocus()
+        override fun show(binding: ActivityMainBinding) {
+
+            binding.inputEditText.isEnabled = true
+            binding.answerText.text = question
+            binding.answerText.setBackgroundResource(R.drawable.bg_gray)
+            binding.inputEditText.text = null
+            binding.inputLayout.visibility = View.VISIBLE
+            binding.skipButton.visibility = View.VISIBLE
+            binding.checkButton.visibility = View.VISIBLE
+            binding.checkButton.isEnabled = false
+            binding.nextButton.visibility = View.GONE
+
         }
     }
 
-    object CorrectAnswerState : UiState {
-        override fun show(
-            skip: Button,
-            check: Button,
-            next: Button,
-            textView: TextView,
-            textInputLayout: TextInputLayout,
-            input: TextInputEditText
-        ) {
-            input.setText("")
-            check.visibility = View.GONE
-            textView.setBackgroundResource(R.drawable.bg_green)
-            textInputLayout.visibility = View.INVISIBLE
-            skip.visibility = View.INVISIBLE
-            next.isEnabled = true
-            next.visibility = View.VISIBLE
-            input.clearFocus()
+    data class CorrectPrediction(private val question: String): UiState{
+        override fun show(binding: ActivityMainBinding) {
+            binding.checkButton.isEnabled = true
         }
     }
 
-    object IncorrectAnswerState : UiState {
-        override fun show(
-            skip: Button,
-            check: Button,
-            next: Button,
-            textView: TextView,
-            textInputLayout: TextInputLayout,
-            input: TextInputEditText
-        ) {
-            textView.setBackgroundResource(R.drawable.bg_red)
-            input.setText("")
-            input.isEnabled = false
-            input.clearFocus()
-//            input.visibility = View.VISIBLE
-//            skip.visibility = View.VISIBLE
-//            check.visibility = View.VISIBLE
-//            next.visibility = View.GONE
+    data class IncorrectPrediction(private val question: String): UiState{
+        override fun show(binding: ActivityMainBinding) {
+            binding.checkButton.isEnabled = false
+        }
+    }
+
+    data class CorrectAnswerState(private val answer:String) : UiState {
+        override fun show(binding: ActivityMainBinding)
+        {
+            binding.answerText.text = answer
+            binding.inputEditText.text = null
+            binding.checkButton.visibility = View.GONE
+            binding.answerText.setBackgroundResource(R.drawable.bg_green)
+            binding.inputLayout.visibility = View.INVISIBLE
+            binding.skipButton.visibility = View.INVISIBLE
+            binding.nextButton.isEnabled = true
+            binding.nextButton.visibility = View.VISIBLE
+            binding.inputEditText.clearFocus()
+        }
+    }
+
+    data class IncorrectAnswerState(private val question:String) : UiState {
+        override fun show(binding: ActivityMainBinding)
+        {
+            binding.answerText.text = question
+            binding.answerText.setBackgroundResource(R.drawable.bg_red)
+            binding.inputLayout.visibility = View.INVISIBLE
+            binding.inputEditText.text = null
+            binding.inputEditText.isEnabled = false
+            binding.inputEditText.clearFocus()
         }
     }
 }
