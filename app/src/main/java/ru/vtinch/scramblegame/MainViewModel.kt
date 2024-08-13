@@ -18,7 +18,7 @@ class MainViewModel(
 
     fun init() {
             question = repository.getQuestion()
-            liveDataWrapper.update(UiState.InitialState(question))
+            liveDataWrapper.update(UiState.Initial(question))
     }
 
     fun handleUserInput(input: String) {
@@ -32,12 +32,12 @@ class MainViewModel(
     fun check(prediction: String) {
             val answer = repository.getAnswer()
             if (answer == prediction) {
-                liveDataWrapper.update(UiState.CorrectAnswerState(answer))
+                liveDataWrapper.update(UiState.CorrectAnswer(answer))
             } else {
                 viewModelScope.launch {
-                liveDataWrapper.update(UiState.IncorrectAnswerState(question))
+                liveDataWrapper.update(UiState.IncorrectAnswer(question))
                 delay(1500)
-                liveDataWrapper.update(UiState.InitialState(question))
+                liveDataWrapper.update(UiState.Initial(question))
             }
         }
     }
@@ -52,7 +52,7 @@ class MainViewModel(
     }
 
     override fun liveData(): LiveData<UiState> {
-        return liveDataWrapper.liveData() as LiveData<UiState>
+        return liveDataWrapper.liveData()
     }
 
 }

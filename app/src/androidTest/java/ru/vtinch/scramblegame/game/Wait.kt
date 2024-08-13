@@ -10,6 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import ru.vtinch.scramblegame.R
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.util.HumanReadables
+import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
 import ru.vtinch.scramblegame.game.BackgroundDrawableMatcher
 import java.util.concurrent.TimeoutException

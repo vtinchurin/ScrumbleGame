@@ -8,7 +8,7 @@ interface UiState {
 
     fun show(binding: ActivityMainBinding)
 
-    data class InitialState(private val question:String) : UiState {
+    data class Initial(private val question:String) : UiState {
 
         override fun show(binding: ActivityMainBinding) {
 
@@ -37,7 +37,7 @@ interface UiState {
         }
     }
 
-    data class CorrectAnswerState(private val answer:String) : UiState {
+    data class CorrectAnswer(private val answer:String) : UiState {
         override fun show(binding: ActivityMainBinding)
         {
             binding.answerText.text = answer
@@ -52,7 +52,7 @@ interface UiState {
         }
     }
 
-    data class IncorrectAnswerState(private val question:String) : UiState {
+    data class IncorrectAnswer(private val question:String) : UiState {
         override fun show(binding: ActivityMainBinding)
         {
             binding.answerText.text = question

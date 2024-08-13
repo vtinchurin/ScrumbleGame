@@ -47,7 +47,4 @@ class InputUi(containerIdMatcher: Matcher<View>, containerClassTypeMatcher: Matc
         inputInteraction.perform(click(),(pressKey(KeyEvent.KEYCODE_DEL)))
     }
 
-//    fun waitWhileInit(timeout: Long) {
-//       inputInteraction.perform(waitTillDisplayed(R.id.inputEditText,timeout))
-//    }
 }

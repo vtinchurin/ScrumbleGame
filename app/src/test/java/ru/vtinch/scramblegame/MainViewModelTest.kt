@@ -10,6 +10,8 @@ import org.junit.Test
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
+
+
 class MainViewModelTest {
 
     lateinit var repository: FakeRepository
@@ -33,7 +35,7 @@ class MainViewModelTest {
 
         viewModel.init()
 
-        liveDataWrapper.actualState(UiState.InitialState("drow"))
+        liveDataWrapper.actualState(UiState.Initial("drow"))
     }
 
     @Test
@@ -43,11 +45,11 @@ class MainViewModelTest {
         viewModel.init()
         viewModel.skip()
 
-        liveDataWrapper.actualState(UiState.InitialState("wohs"))
+        liveDataWrapper.actualState(UiState.Initial("wohs"))
     }
 
     @Test
-    fun testHandleUserInput() {
+    fun testHandleIncorrectUserInput1() {
         repository.assertCall(words = listOf("word", "show"))
 
         viewModel.init()
@@ -55,6 +57,46 @@ class MainViewModelTest {
 
         liveDataWrapper.actualState(UiState.IncorrectPrediction("drow"))
     }
+
+    @Test
+    fun testHandleIncorrectUserInput2() {
+        repository.assertCall(words = listOf("word", "show"))
+
+        viewModel.init()
+        viewModel.handleUserInput("qwewe")
+
+        liveDataWrapper.actualState(UiState.IncorrectPrediction("drow"))
+    }
+
+    @Test
+    fun testHandleCorrectUserInput() {
+        repository.assertCall(words = listOf("word", "show"))
+
+        viewModel.init()
+        viewModel.handleUserInput("wdeq")
+
+        liveDataWrapper.actualState(UiState.CorrectPrediction("drow"))
+    }
+
+    @Test
+    fun testCorrectAnswer() {
+        repository.assertCall(words = listOf("word", "show"))
+
+        viewModel.init()
+        viewModel.check("word")
+
+        liveDataWrapper.actualState(UiState.CorrectAnswer("word"))
+    }
+
+//    @Test
+//    fun testIncorrectAnswer() {
+//        repository.assertCall(words = listOf("word", "show"))
+//
+//        viewModel.init()
+//        viewModel.check("dwor")
+//
+//        liveDataWrapper.actualState(UiState.IncorrectAnswer("drow"))
+//    }
 
 }
 
