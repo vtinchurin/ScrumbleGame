@@ -151,6 +151,10 @@ interface FakeLiveDataWrapper : UiStateLiveDataWrapper.Mutable {
             actual = value
         }
 
+        override fun save(bundleWrapper: BundleWrapper.Save) {
+            TODO("Not yet implemented")
+        }
+
 
     }
 }

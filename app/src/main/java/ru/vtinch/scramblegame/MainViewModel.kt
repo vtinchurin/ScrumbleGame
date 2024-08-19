@@ -61,6 +61,7 @@ class MainViewModel(
 
     fun restore(bundleWrapper: BundleWrapper.Restore){
         val state = bundleWrapper.restore()
+        question = repository.getQuestion()
         liveDataWrapper.update(state)
     }
 
