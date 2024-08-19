@@ -6,23 +6,27 @@ interface Repository {
     fun getAnswer(): String
     fun next()
 
-    class Base(): Repository{
+    class Base(
+        private val index: IntCache.Mutable
+    ) : Repository {
 
+        private var _index = index.restore()
         private val words = listOf("input","world","prediction","snow")
-        private var index=0
+
 
         override fun getQuestion(): String {
-            return words[index].reversed()
+            return words[_index].reversed()
         }
 
         override fun getAnswer(): String {
-            return words[index]
+            return words[_index]
         }
 
         override fun next() {
-            index++
-            if (index == words.size)
-                index = 0
+            _index++
+            if (_index == words.size)
+                _index = 0
+            index.save(_index)
         }
 
     }

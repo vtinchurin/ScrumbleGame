@@ -1,10 +1,9 @@
 package ru.vtinch.scramblegame
 
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import ru.vtinch.scramblegame.databinding.ActivityMainBinding
 
 
@@ -14,6 +13,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
 
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
+
+        override fun afterTextChanged(s: Editable?) {
+            viewModel.handleUserInput(s.toString())
+        }
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = (application as App).viewModel
@@ -22,14 +31,10 @@ class MainActivity : AppCompatActivity() {
 
         if(savedInstanceState==null){
             viewModel.init()
-        }
+        } else viewModel.restore(BundleWrapper.Base(savedInstanceState))
 
         viewModel.liveData().observe(this) {
             it.show(binding)
-        }
-
-        binding.inputEditText.addTextChangedListener {
-            viewModel.handleUserInput(it.toString())
         }
 
         binding.nextButton.setOnClickListener {
@@ -47,15 +52,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.inputEditText.addTextChangedListener(textWatcher)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.inputEditText.removeTextChangedListener(textWatcher)
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         viewModel.save(BundleWrapper.Base(outState))
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        viewModel.restore(BundleWrapper.Base(savedInstanceState))
-    }
 }
 
 
