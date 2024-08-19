@@ -55,4 +55,13 @@ class MainViewModel(
         return liveDataWrapper.liveData()
     }
 
+    fun save(bundleWrapper: BundleWrapper.Save){
+        liveDataWrapper.save(bundleWrapper)
+    }
+
+    fun restore(bundleWrapper: BundleWrapper.Restore){
+        val state = bundleWrapper.restore()
+        liveDataWrapper.update(state)
+    }
+
 }

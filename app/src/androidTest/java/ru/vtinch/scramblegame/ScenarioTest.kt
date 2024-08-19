@@ -26,14 +26,18 @@ class ScenarioTest {
     fun caseNumber1() {
         gamePage.assertInitialState()
         gamePage.addInput(text = "inpu")
+        activityScenarioRule.scenario.recreate()
         gamePage.assertInitialState()
         gamePage.addInput(text = "t")
+        activityScenarioRule.scenario.recreate()
         gamePage.assetCorrectPredictionState()
         gamePage.clickCheck()
+        activityScenarioRule.scenario.recreate()
         gamePage.assertCorrectAnswerState()
         gamePage.clickNext()
 
         gamePage = GamePage(word = "world".reversed())
+        activityScenarioRule.scenario.recreate()
         gamePage.assertInitialState()
 
     }

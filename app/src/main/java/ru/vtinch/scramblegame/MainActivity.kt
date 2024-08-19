@@ -1,26 +1,28 @@
 package ru.vtinch.scramblegame
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import ru.vtinch.scramblegame.databinding.ActivityMainBinding
 
-@SuppressLint("ResourceAsColor")
+
 class MainActivity : AppCompatActivity() {
 
 
     private lateinit var binding: ActivityMainBinding
-    private val viewModel = MainViewModel(
-        repository = Repository.Base(),
-        liveDataWrapper = UiStateLiveDataWrapper.Base()
-    )
-
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = (application as App).viewModel
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if(savedInstanceState==null){
+            viewModel.init()
+        }
 
         viewModel.liveData().observe(this) {
             it.show(binding)
@@ -43,7 +45,16 @@ class MainActivity : AppCompatActivity() {
                 binding.inputEditText.text.toString()
             )
         }
-        viewModel.init()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        viewModel.save(BundleWrapper.Base(outState))
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        viewModel.restore(BundleWrapper.Base(savedInstanceState))
     }
 }
 

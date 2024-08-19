@@ -1,9 +1,11 @@
 package ru.vtinch.scramblegame
 
+import android.util.Log
 import android.view.View
 import ru.vtinch.scramblegame.databinding.ActivityMainBinding
+import java.io.Serializable
 
-interface UiState {
+interface UiState: Serializable {
 
 
     fun show(binding: ActivityMainBinding)
@@ -27,12 +29,14 @@ interface UiState {
 
     data class CorrectPrediction(private val question: String): UiState{
         override fun show(binding: ActivityMainBinding) {
+            binding.answerText.text = question
             binding.checkButton.isEnabled = true
         }
     }
 
     data class IncorrectPrediction(private val question: String): UiState{
         override fun show(binding: ActivityMainBinding) {
+            binding.answerText.text = question
             binding.checkButton.isEnabled = false
         }
     }
@@ -41,7 +45,7 @@ interface UiState {
         override fun show(binding: ActivityMainBinding)
         {
             binding.answerText.text = answer
-            binding.inputEditText.text = null
+            //binding.inputEditText.text = null
             binding.checkButton.visibility = View.GONE
             binding.answerText.setBackgroundResource(R.drawable.bg_green)
             binding.inputLayout.visibility = View.INVISIBLE
