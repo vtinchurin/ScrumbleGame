@@ -55,7 +55,7 @@ class MainViewModelTest {
         viewModel.init()
         viewModel.handleUserInput("qwe")
 
-        liveDataWrapper.actualState(UiState.IncorrectPrediction("drow"))
+        liveDataWrapper.actualState(UiState.IncorrectPrediction)
     }
 
     @Test
@@ -65,7 +65,7 @@ class MainViewModelTest {
         viewModel.init()
         viewModel.handleUserInput("qwewe")
 
-        liveDataWrapper.actualState(UiState.IncorrectPrediction("drow"))
+        liveDataWrapper.actualState(UiState.IncorrectPrediction)
     }
 
     @Test
@@ -75,7 +75,7 @@ class MainViewModelTest {
         viewModel.init()
         viewModel.handleUserInput("wdeq")
 
-        liveDataWrapper.actualState(UiState.CorrectPrediction("drow"))
+        liveDataWrapper.actualState(UiState.CorrectPrediction)
     }
 
     @Test
@@ -144,7 +144,7 @@ interface FakeLiveDataWrapper : UiStateLiveDataWrapper.Mutable {
         }
 
         override fun liveData(): LiveData<UiState> {
-            TODO("Not yet implemented")
+            throw IllegalStateException("not use in test")
         }
 
         override fun update(value: UiState) {
@@ -152,7 +152,7 @@ interface FakeLiveDataWrapper : UiStateLiveDataWrapper.Mutable {
         }
 
         override fun save(bundleWrapper: BundleWrapper.Save) {
-            TODO("Not yet implemented")
+            throw IllegalStateException("not use in test")
         }
 
 

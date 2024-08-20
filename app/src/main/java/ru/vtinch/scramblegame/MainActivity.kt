@@ -34,7 +34,9 @@ class MainActivity : AppCompatActivity() {
         } else viewModel.restore(BundleWrapper.Base(savedInstanceState))
 
         viewModel.liveData().observe(this) {
-            it.show(binding)
+            it.show(
+                text = binding.answerText,
+            )
         }
 
         binding.nextButton.setOnClickListener {
