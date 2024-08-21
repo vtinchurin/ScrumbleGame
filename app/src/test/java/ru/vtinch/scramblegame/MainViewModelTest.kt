@@ -151,10 +151,5 @@ interface FakeLiveDataWrapper : UiStateLiveDataWrapper.Mutable {
             actual = value
         }
 
-        override fun save(bundleWrapper: BundleWrapper.Save) {
-            throw IllegalStateException("not use in test")
-        }
-
-
     }
 }

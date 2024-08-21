@@ -8,8 +8,8 @@ interface ButtonUiState : Serializable {
     fun update(checkButton: CustomButton)
 
     abstract class Abstract(
-        private val isEnabled: Boolean,
-        private val visibility: Int,
+        private val isEnabled: Boolean = true,
+        private val visibility: Int = View.VISIBLE,
     ) : ButtonUiState {
 
         override fun update(checkButton: CustomButton) {
@@ -18,9 +18,9 @@ interface ButtonUiState : Serializable {
         }
     }
 
-    object Gone : Abstract(true, View.GONE)
-    object Enabled : Abstract(true, View.VISIBLE)
-    object Disabled : Abstract(false, View.VISIBLE)
-    object Invisible : Abstract(false, View.INVISIBLE)
+    object Gone : Abstract(visibility = View.GONE)
+    object Enabled : Abstract()
+    object Disabled : Abstract(false)
+    object Invisible : Abstract(visibility =  View.INVISIBLE)
 
 }

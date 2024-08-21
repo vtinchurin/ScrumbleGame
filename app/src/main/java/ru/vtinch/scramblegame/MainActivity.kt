@@ -29,13 +29,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if(savedInstanceState==null){
-            viewModel.init()
-        } else viewModel.restore(BundleWrapper.Base(savedInstanceState))
+
+
 
         viewModel.liveData().observe(this) {
             it.show(
                 text = binding.answerText,
+                userInput = binding.customInput,
+                next = binding.nextButton,
+                check = binding.checkButton,
+                skip = binding.skipButton
             )
         }
 
@@ -49,25 +52,24 @@ class MainActivity : AppCompatActivity() {
 
         binding.checkButton.setOnClickListener {
             viewModel.check(
-                binding.inputEditText.text.toString()
+                binding.customInput.text()
             )
         }
+
+        viewModel.init(savedInstanceState==null)
     }
+
 
     override fun onResume() {
         super.onResume()
-        binding.inputEditText.addTextChangedListener(textWatcher)
+        binding.customInput.addTextChangedListener(textWatcher)
     }
 
     override fun onPause() {
         super.onPause()
-        binding.inputEditText.removeTextChangedListener(textWatcher)
+        binding.customInput.removeTextChangedListener(textWatcher)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        viewModel.save(BundleWrapper.Base(outState))
-    }
 
 }
 

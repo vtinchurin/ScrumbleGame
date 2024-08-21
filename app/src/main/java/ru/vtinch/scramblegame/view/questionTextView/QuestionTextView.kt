@@ -1,10 +1,14 @@
 package ru.vtinch.scramblegame.view.questionTextView
 
 import android.content.Context
+import android.os.Parcelable
 import android.util.AttributeSet
+import android.widget.TextView
 
 
-class QuestionTextView : androidx.appcompat.widget.AppCompatTextView, QuestionText.MutableText {
+class QuestionTextView : androidx.appcompat.widget.AppCompatTextView, QuestionText {
+
+    private lateinit var state : TextUiState
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
@@ -16,12 +20,31 @@ class QuestionTextView : androidx.appcompat.widget.AppCompatTextView, QuestionTe
 
     override fun getFreezesText() = true
 
+    override fun update(state: TextUiState) {
+        this.state = state
+        state.update(this)
+    }
+
     override fun setText(text: String) {
         this.text = text
     }
 
     override fun setBg(bgResId: Int) {
         this.setBackgroundResource(bgResId)
+    }
+
+    override fun onSaveInstanceState(): Parcelable {
+        super.onSaveInstanceState()!!.let {
+            val savedState = QuestionSavedState(it)
+            savedState.save(state)
+            return savedState
+        }
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        val restoredState = state as QuestionSavedState
+        super.onRestoreInstanceState(restoredState.superState)
+        update(restoredState.restore())
     }
 
 }
