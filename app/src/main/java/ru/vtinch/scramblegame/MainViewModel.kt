@@ -16,16 +16,18 @@ class MainViewModel(
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
 
-    fun init() {
+    fun init(firstRun: Boolean = true) {
             question = repository.getQuestion()
+        if (firstRun)
             liveDataWrapper.update(UiState.Initial(question))
+        else liveDataWrapper.update(UiState.Empty)
     }
 
     fun handleUserInput(input: String) {
             if (input.length == question.length) {
-                liveDataWrapper.update(UiState.CorrectPrediction(question))
+                liveDataWrapper.update(UiState.CorrectPrediction)
             } else {
-                liveDataWrapper.update(UiState.IncorrectPrediction(question))
+                liveDataWrapper.update(UiState.IncorrectPrediction)
             }
     }
 
@@ -35,7 +37,7 @@ class MainViewModel(
                 liveDataWrapper.update(UiState.CorrectAnswer(answer))
             } else {
                 viewModelScope.launch {
-                liveDataWrapper.update(UiState.IncorrectAnswer(question))
+                liveDataWrapper.update(UiState.IncorrectAnswer)
                 delay(1500)
                 liveDataWrapper.update(UiState.Initial(question))
             }
@@ -44,7 +46,8 @@ class MainViewModel(
 
     fun skip() {
         repository.next()
-        init()
+        question = repository.getQuestion()
+        liveDataWrapper.update(UiState.Initial(question))
     }
 
     fun next() {
@@ -53,16 +56,6 @@ class MainViewModel(
 
     override fun liveData(): LiveData<UiState> {
         return liveDataWrapper.liveData()
-    }
-
-    fun save(bundleWrapper: BundleWrapper.Save){
-        liveDataWrapper.save(bundleWrapper)
-    }
-
-    fun restore(bundleWrapper: BundleWrapper.Restore){
-        val state = bundleWrapper.restore()
-        question = repository.getQuestion()
-        liveDataWrapper.update(state)
     }
 
 }

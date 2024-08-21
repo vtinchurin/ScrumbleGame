@@ -41,24 +41,11 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputLayout"
-        style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+    <ru.vtinch.scramblegame.view.input.CustomInput
+        android:id="@+id/customInput"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:boxCornerRadiusBottomEnd="12dp"
-        app:boxCornerRadiusBottomStart="12dp"
-        app:boxCornerRadiusTopEnd="12dp"
-        app:boxCornerRadiusTopStart="12dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/input"
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        android:layout_height="wrap_content">
+    </ru.vtinch.scramblegame.view.input.CustomInput>
 
     <View
         android:layout_width="match_parent"
