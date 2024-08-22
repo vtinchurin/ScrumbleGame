@@ -33,8 +33,8 @@ class QuestionTextView : androidx.appcompat.widget.AppCompatTextView, QuestionTe
         this.setBackgroundResource(bgResId)
     }
 
-    override fun onSaveInstanceState(): Parcelable {
-        super.onSaveInstanceState()!!.let {
+    override fun onSaveInstanceState(): Parcelable? {
+        return super.onSaveInstanceState()?.let {
             val savedState = QuestionSavedState(it)
             savedState.save(state)
             return savedState

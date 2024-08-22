@@ -1,8 +1,10 @@
 package ru.vtinch.scramblegame.view.button
 
 import android.content.Context
+import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatButton
 import com.google.android.material.button.MaterialButton
 
 
@@ -38,18 +40,29 @@ interface CustomButton {
             this.visibility = visibility
         }
 
+        //override fun onSaveInstanceState(): Parcelable? {
+//            return super.onSaveInstanceState()?.let {
+//                    val savedState = ButtonSavedState(it)
+//                    savedState.save(state)
+//                    return savedState
+//            }
+//        }
         override fun onSaveInstanceState(): Parcelable {
-            super.onSaveInstanceState().let {
-                val savedState = ButtonSavedState(it)
-                savedState.save(state)
-                return savedState
-            }
+            val bundle = Bundle()
+            bundle.putSerializable("uiState", state)
+            bundle.putParcelable("instanceState", super.onSaveInstanceState())
+            return bundle
         }
-
+        //override fun onRestoreInstanceState(state: Parcelable?) {
+//            val restoredState = state as ButtonSavedState
+//            super.onRestoreInstanceState(restoredState.superState)
+//            update(restoredState.restore())
+//        }
         override fun onRestoreInstanceState(state: Parcelable?) {
-            val restoredState = state as ButtonSavedState
-            super.onRestoreInstanceState(restoredState.superState)
-            update(restoredState.restore())
+            val bundle = state as Bundle
+            super.onRestoreInstanceState(bundle.getParcelable("instanceState"))
+            val restoredState = bundle.getSerializable("uiState") as ButtonUiState
+            update(restoredState)
         }
 
     }

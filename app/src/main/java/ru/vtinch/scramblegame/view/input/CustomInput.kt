@@ -11,6 +11,7 @@ import ru.vtinch.scramblegame.databinding.InputviewlayoutBinding
 class CustomInput : FrameLayout,UpdateInput{
 
     private lateinit var state:InputState
+
     private val binding = InputviewlayoutBinding.inflate(LayoutInflater.from(this.context),this,true)
     constructor(context: Context):super(context)
     constructor(context: Context,attrs:AttributeSet):super(context,attrs)
@@ -44,15 +45,15 @@ class CustomInput : FrameLayout,UpdateInput{
         binding.inputEditText.removeTextChangedListener(textWatcher)
     }
 
-    override fun onSaveInstanceState(): Parcelable {
-        super.onSaveInstanceState()!!.let {
+    override fun onSaveInstanceState(): Parcelable? {
+        return super.onSaveInstanceState()?.let {
             val savedState = InputSavedState(it)
             savedState.save(state)
             return savedState
         }
     }
 
-    override fun onRestoreInstanceState(state: Parcelable) {
+    override fun onRestoreInstanceState(state: Parcelable?) {
         val restoredState = state as InputSavedState
         super.onRestoreInstanceState(restoredState.superState)
         update(restoredState.restore())
