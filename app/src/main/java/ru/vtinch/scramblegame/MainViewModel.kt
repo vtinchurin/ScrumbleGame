@@ -1,5 +1,6 @@
 package ru.vtinch.scramblegame
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,29 +15,37 @@ class MainViewModel(
 
     private lateinit var question: String
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-
+    private var processDeath = true
 
     fun init(firstRun: Boolean = true) {
-            question = repository.getQuestion()
-        if (firstRun)
+        question = repository.getQuestion()
+        if (firstRun) {
+            processDeath = false
+            Log.d("tvn95", "First run")
             liveDataWrapper.update(UiState.Initial(question))
-        else liveDataWrapper.update(UiState.Empty)
+        } else {
+            liveDataWrapper.update(UiState.Empty)
+            if (processDeath) {
+                Log.d("tvn95", "Process Death")
+                processDeath = false
+            } else Log.d("tvn95", "Activity Death")
+        }
     }
 
     fun handleUserInput(input: String) {
-            if (input.length == question.length) {
-                liveDataWrapper.update(UiState.CorrectPrediction)
-            } else {
-                liveDataWrapper.update(UiState.IncorrectPrediction)
-            }
+        if (input.length == question.length) {
+            liveDataWrapper.update(UiState.CorrectPrediction)
+        } else {
+            liveDataWrapper.update(UiState.IncorrectPrediction)
+        }
     }
 
     fun check(prediction: String) {
-            val answer = repository.getAnswer()
-            if (answer == prediction) {
-                liveDataWrapper.update(UiState.CorrectAnswer(answer))
-            } else {
-                viewModelScope.launch {
+        val answer = repository.getAnswer()
+        if (answer == prediction) {
+            liveDataWrapper.update(UiState.CorrectAnswer(answer))
+        } else {
+            viewModelScope.launch {
                 liveDataWrapper.update(UiState.IncorrectAnswer)
                 delay(1500)
                 liveDataWrapper.update(UiState.Initial(question))
