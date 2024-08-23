@@ -40,24 +40,27 @@ interface CustomButton {
             this.visibility = visibility
         }
 
-        //override fun onSaveInstanceState(): Parcelable? {
-//            return super.onSaveInstanceState()?.let {
+//        override fun onSaveInstanceState(): Parcelable {
+//            return super.onSaveInstanceState().let {
 //                    val savedState = ButtonSavedState(it)
 //                    savedState.save(state)
 //                    return savedState
 //            }
 //        }
+
         override fun onSaveInstanceState(): Parcelable {
             val bundle = Bundle()
             bundle.putSerializable("uiState", state)
             bundle.putParcelable("instanceState", super.onSaveInstanceState())
             return bundle
         }
-        //override fun onRestoreInstanceState(state: Parcelable?) {
+
+//        override fun onRestoreInstanceState(state: Parcelable?) {
 //            val restoredState = state as ButtonSavedState
 //            super.onRestoreInstanceState(restoredState.superState)
 //            update(restoredState.restore())
 //        }
+
         override fun onRestoreInstanceState(state: Parcelable?) {
             val bundle = state as Bundle
             super.onRestoreInstanceState(bundle.getParcelable("instanceState"))
