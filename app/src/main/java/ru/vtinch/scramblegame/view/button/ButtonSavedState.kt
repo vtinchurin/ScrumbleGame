@@ -13,7 +13,7 @@ class ButtonSavedState : View.BaseSavedState {
 
     constructor(superState: Parcelable) : super(superState)
 
-    private constructor(parcelIn: Parcel) : super(parcelIn) {
+    private constructor(parcelIn: Parcel, loader: ClassLoader) : super(parcelIn, loader) {
         state = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             parcelIn.readSerializable(
                 ButtonUiState::class.java.classLoader,
@@ -23,6 +23,8 @@ class ButtonSavedState : View.BaseSavedState {
             parcelIn.readSerializable() as ButtonUiState
         }
     }
+
+    private constructor(parcelIn: Parcel) : super(parcelIn)
 
     override fun writeToParcel(out: Parcel, flags: Int) {
         super.writeToParcel(out, flags)
@@ -37,7 +39,10 @@ class ButtonSavedState : View.BaseSavedState {
 
     override fun describeContents() = 0
 
-    companion object CREATOR : Parcelable.Creator<ButtonSavedState> {
+    companion object CREATOR : Parcelable.ClassLoaderCreator<ButtonSavedState> {
+        override fun createFromParcel(parcel: Parcel, loader: ClassLoader): ButtonSavedState =
+            ButtonSavedState(parcel, loader)
+
         override fun createFromParcel(parcel: Parcel): ButtonSavedState =
             ButtonSavedState(parcel)
 
