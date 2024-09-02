@@ -53,6 +53,7 @@
         android:layout_weight="1" />
 
     <ru.vtinch.scramblegame.view.button.MyButton
+
         android:id="@+id/checkButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,6 +62,7 @@
         android:text="@string/check" />
 
     <ru.vtinch.scramblegame.view.button.MyButton
+
         android:id="@+id/nextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

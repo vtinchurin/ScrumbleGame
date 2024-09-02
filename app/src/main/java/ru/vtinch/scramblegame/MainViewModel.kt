@@ -14,11 +14,13 @@ class MainViewModel(
 ) : UiStateLiveDataWrapper.Read {
 
     private lateinit var question: String
+    private lateinit var answer: String
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var processDeath = true
 
     fun init(firstRun: Boolean = true) {
         question = repository.getQuestion()
+        answer = repository.getAnswer()
         if (firstRun) {
             processDeath = false
             Log.d("tvn95", "First run")
@@ -33,7 +35,7 @@ class MainViewModel(
     }
 
     fun handleUserInput(input: String) {
-        if (input.length == question.length) {
+        if (input.length == answer.length) {
             liveDataWrapper.update(UiState.CorrectPrediction)
         } else {
             liveDataWrapper.update(UiState.IncorrectPrediction)
@@ -41,7 +43,7 @@ class MainViewModel(
     }
 
     fun check(prediction: String) {
-        val answer = repository.getAnswer()
+        val answer = this.answer
         if (answer == prediction) {
             liveDataWrapper.update(UiState.CorrectAnswer(answer))
         } else {

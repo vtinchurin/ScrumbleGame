@@ -11,7 +11,10 @@ class App : Application() {
         val sharedPrefs = getSharedPreferences("UnscrambleApp", MODE_PRIVATE)
 
         viewModel = MainViewModel(
-            repository = Repository.Base(IntCache.Base(key = "index", sharedPrefs)),
+            repository = Repository.Base(
+                IntCache.Base(
+                    key = "index", sharedPrefs),
+                strategy = Strategy.Game()),
             liveDataWrapper = UiStateLiveDataWrapper.Base()
         )
     }

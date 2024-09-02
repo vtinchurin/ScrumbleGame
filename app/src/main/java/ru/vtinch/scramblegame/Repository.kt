@@ -1,5 +1,7 @@
 package ru.vtinch.scramblegame
 
+import kotlin.contracts.contract
+
 interface Repository {
 
     fun getQuestion(): String
@@ -7,15 +9,16 @@ interface Repository {
     fun next()
 
     class Base(
-        private val index: IntCache.Mutable
+        private val index: IntCache.Mutable,
+        private val strategy: Strategy,
     ) : Repository {
 
         private var _index = index.restore()
-        private val words = listOf("input","world","prediction","snow")
+        private val words = listOf("input", "world", "prediction", "snow","development")
 
 
         override fun getQuestion(): String {
-            return words[_index].reversed()
+            return strategy.getQuestion(words[_index])
         }
 
         override fun getAnswer(): String {
