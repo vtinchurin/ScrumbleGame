@@ -1,9 +1,11 @@
-package ru.vtinch.scramblegame.view.questionTextView
+package ru.vtinch.scramblegame.game.view.questionTextView
 
 import android.content.Context
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.widget.TextView
+import androidx.core.graphics.component1
+import ru.vtinch.scramblegame.R
 
 
 class QuestionTextView : androidx.appcompat.widget.AppCompatTextView, QuestionText {

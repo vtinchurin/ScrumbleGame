@@ -7,6 +7,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.vtinch.scramblegame.game.GamePage
+import ru.vtinch.scramblegame.stats.StatisticsPage
 
 
 @RunWith(AndroidJUnit4::class)
@@ -89,5 +90,38 @@ class ScenarioTest {
         gamePage.clickCheck()
         gamePage.assertIncorrectAnswerState()
     }
+
+    @Test
+    fun all_skipped_answers(){
+        gamePage.assertInitialState()
+        gamePage.clickSkip()
+        gamePage = GamePage(word = "world".reversed())
+        gamePage.assertInitialState()
+        activityScenarioRule.scenario.recreate()
+        gamePage.assertInitialState()
+        gamePage.clickSkip()
+        gamePage = GamePage(word = "prediction".reversed())
+        gamePage.assertInitialState()
+        activityScenarioRule.scenario.recreate()
+        gamePage.assertInitialState()
+        gamePage = GamePage(word = "snow".reversed())
+        gamePage.assertInitialState()
+        activityScenarioRule.scenario.recreate()
+        gamePage.assertInitialState()
+        gamePage.clickSkip()
+        gamePage.assertNotVisible()
+
+        val statisticsPage = StatisticsPage(correct = 0, incorrect = 0,skipped =4)
+        statisticsPage.assertInitialState()
+        activityScenarioRule.scenario.recreate()
+        statisticsPage.assertInitialState()
+        statisticsPage.clickNewGame()
+        statisticsPage.assertNotVisible()
+
+        gamePage = GamePage(word = "input".reversed())
+        gamePage.assertInitialState()
+    }
+
+
 
 }

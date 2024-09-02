@@ -1,14 +1,15 @@
 package ru.vtinch.scramblegame
 
-import android.util.Log
+import ru.vtinch.scramblegame.game.GameUiState
+import ru.vtinch.scramblegame.game.LiveDataWrapper
 
 
 interface UiStateLiveDataWrapper {
 
-    interface Read: LiveDataWrapper.Read<UiState>
-    interface Update: LiveDataWrapper.Update<UiState>
+    interface Read: LiveDataWrapper.Read<GameUiState>
+    interface Update: LiveDataWrapper.Update<GameUiState>
     interface Mutable : Read, Update
 
 
-    class Base: Mutable, LiveDataWrapper.Abstract<UiState>()
+    class Base: Mutable, LiveDataWrapper.Abstract<GameUiState>()
 }

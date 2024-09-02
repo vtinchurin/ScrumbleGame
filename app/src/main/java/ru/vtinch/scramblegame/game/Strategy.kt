@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame
+package ru.vtinch.scramblegame.game
 
 interface Strategy {
     fun getQuestion(word: String): String

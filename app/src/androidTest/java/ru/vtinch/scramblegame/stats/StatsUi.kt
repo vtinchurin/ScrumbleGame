@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame.game
+package ru.vtinch.scramblegame.stats
 
 import android.view.View
 import android.widget.TextView
@@ -13,32 +13,29 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import ru.vtinch.scramblegame.R
 
-class
-WordUi(
-    text: String,
+class StatsUi(
+    correct: Int,
+    incorrect: Int,
+    skipped: Int,
     containerIdMatcher: Matcher<View>,
-    containerClassTypeMatcher: Matcher<View>
+    containerClassTypeMatcher: Matcher<View>,
 ) {
+
 
     private val interaction: ViewInteraction = onView(
         allOf(
             containerIdMatcher,
             containerClassTypeMatcher,
-            withId(R.id.answerText),
+            withId(R.id.statistics_text),
             isAssignableFrom(TextView::class.java),
         )
     )
 
-    fun assertText(text: String){
-        interaction.check(matches(withText(text)))
-    }
-
-    fun assertBg(bgResId: Int) {
-        interaction.check(matches(BackgroundDrawableMatcher(bgResId)))
+    fun assertInitialState(correct: Int, incorrect: Int, skipped: Int) {
+        interaction.check(matches(withText("STATISTICS\n\n\nCorrect: $correct \nIncorrect: $incorrect \nSkipped: $skipped")))
     }
 
     fun assertDoesNotExist() {
         interaction.check(doesNotExist())
     }
-
 }

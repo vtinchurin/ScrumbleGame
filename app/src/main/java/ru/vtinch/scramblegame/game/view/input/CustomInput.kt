@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame.view.input
+package ru.vtinch.scramblegame.game.view.input
 
 import android.content.Context
 import android.os.Parcelable
@@ -8,9 +8,9 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import ru.vtinch.scramblegame.databinding.InputviewlayoutBinding
 
-class CustomInput : FrameLayout,UpdateInput{
+class CustomInput : FrameLayout, UpdateInput {
 
-    private lateinit var state:InputState
+    private lateinit var state: InputState
 
     private val binding = InputviewlayoutBinding.inflate(LayoutInflater.from(this.context),this,true)
     constructor(context: Context):super(context)

@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame.view.button
+package ru.vtinch.scramblegame.game.view.button
 
 
 import android.os.Build

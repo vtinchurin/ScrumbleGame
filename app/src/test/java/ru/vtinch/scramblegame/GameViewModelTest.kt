@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import ru.vtinch.scramblegame.game.GameUiState
+import ru.vtinch.scramblegame.game.GameViewModel
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -12,18 +14,18 @@ import org.junit.Test
  */
 
 
-class MainViewModelTest {
+class GameViewModelTest {
 
-    lateinit var repository: FakeRepository
+    lateinit var repository: FakeGameRepository
     lateinit var liveDataWrapper: FakeLiveDataWrapper
-    lateinit var viewModel: MainViewModel
+    lateinit var viewModel: GameViewModel
 
     @Before
     fun setup() {
-        repository = FakeRepository.Base()
+        repository = FakeGameRepository.Base()
         liveDataWrapper = FakeLiveDataWrapper.Base()
-        viewModel = MainViewModel(
-            repository = repository,
+        viewModel = GameViewModel(
+            gameRepository = repository,
             liveDataWrapper = liveDataWrapper
         )
     }
@@ -35,7 +37,7 @@ class MainViewModelTest {
 
         viewModel.init()
 
-        liveDataWrapper.actualState(UiState.Initial("drow"))
+        liveDataWrapper.actualState(GameUiState.Initial("drow"))
     }
 
     @Test
@@ -45,7 +47,7 @@ class MainViewModelTest {
         viewModel.init()
         viewModel.skip()
 
-        liveDataWrapper.actualState(UiState.Initial("wohs"))
+        liveDataWrapper.actualState(GameUiState.Initial("wohs"))
     }
 
     @Test
@@ -55,7 +57,7 @@ class MainViewModelTest {
         viewModel.init()
         viewModel.handleUserInput("qwe")
 
-        liveDataWrapper.actualState(UiState.IncorrectPrediction)
+        liveDataWrapper.actualState(GameUiState.IncorrectPrediction)
     }
 
     @Test
@@ -65,7 +67,7 @@ class MainViewModelTest {
         viewModel.init()
         viewModel.handleUserInput("qwewe")
 
-        liveDataWrapper.actualState(UiState.IncorrectPrediction)
+        liveDataWrapper.actualState(GameUiState.IncorrectPrediction)
     }
 
     @Test
@@ -75,7 +77,7 @@ class MainViewModelTest {
         viewModel.init()
         viewModel.handleUserInput("wdeq")
 
-        liveDataWrapper.actualState(UiState.CorrectPrediction)
+        liveDataWrapper.actualState(GameUiState.CorrectPrediction)
     }
 
     @Test
@@ -85,7 +87,7 @@ class MainViewModelTest {
         viewModel.init()
         viewModel.check("word")
 
-        liveDataWrapper.actualState(UiState.CorrectAnswer("word"))
+        liveDataWrapper.actualState(GameUiState.CorrectAnswer("word"))
     }
 
 //    @Test
@@ -100,11 +102,11 @@ class MainViewModelTest {
 
 }
 
-interface FakeRepository : Repository {
+private interface FakeGameRepository : GameRepository {
 
     fun assertCall(words: List<String>)
 
-    class Base : FakeRepository {
+    class Base : FakeGameRepository {
 
         private val list = mutableListOf<String>()
         private var index = 0
@@ -123,8 +125,12 @@ interface FakeRepository : Repository {
 
         override fun next() {
             index++
-            if (index == list.size)
+            if (isLast())
                 index = 0
+        }
+
+        override fun isLast():Boolean {
+            return index == list.size
         }
     }
 
@@ -133,21 +139,21 @@ interface FakeRepository : Repository {
 
 interface FakeLiveDataWrapper : UiStateLiveDataWrapper.Mutable {
 
-    fun actualState(state: UiState)
+    fun actualState(state: GameUiState)
 
     class Base : FakeLiveDataWrapper {
 
-        private var actual: UiState? = null
+        private var actual: GameUiState? = null
 
-        override fun actualState(state: UiState) {
+        override fun actualState(state: GameUiState) {
             assertEquals(state, actual)
         }
 
-        override fun liveData(): LiveData<UiState> {
+        override fun liveData(): LiveData<GameUiState> {
             throw IllegalStateException("not use in test")
         }
 
-        override fun update(value: UiState) {
+        override fun update(value: GameUiState) {
             actual = value
         }
 

@@ -1,74 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rootLayout"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_vertical"
-    android:orientation="vertical"
-    android:padding="24dp">
+    android:layout_height="match_parent">
 
-
-    <ru.vtinch.scramblegame.view.button.MyButton
-        android:id="@+id/skipButton"
-        style="@style/Widget.Material3.Button.TextButton"
-        android:textColor="@color/design_default_color_primary_variant"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:text="@string/skip" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <ru.vtinch.scramblegame.view.questionTextView.QuestionTextView
-        android:id="@+id/answerText"
-        android:layout_width="match_parent"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/bg_gray"
-        android:gravity="center"
-        android:tag="iii"
-        tools:text="WORD" />
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <ru.vtinch.scramblegame.view.input.CustomInput
-        android:id="@+id/customInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ru.vtinch.scramblegame.view.input.CustomInput>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <ru.vtinch.scramblegame.view.button.MyButton
-
-        android:id="@+id/checkButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="24dp"
-        android:enabled="false"
-        android:text="@string/check" />
-
-    <ru.vtinch.scramblegame.view.button.MyButton
-
-        android:id="@+id/nextButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="24dp"
-        android:enabled="false"
-        android:text="@string/next"
-        android:visibility="gone" />
-
-</LinearLayout>
+</FrameLayout>

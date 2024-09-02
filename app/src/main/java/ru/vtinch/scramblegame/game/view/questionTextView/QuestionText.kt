@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame.view.questionTextView
+package ru.vtinch.scramblegame.game.view.questionTextView
 
 interface QuestionText {
     fun update(state: TextUiState)

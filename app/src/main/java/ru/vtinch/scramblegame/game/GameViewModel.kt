@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame
+package ru.vtinch.scramblegame.game
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -7,10 +7,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.vtinch.scramblegame.GameRepository
+import ru.vtinch.scramblegame.UiStateLiveDataWrapper
 
-class MainViewModel(
+class GameViewModel(
     private val liveDataWrapper: UiStateLiveDataWrapper.Mutable,
-    private val repository: Repository,
+    private val gameRepository: GameRepository,
 ) : UiStateLiveDataWrapper.Read {
 
     private lateinit var question: String
@@ -19,14 +21,15 @@ class MainViewModel(
     private var processDeath = true
 
     fun init(firstRun: Boolean = true) {
-        question = repository.getQuestion()
-        answer = repository.getAnswer()
+        question = gameRepository.getQuestion()
+        Log.d("tvn", "initial question = ${gameRepository.getQuestion()}")
+        answer = gameRepository.getAnswer()
         if (firstRun) {
             processDeath = false
             Log.d("tvn95", "First run")
-            liveDataWrapper.update(UiState.Initial(question))
+            liveDataWrapper.update(GameUiState.Initial(question))
         } else {
-            liveDataWrapper.update(UiState.Empty)
+            liveDataWrapper.update(GameUiState.Empty)
             if (processDeath) {
                 Log.d("tvn95", "Process Death")
                 processDeath = false
@@ -36,36 +39,45 @@ class MainViewModel(
 
     fun handleUserInput(input: String) {
         if (input.length == answer.length) {
-            liveDataWrapper.update(UiState.CorrectPrediction)
+            liveDataWrapper.update(GameUiState.CorrectPrediction)
         } else {
-            liveDataWrapper.update(UiState.IncorrectPrediction)
+            liveDataWrapper.update(GameUiState.IncorrectPrediction)
         }
     }
 
     fun check(prediction: String) {
         val answer = this.answer
         if (answer == prediction) {
-            liveDataWrapper.update(UiState.CorrectAnswer(answer))
+            gameRepository.addScore()
+            liveDataWrapper.update(GameUiState.CorrectAnswer(answer))
         } else {
+            gameRepository.addIncorrect()
             viewModelScope.launch {
-                liveDataWrapper.update(UiState.IncorrectAnswer)
+                liveDataWrapper.update(GameUiState.IncorrectAnswer)
                 delay(1500)
-                liveDataWrapper.update(UiState.Initial(question))
+                liveDataWrapper.update(GameUiState.Initial(question))
             }
         }
     }
 
     fun skip() {
-        repository.next()
-        question = repository.getQuestion()
-        liveDataWrapper.update(UiState.Initial(question))
+        gameRepository.addSkip()
+        next()
     }
 
     fun next() {
-        skip()
+        if (gameRepository.isLast()) {
+            liveDataWrapper.update(GameUiState.Finish)
+        }
+        else{
+            gameRepository.next()
+            question = gameRepository.getQuestion()
+            liveDataWrapper.update(GameUiState.Initial(question))
+        }
+
     }
 
-    override fun liveData(): LiveData<UiState> {
+    override fun liveData(): LiveData<GameUiState> {
         return liveDataWrapper.liveData()
     }
 

@@ -1,13 +1,14 @@
-package ru.vtinch.scramblegame
+package ru.vtinch.scramblegame.game
 
-import ru.vtinch.scramblegame.view.button.ButtonUiState
-import ru.vtinch.scramblegame.view.button.CustomButton
-import ru.vtinch.scramblegame.view.input.CustomInput
-import ru.vtinch.scramblegame.view.input.InputState
-import ru.vtinch.scramblegame.view.questionTextView.QuestionText
-import ru.vtinch.scramblegame.view.questionTextView.TextUiState
+import ru.vtinch.scramblegame.NavigateToStats
+import ru.vtinch.scramblegame.game.view.button.ButtonUiState
+import ru.vtinch.scramblegame.game.view.button.CustomButton
+import ru.vtinch.scramblegame.game.view.input.CustomInput
+import ru.vtinch.scramblegame.game.view.input.InputState
+import ru.vtinch.scramblegame.game.view.questionTextView.QuestionText
+import ru.vtinch.scramblegame.game.view.questionTextView.TextUiState
 
-interface UiState {
+interface GameUiState {
 
     fun show(
         text: QuestionText,
@@ -15,11 +16,13 @@ interface UiState {
         skip: CustomButton,
         next: CustomButton,
         check: CustomButton,
-    )
+    ) = Unit
+
+    fun navigate(navigate: NavigateToStats) = Unit
 
     abstract class Abstract(
         private val checkState: ButtonUiState = ButtonUiState.Disabled,
-    ) : UiState {
+    ) : GameUiState {
         override fun show(
             text: QuestionText,
             userInput: CustomInput,
@@ -31,15 +34,7 @@ interface UiState {
         }
     }
 
-    object Empty : UiState {
-        override fun show(
-            text: QuestionText,
-            userInput: CustomInput,
-            skip: CustomButton,
-            next: CustomButton,
-            check: CustomButton,
-        ) = Unit
-    }
+    object Empty : GameUiState
 
     data class Initial(private val question: String) : Abstract() {
         override fun show(
@@ -115,6 +110,13 @@ interface UiState {
             super.show(text, userInput, skip, next, check)
             text.update(TextUiState.Incorrect)
             userInput.update(InputState.Incorrect)
+        }
+    }
+
+    object Finish : GameUiState {
+
+        override fun navigate(navigate: NavigateToStats) {
+            navigate.navigateToStats()
         }
     }
 }

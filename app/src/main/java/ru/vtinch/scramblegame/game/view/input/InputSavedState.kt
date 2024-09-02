@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame.view.input
+package ru.vtinch.scramblegame.game.view.input
 
 import android.os.Build
 import android.os.Parcel

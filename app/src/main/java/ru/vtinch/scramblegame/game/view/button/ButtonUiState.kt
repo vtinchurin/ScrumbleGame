@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame.view.button
+package ru.vtinch.scramblegame.game.view.button
 
 import android.view.View
 import java.io.Serializable
@@ -10,7 +10,7 @@ interface ButtonUiState : Serializable {
     abstract class Abstract(
         private val isEnabled: Boolean = true,
         private val visibility: Int = View.VISIBLE,
-    ) : ButtonUiState{
+    ) : ButtonUiState {
 
         override fun update(checkButton: CustomButton) {
             checkButton.setEnable(isEnabled)

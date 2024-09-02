@@ -95,4 +95,8 @@ class GamePage(
         inputUi.removeLetter()
     }
 
+    fun assertNotVisible() {
+        wordUi.assertDoesNotExist()
+    }
+
 }
