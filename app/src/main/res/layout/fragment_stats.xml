@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/stats_root"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ru.vtinch.scramblegame.stats.view.statisticsTextView.StatsTextView
+        android:id="@+id/statistics_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+        android:text="@string/stats"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_margin="12dp"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/new_game_button"
+        android:text="@string/new_game"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        android:layout_height="wrap_content">
+
+    </Button>
+
+</FrameLayout>
