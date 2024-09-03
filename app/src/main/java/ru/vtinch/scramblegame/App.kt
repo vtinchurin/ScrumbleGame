@@ -13,21 +13,26 @@ class App : Application() {
 
     lateinit var gameViewModel: GameViewModel
     lateinit var statsViewModel: StatsViewModel
+    //todo DI
 
     override fun onCreate() {
         super.onCreate()
         val sharedPrefs = getSharedPreferences("UnscrambleApp", MODE_PRIVATE)
+        val correct = IntCache.Base(key = "corrects",sharedPrefs)
+        val incorrect = IntCache.Base(key = "incorrect",sharedPrefs)
+        val skipped = IntCache.Base(key = "skipped",sharedPrefs)
+
         val gameRepository = GameRepository.Base(
             IntCache.Base(key = "index", sharedPrefs),
-            IntCache.Base(key = "corrects",sharedPrefs),
-            IntCache.Base(key = "skipped",sharedPrefs),
-            IntCache.Base(key = "incorrect",sharedPrefs),
+            corrects = correct,
+            incorrect = incorrect,
+            skipped = skipped,
             strategy = Strategy.Test()
         )
         val statsRepository = StatsRepository.Base(
-            IntCache.Base(key = "corrects",sharedPrefs),
-            IntCache.Base(key = "skipped",sharedPrefs),
-            IntCache.Base(key = "incorrect",sharedPrefs),
+            corrects = correct,
+            incorrect = incorrect,
+            skipped = skipped,
         )
         gameViewModel = GameViewModel(gameRepository = gameRepository, liveDataWrapper = UiStateLiveDataWrapper.Base())
 

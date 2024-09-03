@@ -11,8 +11,8 @@ import ru.vtinch.scramblegame.databinding.FragmentStatsBinding
 import ru.vtinch.scramblegame.AbstractFragment
 
 class StatsFragment: AbstractFragment<FragmentStatsBinding>() {
-
-    override fun onCreateView(
+    private lateinit var viewModel : StatsViewModel
+            override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -24,7 +24,7 @@ class StatsFragment: AbstractFragment<FragmentStatsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val viewModel: StatsViewModel = (requireActivity().application as App).statsViewModel
+        viewModel = (requireActivity().application as App).statsViewModel
 
         viewModel.liveData().observe(viewLifecycleOwner){
 

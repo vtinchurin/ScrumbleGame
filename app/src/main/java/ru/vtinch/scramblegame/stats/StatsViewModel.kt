@@ -2,9 +2,14 @@ package ru.vtinch.scramblegame.stats
 
 import androidx.lifecycle.LiveData
 
-class StatsViewModel(private val gameRepository: StatsRepository,
-    private val liveDataWrapper: StatsUiStateLiveDataWrapper.Mutable):StatsUiStateLiveDataWrapper.Read {
+class StatsViewModel(
+    private val gameRepository: StatsRepository,
+    private val liveDataWrapper: StatsUiStateLiveDataWrapper.Mutable)
+    :StatsUiStateLiveDataWrapper.Read {
 
+    init {
+        gameRepository.clear()
+    }
 
     fun update(){
         val (a,b,c) = gameRepository.getScore()

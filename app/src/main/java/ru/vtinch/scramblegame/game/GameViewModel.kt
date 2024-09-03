@@ -18,11 +18,10 @@ class GameViewModel(
     private var processDeath = true
 
     fun init(firstRun: Boolean = true) {
-        question = gameRepository.getQuestion()
         if (firstRun) {
             processDeath = false
             //Log.d("tvn95", "First run")
-            liveDataWrapper.update(GameUiState.Initial(question))
+            liveDataWrapper.update(GameUiState.Initial(gameRepository.getQuestion()))
         } else {
             liveDataWrapper.update(GameUiState.Empty)
             if (processDeath) {

@@ -99,7 +99,7 @@ class GameViewModelTest {
 //        viewModel.init()
 //        viewModel.check("dwor")
 //
-//        liveDataWrapper.actualState(UiState.IncorrectAnswer("drow"))
+//        liveDataWrapper.actualState(GameUiState.IncorrectAnswer)
 //    }
 
 }

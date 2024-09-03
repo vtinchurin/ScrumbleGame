@@ -10,8 +10,11 @@ interface Screen {
     abstract class Replace(private val fragmentClass: Class<out Fragment>):Screen{
         override fun show(containerId: Int, fragmentManager: FragmentManager) {
             fragmentManager.beginTransaction()
-                .replace(containerId,fragmentClass.getDeclaredConstructor().newInstance())
+                .replace(containerId,newFragment())
+                .addToBackStack(fragmentClass.name)
                 .commit()
         }
+
+        protected open fun newFragment():Fragment = fragmentClass.getDeclaredConstructor().newInstance()
     }
 }
