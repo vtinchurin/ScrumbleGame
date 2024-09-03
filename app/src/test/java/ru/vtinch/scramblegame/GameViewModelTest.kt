@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import ru.vtinch.scramblegame.game.GameRepository
 import ru.vtinch.scramblegame.game.GameUiState
 import ru.vtinch.scramblegame.game.GameViewModel
+import ru.vtinch.scramblegame.game.UiStateLiveDataWrapper
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -16,9 +18,9 @@ import ru.vtinch.scramblegame.game.GameViewModel
 
 class GameViewModelTest {
 
-    lateinit var repository: FakeGameRepository
-    lateinit var liveDataWrapper: FakeLiveDataWrapper
-    lateinit var viewModel: GameViewModel
+    private lateinit var repository: FakeGameRepository
+    private lateinit var liveDataWrapper: FakeLiveDataWrapper
+    private lateinit var viewModel: GameViewModel
 
     @Before
     fun setup() {
@@ -102,7 +104,7 @@ class GameViewModelTest {
 
 }
 
-private interface FakeGameRepository : GameRepository {
+interface FakeGameRepository : GameRepository {
 
     fun assertCall(words: List<String>)
 
@@ -131,6 +133,25 @@ private interface FakeGameRepository : GameRepository {
 
         override fun isLast():Boolean {
             return index == list.size
+        }
+
+        override fun clear() {
+            TODO("Not yet implemented")
+        }
+
+        private var correct = 0
+        private var skip = 0
+        private var incorrect = 0
+        override fun addScore() {
+            correct++
+        }
+
+        override fun addSkip() {
+            skip++
+        }
+
+        override fun addIncorrect() {
+            incorrect++
         }
     }
 

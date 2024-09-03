@@ -1,8 +1,8 @@
-package ru.vtinch.scramblegame.game.view.statisticsTextView
+package ru.vtinch.scramblegame.stats.view.statisticsTextView
 
 import java.io.Serializable
 
-interface StatsUiState :Serializable {
+interface StatsTextUiState :Serializable {
 
     fun update(state: StatsText)
 
@@ -10,7 +10,7 @@ interface StatsUiState :Serializable {
         private val correct:Int,
         private val incorrect:Int,
         private val skipped:Int,
-        ):StatsUiState {
+        ): StatsTextUiState {
         override fun update(state: StatsText) {
             state.setData(Triple(correct,incorrect,skipped))
         }

@@ -1,7 +1,7 @@
-package ru.vtinch.scramblegame
+package ru.vtinch.scramblegame.game
 
 import android.util.Log
-import ru.vtinch.scramblegame.game.Strategy
+import ru.vtinch.scramblegame.IntCache
 
 interface GameRepository {
 
@@ -9,13 +9,11 @@ interface GameRepository {
     fun getAnswer(): String
     fun next()
     fun isLast(): Boolean
-
+    fun clear()
 
     fun addScore()
     fun addSkip()
     fun addIncorrect()
-    fun newGame()
-    fun getScore(): Triple<Int, Int, Int>
 
     class Base(
         private val index: IntCache.Mutable,
@@ -25,26 +23,27 @@ interface GameRepository {
         private val strategy: Strategy,
     ) : GameRepository {
 
-        private var _index = index.restore()
         private val words = listOf("input", "world", "prediction", "snow")
 
 
         override fun getQuestion(): String {
-            Log.d("tvn", strategy.getQuestion(words[_index]))
-            return strategy.getQuestion(words[_index])
+            Log.d("tvn", strategy.getQuestion(words[index.restore()]))
+            return strategy.getQuestion(words[index.restore()])
         }
 
         override fun getAnswer(): String {
-            return words[_index]
+            return words[index.restore()]
         }
 
         override fun next() {
-            _index++
-            if (!isLast())
-                index.save(_index)
+            index.save(index.restore()+1)
         }
 
-        override fun isLast() = _index + 1 == words.size
+        override fun isLast() = index.restore() == words.size
+
+        override fun clear() {
+            index.save(0)
+        }
 
         override fun addScore() {
             corrects.save(corrects.restore() + 1)
@@ -56,17 +55,6 @@ interface GameRepository {
 
         override fun addIncorrect() {
             incorrect.save(incorrect.restore() + 1)
-        }
-
-        override fun newGame() {
-            index.save(0)
-            corrects.save(0)
-            skipped.save(0)
-            incorrect.save(0)
-        }
-
-        override fun getScore(): Triple<Int, Int, Int> {
-            return Triple(corrects.restore(), incorrect.restore(), skipped.restore())
         }
 
     }

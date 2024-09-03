@@ -4,17 +4,15 @@ import ru.vtinch.scramblegame.game.GameScreen
 import ru.vtinch.scramblegame.stats.StatsScreen
 
 
-
-
-    interface NavigateToGame {
+interface NavigateToGame {
         fun navigateToGame()
-    }
+}
 
-    interface NavigateToStats {
+interface NavigateToStats {
         fun navigateToStats()
-    }
+}
 
-    interface Navigate : NavigateToGame, NavigateToStats {
+interface Navigate : NavigateToGame, NavigateToStats {
 
         fun navigate(screen: Screen)
 
@@ -22,7 +20,4 @@ import ru.vtinch.scramblegame.stats.StatsScreen
 
         override fun navigateToStats() = navigate(StatsScreen)
 
-    }
-
-
-
+}

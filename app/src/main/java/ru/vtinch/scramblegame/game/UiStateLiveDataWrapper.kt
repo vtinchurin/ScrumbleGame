@@ -1,7 +1,6 @@
-package ru.vtinch.scramblegame
+package ru.vtinch.scramblegame.game
 
-import ru.vtinch.scramblegame.game.GameUiState
-import ru.vtinch.scramblegame.game.LiveDataWrapper
+import ru.vtinch.scramblegame.LiveDataWrapper
 
 
 interface UiStateLiveDataWrapper {

@@ -32,10 +32,15 @@ class StatsUi(
     )
 
     fun assertInitialState(correct: Int, incorrect: Int, skipped: Int) {
-        interaction.check(matches(withText("STATISTICS\n\n\nCorrect: $correct \nIncorrect: $incorrect \nSkipped: $skipped")))
+        interaction.check(matches(withText("STATISTICS\n\n\nCorrect: $correct\nIncorrect: $incorrect\nSkipped: $skipped")))
     }
 
     fun assertDoesNotExist() {
         interaction.check(doesNotExist())
     }
 }
+/*
+STATISTICS\n\n\nCorrect: 0 \nIncorrect: 0 \nSkipped: 4
+
+STATISTICS\n\n\nCorrect: 0\nIncorrect: 0\nSkipped: 4
+ */

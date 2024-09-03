@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame.game.view.statisticsTextView
+package ru.vtinch.scramblegame.stats.view.statisticsTextView
 
 
 import android.os.Parcel
@@ -9,15 +9,15 @@ import android.os.Build
 
 class StatsSavedState : View.BaseSavedState {
 
-    private lateinit var state: StatsUiState
+    private lateinit var state: StatsTextUiState
 
     constructor(superState: Parcelable) : super(superState)
 
       private constructor(parcelIn: Parcel) : super(parcelIn) {
        state = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-             parcelIn.readSerializable(StatsUiState::class.java.classLoader, StatsUiState::class.java) as StatsUiState
+             parcelIn.readSerializable(StatsTextUiState::class.java.classLoader, StatsTextUiState::class.java) as StatsTextUiState
         } else {
-           parcelIn.readSerializable() as StatsUiState
+           parcelIn.readSerializable() as StatsTextUiState
         }
     }
 
@@ -26,9 +26,9 @@ class StatsSavedState : View.BaseSavedState {
         out.writeSerializable(state)
     }
 
-    fun restore(): StatsUiState = state
+    fun restore(): StatsTextUiState = state
 
-    fun save(uiState: StatsUiState) {
+    fun save(uiState: StatsTextUiState) {
         state = uiState
     }
 

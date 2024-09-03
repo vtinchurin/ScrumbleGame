@@ -4,17 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import ru.vtinch.scramblegame.App
+import ru.vtinch.scramblegame.Navigate
 import ru.vtinch.scramblegame.NavigateToGame
 import ru.vtinch.scramblegame.databinding.FragmentStatsBinding
-import ru.vtinch.scramblegame.game.view.statisticsTextView.StatsUiState
+import ru.vtinch.scramblegame.AbstractFragment
 
-class StatsFragment:Fragment() {
-
-    private var _binding: FragmentStatsBinding? = null
-
-    private val binding get() = _binding!!
+class StatsFragment: AbstractFragment<FragmentStatsBinding>() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,18 +26,22 @@ class StatsFragment:Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val viewModel: StatsViewModel = (requireActivity().application as App).statsViewModel
 
-        val (c,i,s) = viewModel.update()
+        viewModel.liveData().observe(viewLifecycleOwner){
 
-        binding.statisticsText.update(StatsUiState.Base(c,i,s))
+            it.show(
+                binding.statisticsText,
+                binding.newGameButton
+            )
+            it.navigate(requireActivity() as NavigateToGame)
+        }
+
+        viewModel.update()
+
 
         binding.newGameButton.setOnClickListener {
             viewModel.newGame()
-            (activity as NavigateToGame).navigateToGame()
         }
 
     }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+
 }

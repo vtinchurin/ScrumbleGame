@@ -1,17 +1,24 @@
 package ru.vtinch.scramblegame.stats
 
-import ru.vtinch.scramblegame.GameRepository
+import androidx.lifecycle.LiveData
 
-class StatsViewModel(private val gameRepository: GameRepository) {
+class StatsViewModel(private val gameRepository: StatsRepository,
+    private val liveDataWrapper: StatsUiStateLiveDataWrapper.Mutable):StatsUiStateLiveDataWrapper.Read {
 
-    fun update():Triple<Int,Int,Int>{
+
+    fun update(){
         val (a,b,c) = gameRepository.getScore()
-        return Triple(a,b,c)
+        liveDataWrapper.update(StatsUiState.Default(a,b,c))
     }
 
 
     fun newGame(){
-        gameRepository.newGame()
+        gameRepository.clear()
+        liveDataWrapper.update(StatsUiState.Start)
+    }
+
+    override fun liveData(): LiveData<StatsUiState> {
+        return liveDataWrapper.liveData()
     }
 
 }

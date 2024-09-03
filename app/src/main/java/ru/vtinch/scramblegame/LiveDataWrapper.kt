@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame.game
+package ru.vtinch.scramblegame
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 interface LiveDataWrapper {
 
     interface Read <T: Any>{
-        fun liveData():LiveData<T>
+        fun liveData(): LiveData<T>
     }
     interface Update <T: Any>{
         fun update(value:T)

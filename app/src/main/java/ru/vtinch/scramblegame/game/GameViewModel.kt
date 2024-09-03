@@ -7,8 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.vtinch.scramblegame.GameRepository
-import ru.vtinch.scramblegame.UiStateLiveDataWrapper
 
 class GameViewModel(
     private val liveDataWrapper: UiStateLiveDataWrapper.Mutable,
@@ -16,29 +14,27 @@ class GameViewModel(
 ) : UiStateLiveDataWrapper.Read {
 
     private lateinit var question: String
-    private lateinit var answer: String
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var processDeath = true
 
     fun init(firstRun: Boolean = true) {
         question = gameRepository.getQuestion()
-        Log.d("tvn", "initial question = ${gameRepository.getQuestion()}")
-        answer = gameRepository.getAnswer()
         if (firstRun) {
             processDeath = false
-            Log.d("tvn95", "First run")
+            //Log.d("tvn95", "First run")
             liveDataWrapper.update(GameUiState.Initial(question))
         } else {
             liveDataWrapper.update(GameUiState.Empty)
             if (processDeath) {
-                Log.d("tvn95", "Process Death")
+                //Log.d("tvn95", "Process Death")
                 processDeath = false
-            } else Log.d("tvn95", "Activity Death")
+            } else {}
+                //Log.d("tvn95", "Activity Death")
         }
     }
 
     fun handleUserInput(input: String) {
-        if (input.length == answer.length) {
+        if (input.length == gameRepository.getAnswer().length) {
             liveDataWrapper.update(GameUiState.CorrectPrediction)
         } else {
             liveDataWrapper.update(GameUiState.IncorrectPrediction)
@@ -46,7 +42,7 @@ class GameViewModel(
     }
 
     fun check(prediction: String) {
-        val answer = this.answer
+        val answer = gameRepository.getAnswer()
         if (answer == prediction) {
             gameRepository.addScore()
             liveDataWrapper.update(GameUiState.CorrectAnswer(answer))
@@ -66,11 +62,12 @@ class GameViewModel(
     }
 
     fun next() {
+        gameRepository.next()
         if (gameRepository.isLast()) {
             liveDataWrapper.update(GameUiState.Finish)
+            gameRepository.clear()
         }
         else{
-            gameRepository.next()
             question = gameRepository.getQuestion()
             liveDataWrapper.update(GameUiState.Initial(question))
         }

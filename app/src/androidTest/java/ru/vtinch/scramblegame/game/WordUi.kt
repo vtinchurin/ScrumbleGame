@@ -15,7 +15,6 @@ import ru.vtinch.scramblegame.R
 
 class
 WordUi(
-    text: String,
     containerIdMatcher: Matcher<View>,
     containerClassTypeMatcher: Matcher<View>
 ) {

@@ -1,13 +1,13 @@
-package ru.vtinch.scramblegame.game.view.statisticsTextView
+package ru.vtinch.scramblegame.stats.view.statisticsTextView
 
 import android.content.Context
 import android.os.Parcelable
 import android.util.AttributeSet
 import ru.vtinch.scramblegame.R
 
-class StatsTextView : androidx.appcompat.widget.AppCompatTextView,StatsText {
+class StatsTextView : androidx.appcompat.widget.AppCompatTextView, StatsText {
 
-    private lateinit var state : StatsUiState
+    private lateinit var state : StatsTextUiState
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
@@ -19,7 +19,7 @@ class StatsTextView : androidx.appcompat.widget.AppCompatTextView,StatsText {
 
     override fun getFreezesText() = true
 
-    override fun update(state: StatsUiState) {
+    override fun update(state: StatsTextUiState) {
         this.state = state
         state.update(this)
     }

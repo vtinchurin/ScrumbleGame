@@ -7,16 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import ru.vtinch.scramblegame.AbstractFragment
 import ru.vtinch.scramblegame.App
+import ru.vtinch.scramblegame.Navigate
 import ru.vtinch.scramblegame.NavigateToStats
 import ru.vtinch.scramblegame.databinding.FragmentGameBinding
 
-class GameFragment : Fragment() {
+class GameFragment : AbstractFragment<FragmentGameBinding>() {
 
     private lateinit var viewModel : GameViewModel
-    private var _binding: FragmentGameBinding? = null
-
-    private val binding get() = _binding!!
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -43,7 +42,7 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (requireActivity().application as App).gameViewModel
 
-        viewModel.liveData().observe(requireActivity()) {
+        viewModel.liveData().observe(viewLifecycleOwner) {
 
             it.show(
                 text = binding.answerText,
@@ -52,7 +51,7 @@ class GameFragment : Fragment() {
                 check = binding.checkButton,
                 skip = binding.skipButton
             )
-            it.navigate(activity as NavigateToStats)
+            it.navigate(activity as Navigate)
         }
 
         binding.nextButton.setOnClickListener {
@@ -82,8 +81,4 @@ class GameFragment : Fragment() {
         binding.customInput.removeTextChangedListener(textWatcher)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

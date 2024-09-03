@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ru.vtinch.scramblegame.game.view.statisticsTextView.StatsTextView
+    <ru.vtinch.scramblegame.stats.view.statisticsTextView.StatsTextView
         android:id="@+id/statistics_text"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
         android:text="@string/stats"
         android:layout_gravity="center"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_margin="12dp"
         android:layout_height="wrap_content"/>
 
     <Button

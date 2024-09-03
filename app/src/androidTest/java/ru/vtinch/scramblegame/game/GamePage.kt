@@ -15,7 +15,6 @@ class GamePage(
     private val classTypeMatcher: Matcher<View> =
         withParent(isAssignableFrom(LinearLayout::class.java))
     private val wordUi = WordUi(
-        text = word,
         containerIdMatcher = containerIdMatcher,
         containerClassTypeMatcher = classTypeMatcher
     )
