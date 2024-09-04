@@ -1,9 +1,12 @@
 package ru.vtinch.scramblegame
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.viewModelFactory
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import ru.vtinch.scramblegame.core.ClearViewModel
 import ru.vtinch.scramblegame.game.GameRepository
 import ru.vtinch.scramblegame.game.GameUiState
 import ru.vtinch.scramblegame.game.GameViewModel
@@ -21,14 +24,17 @@ class GameViewModelTest {
     private lateinit var repository: FakeGameRepository
     private lateinit var liveDataWrapper: FakeLiveDataWrapper
     private lateinit var viewModel: GameViewModel
+    private lateinit var clearViewModel: ClearViewModel
 
     @Before
     fun setup() {
         repository = FakeGameRepository.Base()
         liveDataWrapper = FakeLiveDataWrapper.Base()
+
         viewModel = GameViewModel(
             gameRepository = repository,
-            liveDataWrapper = liveDataWrapper
+            liveDataWrapper = liveDataWrapper,
+            clearViewModel = clearViewModel
         )
     }
 

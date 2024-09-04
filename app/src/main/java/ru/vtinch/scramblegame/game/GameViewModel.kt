@@ -2,16 +2,23 @@ package ru.vtinch.scramblegame.game
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.vtinch.scramblegame.core.ClearViewModel
 
 class GameViewModel(
     private val liveDataWrapper: UiStateLiveDataWrapper.Mutable,
     private val gameRepository: GameRepository,
-) : UiStateLiveDataWrapper.Read {
+    private val clearViewModel: ClearViewModel,
+) : ViewModel(), UiStateLiveDataWrapper.Read {
+
+    init {
+        Log.d("vm","create Game VM")
+    }
 
     private lateinit var question: String
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
@@ -65,6 +72,7 @@ class GameViewModel(
         if (gameRepository.isLast()) {
             liveDataWrapper.update(GameUiState.Finish)
             gameRepository.clear()
+            clearViewModel.clear(GameViewModel::class.java)
         }
         else{
             question = gameRepository.getQuestion()

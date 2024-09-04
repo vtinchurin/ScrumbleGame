@@ -11,7 +11,9 @@ import ru.vtinch.scramblegame.AbstractFragment
 import ru.vtinch.scramblegame.App
 import ru.vtinch.scramblegame.Navigate
 import ru.vtinch.scramblegame.NavigateToStats
+import ru.vtinch.scramblegame.core.ProvideViewModel
 import ru.vtinch.scramblegame.databinding.FragmentGameBinding
+import ru.vtinch.scramblegame.stats.StatsViewModel
 
 class GameFragment : AbstractFragment<FragmentGameBinding>() {
 
@@ -40,7 +42,7 @@ class GameFragment : AbstractFragment<FragmentGameBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (requireActivity().application as App).gameViewModel
+        viewModel = (requireActivity().application as ProvideViewModel).viewModel(GameViewModel::class.java)
 
         viewModel.liveData().observe(viewLifecycleOwner) {
 
