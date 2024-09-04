@@ -9,6 +9,7 @@ import ru.vtinch.scramblegame.Navigate
 import ru.vtinch.scramblegame.NavigateToGame
 import ru.vtinch.scramblegame.databinding.FragmentStatsBinding
 import ru.vtinch.scramblegame.AbstractFragment
+import ru.vtinch.scramblegame.core.ProvideViewModel
 
 class StatsFragment: AbstractFragment<FragmentStatsBinding>() {
     private lateinit var viewModel : StatsViewModel
@@ -24,7 +25,7 @@ class StatsFragment: AbstractFragment<FragmentStatsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (requireActivity().application as App).statsViewModel
+        viewModel = (requireActivity() as ProvideViewModel).viewModel(StatsViewModel::class.java)
 
         viewModel.liveData().observe(viewLifecycleOwner){
 
