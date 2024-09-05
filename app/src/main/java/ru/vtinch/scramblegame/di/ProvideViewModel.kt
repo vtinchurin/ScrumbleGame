@@ -1,13 +1,12 @@
-package ru.vtinch.scramblegame.core
+package ru.vtinch.scramblegame.di
 
 import androidx.lifecycle.ViewModel
-import ru.vtinch.scramblegame.di.Core
 import ru.vtinch.scramblegame.game.di.ProvideGameViewModel
 import ru.vtinch.scramblegame.stats.di.ProvideStatsViewModel
 
 interface ProvideViewModel {
 
-    fun <T : ViewModel> viewModel(viewModelClass: Class<T>): T
+    fun <T : MyViewModel> viewModel(viewModelClass: Class<T>): T
 
     class Base(
         core: Core,
@@ -20,14 +19,14 @@ interface ProvideViewModel {
 
         }
 
-        override fun <T : ViewModel> viewModel(viewModelClass: Class<T>): T {
+        override fun <T : MyViewModel> viewModel(viewModelClass: Class<T>): T {
             return chain.viewModel(viewModelClass)
         }
     }
 
 
     object Error : ProvideViewModel {
-        override fun <T : ViewModel> viewModel(viewModelClass: Class<T>): T {
+        override fun <T : MyViewModel> viewModel(viewModelClass: Class<T>): T {
             throw IllegalStateException("error")
         }
     }

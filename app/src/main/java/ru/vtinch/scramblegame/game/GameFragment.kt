@@ -6,14 +6,10 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import ru.vtinch.scramblegame.AbstractFragment
-import ru.vtinch.scramblegame.App
 import ru.vtinch.scramblegame.Navigate
-import ru.vtinch.scramblegame.NavigateToStats
-import ru.vtinch.scramblegame.core.ProvideViewModel
+import ru.vtinch.scramblegame.di.ProvideViewModel
 import ru.vtinch.scramblegame.databinding.FragmentGameBinding
-import ru.vtinch.scramblegame.stats.StatsViewModel
 
 class GameFragment : AbstractFragment<FragmentGameBinding>() {
 

@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.vtinch.scramblegame.App
-import ru.vtinch.scramblegame.Navigate
 import ru.vtinch.scramblegame.NavigateToGame
 import ru.vtinch.scramblegame.databinding.FragmentStatsBinding
 import ru.vtinch.scramblegame.AbstractFragment
-import ru.vtinch.scramblegame.core.ProvideViewModel
+import ru.vtinch.scramblegame.di.ProvideViewModel
 
 class StatsFragment: AbstractFragment<FragmentStatsBinding>() {
     private lateinit var viewModel : StatsViewModel
@@ -37,7 +35,6 @@ class StatsFragment: AbstractFragment<FragmentStatsBinding>() {
         }
 
         viewModel.update()
-
 
         binding.newGameButton.setOnClickListener {
             viewModel.newGame()

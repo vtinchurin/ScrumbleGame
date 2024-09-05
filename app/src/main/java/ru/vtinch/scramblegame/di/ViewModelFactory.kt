@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame.core
+package ru.vtinch.scramblegame.di
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -9,9 +9,9 @@ interface ViewModelFactory : ProvideViewModel, ClearViewModel {
         private val provideViewModel: ProvideViewModel,
     ) : ViewModelFactory {
 
-        private val cache: MutableMap<Class<out ViewModel>, ViewModel> = mutableMapOf()
+        private val cache: MutableMap<Class<out MyViewModel>, MyViewModel> = mutableMapOf()
 
-        override fun <T : ViewModel> viewModel(viewModelClass: Class<T>): T {
+        override fun <T : MyViewModel> viewModel(viewModelClass: Class<T>): T {
             if (cache.containsKey(viewModelClass)) {
                 return cache[viewModelClass] as T
             } else {
@@ -23,7 +23,7 @@ interface ViewModelFactory : ProvideViewModel, ClearViewModel {
             }
         }
 
-        override fun clear(viewModelClass: Class<out ViewModel>) {
+        override fun clear(viewModelClass: Class<out MyViewModel>) {
             Log.d("qwe","removeVM")
             cache.remove(viewModelClass)
         }

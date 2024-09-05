@@ -3,6 +3,7 @@
     android:id="@+id/stats_root"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:padding="24dp"
     android:layout_height="match_parent">
 
     <ru.vtinch.scramblegame.stats.view.statisticsTextView.StatsTextView
@@ -19,7 +20,7 @@
         android:text="@string/new_game"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_margin="8dp"
+        android:layout_marginVertical="24dp"
         android:layout_height="wrap_content">
 
     </Button>
