@@ -8,13 +8,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.vtinch.scramblegame.core.ClearViewModel
+import ru.vtinch.scramblegame.di.ClearViewModel
+import ru.vtinch.scramblegame.di.MyViewModel
 
 class GameViewModel(
     private val liveDataWrapper: UiStateLiveDataWrapper.Mutable,
     private val gameRepository: GameRepository,
     private val clearViewModel: ClearViewModel,
-) : ViewModel(), UiStateLiveDataWrapper.Read {
+) : MyViewModel, UiStateLiveDataWrapper.Read {
 
     init {
         Log.d("vm","create Game VM")

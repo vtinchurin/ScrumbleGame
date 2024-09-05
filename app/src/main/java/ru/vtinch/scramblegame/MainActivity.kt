@@ -1,12 +1,11 @@
 package ru.vtinch.scramblegame
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
-import ru.vtinch.scramblegame.core.ProvideViewModel
+import ru.vtinch.scramblegame.di.ProvideViewModel
 import ru.vtinch.scramblegame.databinding.ActivityMainBinding
+import ru.vtinch.scramblegame.di.MyViewModel
 
 
 class MainActivity : AppCompatActivity(),Navigate, ProvideViewModel {
@@ -27,7 +26,7 @@ class MainActivity : AppCompatActivity(),Navigate, ProvideViewModel {
         screen.show(R.id.container,supportFragmentManager)
     }
 
-    override fun <T : ViewModel> viewModel(viewModelClass: Class<T>): T {
+    override fun <T : MyViewModel> viewModel(viewModelClass: Class<T>): T {
         return (application as App).viewModel(viewModelClass)
     }
 
