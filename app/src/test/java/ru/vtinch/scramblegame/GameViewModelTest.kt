@@ -1,9 +1,6 @@
 package ru.vtinch.scramblegame
 
 import androidx.lifecycle.LiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -52,7 +49,7 @@ class GameViewModelTest {
 
         repository.assertCall(words = listOf("word"))
 
-        viewModel.init()
+        viewModel.init(true)
 
         liveDataWrapper.actualState(GameUiState.Initial("drow"))
     }

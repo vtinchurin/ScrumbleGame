@@ -1,7 +1,5 @@
 package ru.vtinch.scramblegame.di
 
-import android.util.Log
-
 interface ManageViewModels : ProvideViewModel, ClearViewModel {
 
     class Factory(
@@ -14,7 +12,6 @@ interface ManageViewModels : ProvideViewModel, ClearViewModel {
             if (cache.containsKey(viewModelClass)) {
                 return cache[viewModelClass] as T
             } else {
-                Log.d("qwe","getVM")
                 val vm = provideViewModel.viewModel(viewModelClass)
                 cache[viewModelClass] = vm
                 return vm
@@ -23,7 +20,6 @@ interface ManageViewModels : ProvideViewModel, ClearViewModel {
         }
 
         override fun clear(viewModelClass: Class<out MyViewModel>) {
-            Log.d("qwe","removeVM")
             cache.remove(viewModelClass)
         }
     }

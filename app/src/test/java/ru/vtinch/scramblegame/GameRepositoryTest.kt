@@ -1,6 +1,5 @@
 package ru.vtinch.scramblegame
 
-import android.content.SharedPreferences
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -8,7 +7,7 @@ import ru.vtinch.scramblegame.core.IntCache
 import ru.vtinch.scramblegame.game.GameRepository
 import ru.vtinch.scramblegame.game.Strategy
 
-class GameRepoTest{
+class GameRepositoryTest {
 
     private lateinit var repository: GameRepository
     private lateinit var correct: FakeCache
@@ -51,7 +50,6 @@ class GameRepoTest{
         incorrect.assertValue(1)
         repository.skip()
         skipped.assertValue(1)
-
         assertEquals(false,repository.isLast())
     }
 
@@ -68,7 +66,7 @@ class GameRepoTest{
     @Test
     fun isLast(){
         repeat(7){
-            repository.skip()
+            repository.next()
         }
         assertEquals(true,repository.isLast())
     }
