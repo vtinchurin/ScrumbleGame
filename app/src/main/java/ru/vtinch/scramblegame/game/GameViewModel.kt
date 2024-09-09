@@ -23,7 +23,7 @@ class GameViewModel(
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var processDeath = true
 
-    fun init(firstRun: Boolean = true) {
+    fun init(firstRun: Boolean = false) {
         question = gameRepository.getQuestion()
         if (firstRun) {
             processDeath = false

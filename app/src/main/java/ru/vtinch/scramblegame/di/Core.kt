@@ -8,7 +8,6 @@ class Core(
     sharedPreferences: SharedPreferences,
     val clearViewModel: ClearViewModel,
 ) {
-    //val sharedPreferences: SharedPreferences = context.getSharedPreferences("myApp",Context.MODE_PRIVATE)
     val index = IntCache.Base("index", sharedPreferences)
     val corrects = IntCache.Base("corrects", sharedPreferences)
     val skipped = IntCache.Base("skipped", sharedPreferences)
