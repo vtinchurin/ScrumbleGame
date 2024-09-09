@@ -1,9 +1,6 @@
 package ru.vtinch.scramblegame.di
 
-import androidx.lifecycle.ViewModel
-
 abstract class AbstractProvideViewModel(
-    private val core: Core,
     private val nextChain: ProvideViewModel,
     private val viewModelClass: Class<out MyViewModel>,
 ) : ProvideViewModel {
@@ -15,6 +12,5 @@ abstract class AbstractProvideViewModel(
             nextChain.viewModel(viewModelClass)
         }
     }
-
-    protected abstract fun module():Module<*>
+    protected abstract fun module():Module<out MyViewModel>
 }

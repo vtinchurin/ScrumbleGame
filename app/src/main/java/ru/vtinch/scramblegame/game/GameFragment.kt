@@ -6,8 +6,8 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.vtinch.scramblegame.AbstractFragment
-import ru.vtinch.scramblegame.Navigate
+import ru.vtinch.scramblegame.core.AbstractFragment
+import ru.vtinch.scramblegame.core.Navigation
 import ru.vtinch.scramblegame.di.ProvideViewModel
 import ru.vtinch.scramblegame.databinding.FragmentGameBinding
 
@@ -49,7 +49,7 @@ class GameFragment : AbstractFragment<FragmentGameBinding>() {
                 check = binding.checkButton,
                 skip = binding.skipButton
             )
-            it.navigate(activity as Navigate)
+            it.navigate(requireActivity() as Navigation)
         }
 
         binding.nextButton.setOnClickListener {

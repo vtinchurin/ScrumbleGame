@@ -14,9 +14,9 @@ import org.hamcrest.Matcher
 import ru.vtinch.scramblegame.R
 
 class StatsUi(
-    correct: Int,
-    incorrect: Int,
-    skipped: Int,
+    private val correct: Int,
+    private val incorrect: Int,
+    private val skipped: Int,
     containerIdMatcher: Matcher<View>,
     containerClassTypeMatcher: Matcher<View>,
 ) {
@@ -31,7 +31,7 @@ class StatsUi(
         )
     )
 
-    fun assertInitialState(correct: Int, incorrect: Int, skipped: Int) {
+    fun assertInitialState() {
         interaction.check(matches(withText("STATISTICS\n\n\nCorrect: $correct\nIncorrect: $incorrect\nSkipped: $skipped")))
     }
 

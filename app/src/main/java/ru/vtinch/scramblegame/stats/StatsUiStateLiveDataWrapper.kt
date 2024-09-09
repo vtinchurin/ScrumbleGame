@@ -1,6 +1,6 @@
 package ru.vtinch.scramblegame.stats
 
-import ru.vtinch.scramblegame.LiveDataWrapper
+import ru.vtinch.scramblegame.core.LiveDataWrapper
 
 interface StatsUiStateLiveDataWrapper {
 

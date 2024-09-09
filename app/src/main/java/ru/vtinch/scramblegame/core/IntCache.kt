@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame
+package ru.vtinch.scramblegame.core
 
 import android.content.SharedPreferences
 

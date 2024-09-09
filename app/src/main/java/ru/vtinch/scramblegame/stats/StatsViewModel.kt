@@ -1,8 +1,6 @@
 package ru.vtinch.scramblegame.stats
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import ru.vtinch.scramblegame.di.ClearViewModel
 import ru.vtinch.scramblegame.di.MyViewModel
 
@@ -13,7 +11,7 @@ class StatsViewModel(
 ): MyViewModel,StatsUiStateLiveDataWrapper.Read {
 
     init {
-        Log.d("vm","create Stats VM")
+        //Log.d("vm","create Stats VM")
     }
 
 
@@ -26,9 +24,8 @@ class StatsViewModel(
 
 
     fun newGame(){
-        statsRepository.clear()
         clearViewModel.clear(StatsViewModel::class.java)
-        liveDataWrapper.update(StatsUiState.Start)
+        liveDataWrapper.update(StatsUiState.Navigate)
     }
 
     override fun liveData(): LiveData<StatsUiState> {

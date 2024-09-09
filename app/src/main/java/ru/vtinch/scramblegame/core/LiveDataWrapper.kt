@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame
+package ru.vtinch.scramblegame.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

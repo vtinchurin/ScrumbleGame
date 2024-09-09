@@ -2,13 +2,14 @@ package ru.vtinch.scramblegame
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
-import ru.vtinch.scramblegame.di.ProvideViewModel
+import ru.vtinch.scramblegame.core.Navigation
+import ru.vtinch.scramblegame.core.Screen
 import ru.vtinch.scramblegame.databinding.ActivityMainBinding
 import ru.vtinch.scramblegame.di.MyViewModel
+import ru.vtinch.scramblegame.di.ProvideViewModel
 
 
-class MainActivity : AppCompatActivity(),Navigate, ProvideViewModel {
+class MainActivity : AppCompatActivity(), Navigation, ProvideViewModel {
 
 
     private lateinit var binding: ActivityMainBinding

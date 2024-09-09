@@ -1,6 +1,6 @@
 package ru.vtinch.scramblegame.stats
 
-import ru.vtinch.scramblegame.IntCache
+import ru.vtinch.scramblegame.core.IntCache
 
 interface StatsRepository {
 

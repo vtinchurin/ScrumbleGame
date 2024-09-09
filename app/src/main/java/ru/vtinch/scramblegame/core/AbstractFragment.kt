@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame
+package ru.vtinch.scramblegame.core
 
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding

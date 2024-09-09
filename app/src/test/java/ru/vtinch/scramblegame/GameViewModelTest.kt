@@ -1,10 +1,14 @@
 package ru.vtinch.scramblegame
 
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import ru.vtinch.scramblegame.di.ClearViewModel
+import ru.vtinch.scramblegame.di.MyViewModel
 import ru.vtinch.scramblegame.game.GameRepository
 import ru.vtinch.scramblegame.game.GameUiState
 import ru.vtinch.scramblegame.game.GameViewModel
@@ -26,9 +30,15 @@ class GameViewModelTest {
 
     @Before
     fun setup() {
+
         repository = FakeGameRepository.Base()
         liveDataWrapper = FakeLiveDataWrapper.Base()
-
+        clearViewModel = object : ClearViewModel{
+            private var clazz :Class<out MyViewModel>? = null
+            override fun clear(viewModelClass: Class<out MyViewModel>) {
+                clazz = viewModelClass
+            }
+        }
 
         viewModel = GameViewModel(
             gameRepository = repository,
@@ -95,6 +105,10 @@ class GameViewModelTest {
         viewModel.check("word")
 
         liveDataWrapper.actualState(GameUiState.CorrectAnswer("word"))
+
+        viewModel.next()
+
+        liveDataWrapper.actualState(GameUiState.Initial("wohs"))
     }
 
 //    @Test
@@ -109,7 +123,7 @@ class GameViewModelTest {
 
 }
 
-interface FakeGameRepository : GameRepository {
+private interface FakeGameRepository : GameRepository {
 
     fun assertCall(words: List<String>)
 
@@ -117,6 +131,7 @@ interface FakeGameRepository : GameRepository {
 
         private val list = mutableListOf<String>()
         private var index = 0
+        private var skip = 0
 
         override fun assertCall(words: List<String>) {
             list.addAll(words)
@@ -126,14 +141,12 @@ interface FakeGameRepository : GameRepository {
             return list[index].reversed()
         }
 
-        override fun getAnswer(): String {
-            return list[index]
+        override fun checkPrediction(prediction: String): Boolean {
+            return  list[index]==prediction
         }
 
         override fun next() {
             index++
-            if (isLast())
-                index = 0
         }
 
         override fun isLast():Boolean {
@@ -141,29 +154,19 @@ interface FakeGameRepository : GameRepository {
         }
 
         override fun clear() {
-            TODO("Not yet implemented")
+                index = 0
         }
 
-        private var correct = 0
-        private var skip = 0
-        private var incorrect = 0
-        override fun addScore() {
-            correct++
-        }
-
-        override fun addSkip() {
+        override fun skip() {
             skip++
         }
 
-        override fun addIncorrect() {
-            incorrect++
-        }
     }
 
 }
 
 
-interface FakeLiveDataWrapper : UiStateLiveDataWrapper.Mutable {
+private interface FakeLiveDataWrapper: UiStateLiveDataWrapper.Mutable {
 
     fun actualState(state: GameUiState)
 

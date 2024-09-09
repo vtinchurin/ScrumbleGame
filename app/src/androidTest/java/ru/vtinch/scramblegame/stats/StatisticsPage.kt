@@ -34,7 +34,7 @@ class StatisticsPage(
     )
 
     fun assertInitialState(){
-        statsUi.assertInitialState(correct = correct, incorrect = incorrect, skipped = skipped)
+        statsUi.assertInitialState()
     }
 
     fun clickNewGame() {
