@@ -1,13 +1,12 @@
 package ru.vtinch.scramblegame.di
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
 
-interface ViewModelFactory : ProvideViewModel, ClearViewModel {
+interface ManageViewModels : ProvideViewModel, ClearViewModel {
 
-    class Base(
+    class Factory(
         private val provideViewModel: ProvideViewModel,
-    ) : ViewModelFactory {
+    ) : ManageViewModels {
 
         private val cache: MutableMap<Class<out MyViewModel>, MyViewModel> = mutableMapOf()
 

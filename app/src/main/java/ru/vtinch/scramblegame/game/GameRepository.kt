@@ -1,19 +1,17 @@
 package ru.vtinch.scramblegame.game
 
 import android.util.Log
-import ru.vtinch.scramblegame.IntCache
+import ru.vtinch.scramblegame.core.IntCache
 
 interface GameRepository {
 
     fun getQuestion(): String
-    fun getAnswer(): String
+    fun checkPrediction(prediction:String): Boolean
     fun next()
     fun isLast(): Boolean
     fun clear()
+    fun skip()
 
-    fun addScore()
-    fun addSkip()
-    fun addIncorrect()
 
     class Base(
         private val index: IntCache.Mutable,
@@ -27,12 +25,17 @@ interface GameRepository {
 
 
         override fun getQuestion(): String {
-            Log.d("tvn", strategy.getQuestion(words[index.restore()]))
+           // Log.d("tvn", strategy.getQuestion(words[index.restore()]))
             return strategy.getQuestion(words[index.restore()])
         }
 
-        override fun getAnswer(): String {
-            return words[index.restore()]
+        override fun checkPrediction(prediction: String): Boolean {
+            val isCorrect = words[index.restore()] == prediction
+            if(isCorrect)
+                corrects.save(corrects.restore()+1)
+            else
+                incorrect.save(incorrect.restore()+1)
+            return isCorrect
         }
 
         override fun next() {
@@ -45,16 +48,8 @@ interface GameRepository {
             index.save(0)
         }
 
-        override fun addScore() {
-            corrects.save(corrects.restore() + 1)
-        }
-
-        override fun addSkip() {
+        override fun skip() {
             skipped.save(skipped.restore() + 1)
-        }
-
-        override fun addIncorrect() {
-            incorrect.save(incorrect.restore() + 1)
         }
 
     }

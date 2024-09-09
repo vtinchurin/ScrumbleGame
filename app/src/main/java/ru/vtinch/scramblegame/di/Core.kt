@@ -1,7 +1,7 @@
 package ru.vtinch.scramblegame.di
 
 import android.content.SharedPreferences
-import ru.vtinch.scramblegame.IntCache
+import ru.vtinch.scramblegame.core.IntCache
 import ru.vtinch.scramblegame.game.Strategy
 
 class Core(

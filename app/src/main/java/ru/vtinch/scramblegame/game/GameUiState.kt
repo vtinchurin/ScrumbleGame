@@ -1,6 +1,6 @@
 package ru.vtinch.scramblegame.game
 
-import ru.vtinch.scramblegame.NavigateToStats
+import ru.vtinch.scramblegame.core.Navigation
 import ru.vtinch.scramblegame.game.view.button.ButtonUiState
 import ru.vtinch.scramblegame.game.view.button.CustomButton
 import ru.vtinch.scramblegame.game.view.input.CustomInput
@@ -18,7 +18,7 @@ interface GameUiState {
         check: CustomButton,
     ) = Unit
 
-    fun navigate(navigate: NavigateToStats) = Unit
+    fun navigate(navigate: Navigation) = Unit
 
     abstract class Abstract(
         private val checkState: ButtonUiState = ButtonUiState.Disabled,
@@ -113,9 +113,9 @@ interface GameUiState {
         }
     }
 
-    object Finish : GameUiState {
+    object Navigate : GameUiState {
 
-        override fun navigate(navigate: NavigateToStats) {
+        override fun navigate(navigate: Navigation) {
             navigate.navigateToStats()
         }
     }

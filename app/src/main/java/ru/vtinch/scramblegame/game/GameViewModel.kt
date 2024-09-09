@@ -1,8 +1,6 @@
 package ru.vtinch.scramblegame.game
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -15,10 +13,10 @@ class GameViewModel(
     private val liveDataWrapper: UiStateLiveDataWrapper.Mutable,
     private val gameRepository: GameRepository,
     private val clearViewModel: ClearViewModel,
-) : MyViewModel, UiStateLiveDataWrapper.Read {
+) : MyViewModel.AbstractViewModel(), UiStateLiveDataWrapper.Read {
 
     init {
-        Log.d("vm","create Game VM")
+        //Log.d("vm","create Game VM")
     }
 
     private lateinit var question: String
@@ -26,10 +24,11 @@ class GameViewModel(
     private var processDeath = true
 
     fun init(firstRun: Boolean = true) {
+        question = gameRepository.getQuestion()
         if (firstRun) {
             processDeath = false
             //Log.d("tvn95", "First run")
-            liveDataWrapper.update(GameUiState.Initial(gameRepository.getQuestion()))
+            liveDataWrapper.update(GameUiState.Initial(question))
         } else {
             liveDataWrapper.update(GameUiState.Empty)
             if (processDeath) {
@@ -41,7 +40,7 @@ class GameViewModel(
     }
 
     fun handleUserInput(input: String) {
-        if (input.length == gameRepository.getAnswer().length) {
+        if (input.length == question.length) {
             liveDataWrapper.update(GameUiState.CorrectPrediction)
         } else {
             liveDataWrapper.update(GameUiState.IncorrectPrediction)
@@ -49,12 +48,9 @@ class GameViewModel(
     }
 
     fun check(prediction: String) {
-        val answer = gameRepository.getAnswer()
-        if (answer == prediction) {
-            gameRepository.addScore()
-            liveDataWrapper.update(GameUiState.CorrectAnswer(answer))
+        if (gameRepository.checkPrediction(prediction)) {
+            liveDataWrapper.update(GameUiState.CorrectAnswer(prediction))
         } else {
-            gameRepository.addIncorrect()
             viewModelScope.launch {
                 liveDataWrapper.update(GameUiState.IncorrectAnswer)
                 delay(1500)
@@ -64,14 +60,14 @@ class GameViewModel(
     }
 
     fun skip() {
-        gameRepository.addSkip()
+        gameRepository.skip()
         next()
     }
 
     fun next() {
         gameRepository.next()
         if (gameRepository.isLast()) {
-            liveDataWrapper.update(GameUiState.Finish)
+            liveDataWrapper.update(GameUiState.Navigate)
             gameRepository.clear()
             clearViewModel.clear(GameViewModel::class.java)
         }

@@ -7,8 +7,8 @@ import ru.vtinch.scramblegame.game.GameViewModel
 import ru.vtinch.scramblegame.game.UiStateLiveDataWrapper
 
 class GameModule(private val core: Core) : Module<GameViewModel> {
-    override fun viewModel(): GameViewModel {
 
+    override fun viewModel(): GameViewModel {
 
         return GameViewModel(
             gameRepository = GameRepository.Base(

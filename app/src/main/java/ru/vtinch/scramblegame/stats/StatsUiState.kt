@@ -1,9 +1,9 @@
 package ru.vtinch.scramblegame.stats
 
 import android.widget.Button
-import ru.vtinch.scramblegame.NavigateToGame
-import ru.vtinch.scramblegame.stats.view.statisticsTextView.StatsTextView
+import ru.vtinch.scramblegame.core.Navigation
 import ru.vtinch.scramblegame.stats.view.statisticsTextView.StatsTextUiState
+import ru.vtinch.scramblegame.stats.view.statisticsTextView.StatsTextView
 
 interface StatsUiState {
 
@@ -12,12 +12,13 @@ interface StatsUiState {
         button: Button,
     ) = Unit
 
-    fun navigate(navigate: NavigateToGame) = Unit
+    fun navigate(navigate: Navigation) = Unit
 
-    class Default(
+    data class Default(
         private val correct: Int,
         private val incorrect: Int,
-        private val skipped: Int) :
+        private val skipped: Int,
+    ) :
         StatsUiState {
         override fun show(text: StatsTextView, button: Button) {
             text.update(
@@ -30,8 +31,8 @@ interface StatsUiState {
         }
     }
 
-    object Start : StatsUiState {
-        override fun navigate(navigate: NavigateToGame) {
+    object Navigate : StatsUiState {
+        override fun navigate(navigate: Navigation) {
             navigate.navigateToGame()
         }
     }
