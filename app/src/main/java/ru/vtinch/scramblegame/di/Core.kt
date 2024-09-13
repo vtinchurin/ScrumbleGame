@@ -12,5 +12,5 @@ class Core(
     val corrects = IntCache.Base("corrects", sharedPreferences)
     val skipped = IntCache.Base("skipped", sharedPreferences)
     val incorrect = IntCache.Base("incorrect", sharedPreferences)
-    val strategy = Strategy.Game()
+    val strategy = Strategy.Test()
 }

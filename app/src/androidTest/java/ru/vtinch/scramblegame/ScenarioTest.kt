@@ -7,6 +7,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.vtinch.scramblegame.game.GamePage
+import ru.vtinch.scramblegame.load.LoadPage
 import ru.vtinch.scramblegame.stats.StatisticsPage
 
 
@@ -18,6 +19,13 @@ class ScenarioTest {
 
     private lateinit var gamePage: GamePage
 
+
+    private fun ScenarioTest.doWithRecreate(block: () -> Unit) {
+        block.invoke()
+        activityScenarioRule.scenario.recreate()
+        block.invoke()
+    }
+
     @Before
     fun setup() {
         gamePage = GamePage(word = "input".reversed())
@@ -27,19 +35,15 @@ class ScenarioTest {
     fun caseNumber1() {
         gamePage.assertInitialState()
         gamePage.addInput(text = "inpu")
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.addInput(text = "t")
-        activityScenarioRule.scenario.recreate()
-        gamePage.assetCorrectPredictionState()
+        doWithRecreate { gamePage.assertCorrectPredictionState() }
         gamePage.clickCheck()
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertCorrectAnswerState()
+        doWithRecreate { gamePage.assertCorrectAnswerState() }
         gamePage.clickNext()
-
         gamePage = GamePage(word = "world".reversed())
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
+
 
     }
 
@@ -55,14 +59,14 @@ class ScenarioTest {
         gamePage.assertInitialState()
         gamePage.addInput(text = "d")
         activityScenarioRule.scenario.recreate()
-        gamePage.assetCorrectPredictionState()
+        gamePage.assertCorrectPredictionState()
         gamePage.clickSkip()
         gamePage = GamePage(word = "prediction".reversed())
         activityScenarioRule.scenario.recreate()
         gamePage.assertInitialState()
         gamePage.addInput(text = "predictiot")
         activityScenarioRule.scenario.recreate()
-        gamePage.assetCorrectPredictionState()
+        gamePage.assertCorrectPredictionState()
         gamePage.clickCheck()
         gamePage.assertIncorrectAnswerState()
         activityScenarioRule.scenario.recreate()
@@ -81,12 +85,12 @@ class ScenarioTest {
         gamePage.assertInitialState()
         gamePage.addInput(text = "show")
         activityScenarioRule.scenario.recreate()
-        gamePage.assetCorrectPredictionState()
+        gamePage.assertCorrectPredictionState()
         gamePage.removeLastLetter()
         activityScenarioRule.scenario.recreate()
         gamePage.assertInitialState()
         gamePage.addInput(text = "w")
-        gamePage.assetCorrectPredictionState()
+        gamePage.assertCorrectPredictionState()
         gamePage.clickCheck()
         gamePage.assertIncorrectAnswerState()
     }
@@ -127,7 +131,7 @@ class ScenarioTest {
     fun all_incorrect_answers() {
         gamePage.assertInitialState()
         gamePage.addInput(text = "intup")
-        gamePage.assetCorrectPredictionState()
+        gamePage.assertCorrectPredictionState()
         gamePage.clickCheck()
         activityScenarioRule.scenario.recreate()
         gamePage.assertIncorrectAnswerState()
@@ -135,7 +139,7 @@ class ScenarioTest {
         gamePage = GamePage(word = "world".reversed())
         gamePage.assertInitialState()
         gamePage.addInput(text = "wlord")
-        gamePage.assetCorrectPredictionState()
+        gamePage.assertCorrectPredictionState()
         gamePage.clickCheck()
         activityScenarioRule.scenario.recreate()
         gamePage.assertIncorrectAnswerState()
@@ -143,7 +147,7 @@ class ScenarioTest {
         gamePage = GamePage(word = "prediction".reversed())
         gamePage.assertInitialState()
         gamePage.addInput(text = "predictoin")
-        gamePage.assetCorrectPredictionState()
+        gamePage.assertCorrectPredictionState()
         gamePage.clickCheck()
         activityScenarioRule.scenario.recreate()
         gamePage.assertIncorrectAnswerState()
@@ -151,7 +155,7 @@ class ScenarioTest {
         gamePage = GamePage(word = "snow".reversed())
         gamePage.assertInitialState()
         gamePage.addInput(text = "snwo")
-        gamePage.assetCorrectPredictionState()
+        gamePage.assertCorrectPredictionState()
         gamePage.clickCheck()
         activityScenarioRule.scenario.recreate()
         gamePage.assertIncorrectAnswerState()
@@ -173,7 +177,7 @@ class ScenarioTest {
     fun all_correct_answers() {
         gamePage.assertInitialState()
         gamePage.addInput(text = "input")
-        gamePage.assetCorrectPredictionState()
+        gamePage.assertCorrectPredictionState()
         gamePage.clickCheck()
         activityScenarioRule.scenario.recreate()
         gamePage.assertCorrectAnswerState()
@@ -181,7 +185,7 @@ class ScenarioTest {
         gamePage = GamePage(word = "world".reversed())
         gamePage.assertInitialState()
         gamePage.addInput(text = "world")
-        gamePage.assetCorrectPredictionState()
+        gamePage.assertCorrectPredictionState()
         gamePage.clickCheck()
         activityScenarioRule.scenario.recreate()
         gamePage.assertCorrectAnswerState()
@@ -189,7 +193,7 @@ class ScenarioTest {
         gamePage = GamePage(word = "prediction".reversed())
         gamePage.assertInitialState()
         gamePage.addInput(text = "prediction")
-        gamePage.assetCorrectPredictionState()
+        gamePage.assertCorrectPredictionState()
         gamePage.clickCheck()
         activityScenarioRule.scenario.recreate()
         gamePage.assertCorrectAnswerState()
@@ -197,7 +201,7 @@ class ScenarioTest {
         gamePage = GamePage(word = "snow".reversed())
         gamePage.assertInitialState()
         gamePage.addInput(text = "snow")
-        gamePage.assetCorrectPredictionState()
+        gamePage.assertCorrectPredictionState()
         gamePage.clickCheck()
         activityScenarioRule.scenario.recreate()
         gamePage.assertCorrectAnswerState()
@@ -215,5 +219,18 @@ class ScenarioTest {
         gamePage.assertInitialState()
     }
 
+    @Test
+    fun initialLoading(){
+        val loadPage = LoadPage()
 
+        doWithRecreate { loadPage.assertErrorState() }
+
+        loadPage.clickRetry()
+
+        doWithRecreate { loadPage.assertLoading() }
+
+        loadPage.waitTillLoad()
+
+
+    }
 }

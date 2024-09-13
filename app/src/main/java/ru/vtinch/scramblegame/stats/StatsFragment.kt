@@ -34,7 +34,8 @@ class StatsFragment: AbstractFragment<FragmentStatsBinding>() {
             it.navigate(requireActivity() as Navigation)
         }
 
-        viewModel.update()
+
+            viewModel.update(savedInstanceState == null)
 
         binding.newGameButton.setOnClickListener {
             viewModel.newGame()

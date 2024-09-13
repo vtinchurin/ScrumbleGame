@@ -21,7 +21,7 @@ interface GameRepository {
         private val strategy: Strategy,
     ) : GameRepository {
 
-        private val words = listOf("input", "world", "prediction", "snow", "water", "melon","skyline")
+        private val words = listOf("input", "world", "prediction", "snow")
 
 
         override fun getQuestion(): String {
