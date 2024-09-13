@@ -15,9 +15,11 @@ class StatsViewModel(
     }
 
 
-    fun update(){
-        val (a,b,c) = statsRepository.getScore()
-        liveDataWrapper.update(StatsUiState.Default(a,b,c))
+    fun update(isFirstRun:Boolean){
+        if (isFirstRun) {
+            val (a, b, c) = statsRepository.getScore()
+            liveDataWrapper.update(StatsUiState.Default(a, b, c))
+        } else liveDataWrapper.update(StatsUiState.Empty)
         statsRepository.clear()
     }
 

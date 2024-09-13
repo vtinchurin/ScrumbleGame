@@ -18,8 +18,7 @@ interface StatsUiState {
         private val correct: Int,
         private val incorrect: Int,
         private val skipped: Int,
-    ) :
-        StatsUiState {
+    ) :StatsUiState {
         override fun show(text: StatsTextView, button: Button) {
             text.update(
                 StatsTextUiState.Base(
@@ -30,6 +29,8 @@ interface StatsUiState {
             )
         }
     }
+
+    object Empty:StatsUiState
 
     object Navigate : StatsUiState {
         override fun navigate(navigate: Navigation) {

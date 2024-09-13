@@ -1,19 +1,13 @@
 package ru.vtinch.scramblegame.game
 
-import android.view.View
 import android.widget.LinearLayout
-import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withParent
-import org.hamcrest.Matcher
 import ru.vtinch.scramblegame.R
+import ru.vtinch.scramblegame.core.AbstractPage
 
 class GamePage(
     private val word: String,
-) {
-    private val containerIdMatcher: Matcher<View> = withParent(withId(R.id.rootLayout))
-    private val classTypeMatcher: Matcher<View> =
-        withParent(isAssignableFrom(LinearLayout::class.java))
+)  : AbstractPage(containerId = R.id.rootLayout, classType = LinearLayout::class.java){
+
     private val wordUi = WordUi(
         containerIdMatcher = containerIdMatcher,
         containerClassTypeMatcher = classTypeMatcher
@@ -48,24 +42,24 @@ class GamePage(
         wordUi.assertBg(bgResId = R.drawable.bg_gray)
         checkUi.assertNotEnabled()
         skipUi.assertEnabled()
-        nextUi.assertInvisible()
+        nextUi.assertNotVisible()
     }
 
     fun addInput(text: String) {
         inputUi.addInput(text = text)
     }
 
-    fun assetCorrectPredictionState() {
+    fun assertCorrectPredictionState() {
         checkUi.assertEnabled()
         skipUi.assertEnabled()
-        nextUi.assertInvisible()
+        nextUi.assertNotVisible()
     }
 
     fun assertCorrectAnswerState() {
         wordUi.assertText(word.reversed())
         wordUi.assertBg(bgResId = R.drawable.bg_green)
-        checkUi.assertInvisible()
-        skipUi.assertInvisible()
+        checkUi.assertNotVisible()
+        skipUi.assertNotVisible()
         nextUi.assertVisible()
 
     }
@@ -87,7 +81,7 @@ class GamePage(
         wordUi.assertBg(bgResId = R.drawable.bg_red)
         checkUi.assertNotEnabled()
         skipUi.assertVisible()
-        nextUi.assertInvisible()
+        nextUi.assertNotVisible()
     }
 
     fun removeLastLetter() {
@@ -95,7 +89,7 @@ class GamePage(
     }
 
     fun assertNotVisible() {
-        wordUi.assertDoesNotExist()
+        wordUi.doesNotExist()
     }
 
 }

@@ -1,18 +1,13 @@
 package ru.easycode.zerotoheroandroidtdd
 
 import android.view.View
-import android.widget.TextView
 import androidx.test.espresso.PerformException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.matcher.ViewMatchers.hasBackground
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import ru.vtinch.scramblegame.R
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.util.HumanReadables
-import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
-import ru.vtinch.scramblegame.game.BackgroundDrawableMatcher
 import java.util.concurrent.TimeoutException
 
 fun waitTillDisplayed(id: Int, timeout: Long) = waitForView(id, isDisplayed(), timeout)

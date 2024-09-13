@@ -17,7 +17,7 @@ class BackgroundDrawableMatcher(private val backgroundId: Int) : TypeSafeMatcher
 
     override fun matchesSafely(item: View?): Boolean {
         item?.background ?: return false
-        val resources = item.getContext().getResources();
+        val resources = item.context.resources;
         val drawable = (resources.getDrawable(backgroundId, null) as GradientDrawable).color
         strokeColor = (item.background as GradientDrawable).color
         return strokeColor == drawable

@@ -14,45 +14,21 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
+import ru.vtinch.scramblegame.core.AbstractButtonUi
+import ru.vtinch.scramblegame.core.Ui
 
 class ButtonUi(
     id: Int,
     text: Int,
     containerIdMatcher: Matcher<View>,
     containerClassTypeMatcher: Matcher<View>
-) {
-
-    private val interaction: ViewInteraction = onView(
-        allOf(
-            containerIdMatcher,
-            containerClassTypeMatcher,
-            withId(id),
-            withText(text),
-            isAssignableFrom(Button::class.java)
-        )
+):AbstractButtonUi(
+    matchers = listOf(
+        withId(id),
+        withText(text),
+        isAssignableFrom(Button::class.java),
+        containerIdMatcher,
+        containerClassTypeMatcher
     )
-
-    fun assertEnabled() {
-        interaction.check(matches(isEnabled()))
-    }
-
-
-    fun assertNotEnabled() {
-        interaction.check(matches(isNotEnabled()))
-    }
-
-    fun assertInvisible() {
-        interaction.check(matches(not(isDisplayed())))
-    }
-
-
-    fun assertVisible() {
-        interaction.check(matches(isDisplayed()))
-    }
-
-    fun click() {
-        interaction.perform(androidx.test.espresso.action.ViewActions.click())
-    }
-
-
+) {
 }
