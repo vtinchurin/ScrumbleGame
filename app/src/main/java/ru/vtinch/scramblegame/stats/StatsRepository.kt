@@ -1,6 +1,6 @@
 package ru.vtinch.scramblegame.stats
 
-import ru.vtinch.scramblegame.core.IntCache
+import ru.vtinch.scramblegame.core.Cache
 
 interface StatsRepository {
 
@@ -8,9 +8,9 @@ interface StatsRepository {
     fun getScore(): Triple<Int, Int, Int>
 
     class Base(
-        private val corrects: IntCache.Mutable,
-        private val skipped: IntCache.Mutable,
-        private val incorrect: IntCache.Mutable,
+        private val corrects: Cache.Mutable<Int>,
+        private val skipped: Cache.Mutable<Int>,
+        private val incorrect: Cache.Mutable<Int>,
     ):StatsRepository{
 
         override fun clear() {

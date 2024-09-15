@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame.game
+package ru.vtinch.scramblegame.core
 
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable

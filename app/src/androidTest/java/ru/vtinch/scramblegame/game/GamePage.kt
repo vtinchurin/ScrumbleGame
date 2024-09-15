@@ -3,12 +3,14 @@ package ru.vtinch.scramblegame.game
 import android.widget.LinearLayout
 import ru.vtinch.scramblegame.R
 import ru.vtinch.scramblegame.core.AbstractPage
+import ru.vtinch.scramblegame.core.elements.ButtonUi
+import ru.vtinch.scramblegame.core.elements.GameTextUi
 
 class GamePage(
     private val word: String,
 )  : AbstractPage(containerId = R.id.rootLayout, classType = LinearLayout::class.java){
 
-    private val wordUi = WordUi(
+    private val wordUi: GameTextUi = GameTextUi(
         containerIdMatcher = containerIdMatcher,
         containerClassTypeMatcher = classTypeMatcher
     )
@@ -16,20 +18,20 @@ class GamePage(
         containerIdMatcher = containerIdMatcher,
         containerClassTypeMatcher = classTypeMatcher
     )
-    private val skipUi = ButtonUi(
+    private val skipUi: ButtonUi = ButtonUi.Base(
         id = R.id.skipButton,
         text =
         R.string.skip,
         containerIdMatcher = containerIdMatcher,
         containerClassTypeMatcher = classTypeMatcher
     )
-    private val checkUi = ButtonUi(
+    private val checkUi: ButtonUi = ButtonUi.Base(
         id = R.id.checkButton,
         text =R.string.check,
         containerIdMatcher = containerIdMatcher,
         containerClassTypeMatcher = classTypeMatcher
     )
-    private val nextUi = ButtonUi(
+    private val nextUi: ButtonUi = ButtonUi.Base(
         id = R.id.nextButton,
         text =
         R.string.next,
@@ -93,3 +95,4 @@ class GamePage(
     }
 
 }
+

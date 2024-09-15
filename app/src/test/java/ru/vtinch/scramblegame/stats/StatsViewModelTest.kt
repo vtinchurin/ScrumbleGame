@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame
+package ru.vtinch.scramblegame.stats
 
 import androidx.lifecycle.LiveData
 import org.junit.Assert.assertEquals
@@ -6,11 +6,6 @@ import org.junit.Before
 import org.junit.Test
 import ru.vtinch.scramblegame.di.ClearViewModel
 import ru.vtinch.scramblegame.di.MyViewModel
-import ru.vtinch.scramblegame.game.GameUiState
-import ru.vtinch.scramblegame.stats.StatsRepository
-import ru.vtinch.scramblegame.stats.StatsUiState
-import ru.vtinch.scramblegame.stats.StatsUiStateLiveDataWrapper
-import ru.vtinch.scramblegame.stats.StatsViewModel
 
 class StatsViewModelTest {
 
@@ -55,7 +50,7 @@ private interface FakeStatsRepository: StatsRepository{
 
     fun actualScore()
 
-    class Base():FakeStatsRepository {
+    class Base() : FakeStatsRepository {
 
         private var score:Triple<Int, Int, Int> = Triple(0,0,0)
 
@@ -79,7 +74,7 @@ private interface FakeStatsRepository: StatsRepository{
 private interface FakeStatsLiveDataWrapper:StatsUiStateLiveDataWrapper.Mutable{
 
     fun actualState(state: StatsUiState)
-    class Base:FakeStatsLiveDataWrapper{
+    class Base : FakeStatsLiveDataWrapper {
 
         private var actual: StatsUiState? = null
 

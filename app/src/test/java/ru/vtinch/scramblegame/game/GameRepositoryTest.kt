@@ -1,11 +1,9 @@
-package ru.vtinch.scramblegame
+package ru.vtinch.scramblegame.game
 
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
-import ru.vtinch.scramblegame.core.IntCache
-import ru.vtinch.scramblegame.game.GameRepository
-import ru.vtinch.scramblegame.game.Strategy
+import ru.vtinch.scramblegame.core.Cache
 
 class GameRepositoryTest {
 
@@ -15,7 +13,7 @@ class GameRepositoryTest {
     private lateinit var incorrect: FakeCache
     private lateinit var index: FakeCache
     private lateinit var strategy: Strategy
-
+    private val words = listOf("input", "world", "prediction", "snow")
 
     @Before
     fun setup(){
@@ -30,6 +28,7 @@ class GameRepositoryTest {
             corrects = correct,
             incorrect = incorrect,
             skipped = skipped,
+            words = words,
             strategy = strategy
         )
 
@@ -73,11 +72,11 @@ class GameRepositoryTest {
 
 }
 
-private interface FakeCache:IntCache.Mutable{
+private interface FakeCache : Cache.Mutable<Int> {
 
     fun assertValue(value:Int)
 
-    class Base:FakeCache {
+    class Base : FakeCache {
 
         private var current = 0
 

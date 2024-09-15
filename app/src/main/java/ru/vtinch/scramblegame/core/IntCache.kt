@@ -2,28 +2,17 @@ package ru.vtinch.scramblegame.core
 
 import android.content.SharedPreferences
 
-interface IntCache {
 
-    interface Save {
-        fun save(index: Int)
+class IntCache(
+    private val key: String,
+    private val sharedPrefs: SharedPreferences,
+    private val defaultValue: Int,
+) : Cache.Mutable<Int> {
+    override fun save(value: Int) {
+        sharedPrefs.edit().putInt(key, value).apply()
     }
 
-    interface Restore {
-        fun restore(): Int
-    }
-
-    interface Mutable : Save, Restore
-
-    class Base(
-        private val key: String,
-        private val sharedPrefs: SharedPreferences
-    ) : Mutable {
-        override fun save(index: Int) {
-            sharedPrefs.edit().putInt(key, index).apply()
-        }
-
-        override fun restore(): Int {
-            return sharedPrefs.getInt(key, 0)
-        }
+    override fun restore(): Int {
+        return sharedPrefs.getInt(key, defaultValue)
     }
 }

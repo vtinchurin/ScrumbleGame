@@ -11,24 +11,24 @@
         android:text="@string/no_connectoin"
         android:textColor="@color/red"
         android:id="@+id/error_text"
+        android:freezesText="true"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
 
-    <Button
+    <ru.vtinch.scramblegame.game.view.button.MyButton
         android:id="@+id/retry_button"
         android:text="@string/retry"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <ProgressBar
+    <ru.vtinch.scramblegame.load.view.progressView.MyProgress
         android:id="@+id/progressUi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-    </ProgressBar>
+    </ru.vtinch.scramblegame.load.view.progressView.MyProgress>
 
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame
+package ru.vtinch.scramblegame.game
 
 import androidx.lifecycle.LiveData
 import org.junit.Assert.assertEquals
@@ -6,10 +6,6 @@ import org.junit.Before
 import org.junit.Test
 import ru.vtinch.scramblegame.di.ClearViewModel
 import ru.vtinch.scramblegame.di.MyViewModel
-import ru.vtinch.scramblegame.game.GameRepository
-import ru.vtinch.scramblegame.game.GameUiState
-import ru.vtinch.scramblegame.game.GameViewModel
-import ru.vtinch.scramblegame.game.UiStateLiveDataWrapper
 
 /**
  * Example local unit test, which will execute on the development machine (host).
