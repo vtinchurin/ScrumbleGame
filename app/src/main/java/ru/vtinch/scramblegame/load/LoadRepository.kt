@@ -7,7 +7,7 @@ import java.net.URL
 
 interface LoadRepository {
 
-    fun load(resultCallback: (LoadResult) -> Unit)
+    fun load(): LoadResult
 
     class Base(
         private val gson: Gson,
@@ -15,15 +15,15 @@ interface LoadRepository {
     ) : LoadRepository {
 
         private val url: String = "https://random-word-api.vercel.app/api?words=4"
-        override fun load(resultCallback: (LoadResult) -> Unit) {
+        override fun load(): LoadResult {
             val connection = URL(url).openConnection() as HttpURLConnection
             try {
                 val data = connection.inputStream.bufferedReader().use { it.readText() }
                 val response = gson.fromJson(data, Response::class.java)
                 stringCache.save(response.toSet())
-                resultCallback.invoke(LoadResult.Success())
+                return LoadResult.Success
             } catch (e: Exception) {
-                resultCallback.invoke(LoadResult.Error())
+                return LoadResult.Error
             } finally {
                 connection.disconnect()
             }
