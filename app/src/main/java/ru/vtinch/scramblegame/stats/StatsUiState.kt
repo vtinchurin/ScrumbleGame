@@ -34,7 +34,7 @@ interface StatsUiState {
 
     object Navigate : StatsUiState {
         override fun navigate(navigate: Navigation) {
-            navigate.navigateToGame()
+            navigate.navigateToLoad()
         }
     }
 }
