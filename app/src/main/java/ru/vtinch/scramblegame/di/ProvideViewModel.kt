@@ -1,6 +1,7 @@
 package ru.vtinch.scramblegame.di
 
 import ru.vtinch.scramblegame.game.di.ProvideGameViewModel
+import ru.vtinch.scramblegame.load.di.ProvideLoadViewModel
 import ru.vtinch.scramblegame.stats.di.ProvideStatsViewModel
 
 interface ProvideViewModel {
@@ -15,6 +16,7 @@ interface ProvideViewModel {
         init {
             chain = ProvideGameViewModel(core, chain)
             chain = ProvideStatsViewModel(core, chain)
+            chain = ProvideLoadViewModel(core, chain)
         }
 
         override fun <T : MyViewModel> viewModel(viewModelClass: Class<T>): T {

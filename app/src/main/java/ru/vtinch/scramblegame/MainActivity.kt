@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(), Navigation, ProvideViewModel {
         setContentView(binding.root)
 
         if (savedInstanceState ==null)
-            navigateToGame()
+            navigateToLoad()
     }
 
     override fun navigate(screen: Screen) {

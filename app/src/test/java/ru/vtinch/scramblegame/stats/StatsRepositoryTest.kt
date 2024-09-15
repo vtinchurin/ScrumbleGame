@@ -1,10 +1,9 @@
-package ru.vtinch.scramblegame
+package ru.vtinch.scramblegame.stats
 
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
-import ru.vtinch.scramblegame.core.IntCache
-import ru.vtinch.scramblegame.stats.StatsRepository
+import ru.vtinch.scramblegame.core.Cache
 
 class StatsRepositoryTest {
     private lateinit var repository: StatsRepository
@@ -46,7 +45,7 @@ class StatsRepositoryTest {
 }
 
 
-private interface FakeIntCache : IntCache.Mutable {
+private interface FakeIntCache : Cache.Mutable<Int> {
 
     fun assertValue(value: Int)
 
@@ -58,8 +57,8 @@ private interface FakeIntCache : IntCache.Mutable {
             assertEquals(current, value)
         }
 
-        override fun save(index: Int) {
-            current = index
+        override fun save(value: Int) {
+            current = value
         }
 
         override fun restore(): Int {

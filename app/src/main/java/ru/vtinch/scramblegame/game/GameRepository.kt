@@ -1,7 +1,6 @@
 package ru.vtinch.scramblegame.game
 
-import android.util.Log
-import ru.vtinch.scramblegame.core.IntCache
+import ru.vtinch.scramblegame.core.Cache
 
 interface GameRepository {
 
@@ -14,14 +13,31 @@ interface GameRepository {
 
 
     class Base(
-        private val index: IntCache.Mutable,
-        private val corrects: IntCache.Mutable,
-        private val skipped: IntCache.Mutable,
-        private val incorrect: IntCache.Mutable,
+        private val index: Cache.Mutable<Int>,
+        private val corrects: Cache.Mutable<Int>,
+        private val skipped: Cache.Mutable<Int>,
+        private val incorrect: Cache.Mutable<Int>,
         private val strategy: Strategy,
+        private val words: List<String>,
     ) : GameRepository {
 
-        private val words = listOf("input", "world", "prediction", "snow")
+        constructor(
+            index: Cache.Mutable<Int>,
+            corrects: Cache.Mutable<Int>,
+            skipped: Cache.Mutable<Int>,
+            incorrect: Cache.Mutable<Int>,
+            dataCache: Cache.Mutable<Set<String>>,
+            strategy: Strategy,
+        ) : this(
+            index,
+            corrects,
+            skipped,
+            incorrect,
+            strategy,
+            words = dataCache.restore().toList()
+        )
+
+        //private val words = listOf("input", "world", "prediction", "snow")
 
 
         override fun getQuestion(): String {

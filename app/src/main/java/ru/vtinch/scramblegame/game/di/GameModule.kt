@@ -16,7 +16,9 @@ class GameModule(private val core: Core) : Module<GameViewModel> {
                 corrects = core.corrects,
                 incorrect = core.incorrect,
                 skipped = core.skipped,
+                dataCache = core.stringsCache,
                 strategy = core.strategy
+
             ),
             liveDataWrapper = UiStateLiveDataWrapper.Base(),
             clearViewModel = core.clearViewModel
