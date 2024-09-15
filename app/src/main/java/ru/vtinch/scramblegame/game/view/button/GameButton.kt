@@ -9,7 +9,7 @@ interface GameButton : CustomView.UpdateVisibility, CustomView.UpdateDisabled {
     abstract class Abstract(
         private val visibility: Int,
         private val isEnabled: Boolean,
-    ) : CustomViewUi.CastTo.Abstract<GameButton>() {
+    ) : CustomViewUi.CastTo<GameButton>() {
 
         override val callback:(GameButton)->Unit ={
             it.update(visibility)

@@ -37,8 +37,6 @@ abstract class AbstractMaterialButton : MaterialButton, MutableView {
         this.isEnabled = isEnabled
     }
 
-    override fun update(data: Triple<Int, Int, Int>) = Unit
-
     override fun onSaveInstanceState(): Parcelable {
         super.onSaveInstanceState().let {
             val savedState = CustomSavedState(it)

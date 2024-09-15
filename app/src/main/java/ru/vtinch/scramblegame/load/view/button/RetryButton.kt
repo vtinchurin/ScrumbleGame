@@ -8,7 +8,7 @@ interface RetryButton : CustomView.UpdateVisibility {
 
     abstract class Abstract(
         private val visibility: Int,
-    ) : CustomViewUi.CastTo.Abstract<RetryButton>() {
+    ) : CustomViewUi.CastTo<RetryButton>() {
 
         override val callback: (RetryButton) -> Unit = {
             it.update(visibility)

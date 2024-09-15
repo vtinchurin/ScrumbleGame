@@ -4,18 +4,16 @@ import java.io.Serializable
 
 interface CustomViewUi : Serializable {
 
-    fun <T : CustomView> update(button: T)
+    fun update(button: CustomView)
 
-    interface CastTo<K : CustomView> : CustomViewUi {
-
-        abstract class Abstract<K : CustomView> : CastTo<K> {
+    abstract class CastTo<K : CustomView> : CustomViewUi {
 
             abstract val callback: (K) -> Unit
 
-            override fun <T : CustomView> update(button: T) {
+        override fun update(button: CustomView) {
                 callback.invoke(button as K)
             }
         }
     }
-}
+
 
