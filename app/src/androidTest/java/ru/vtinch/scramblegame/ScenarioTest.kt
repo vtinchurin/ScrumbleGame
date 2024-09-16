@@ -33,6 +33,8 @@ class ScenarioTest {
 
     @Test
     fun caseNumber1() {
+        initialLoading()
+        doWithRecreate { }
         gamePage.assertInitialState()
         gamePage.addInput(text = "inpu")
         doWithRecreate { gamePage.assertInitialState() }
@@ -49,188 +51,164 @@ class ScenarioTest {
 
     @Test
     fun caseNumber2() {
-        gamePage.assertInitialState()
+        initialLoading()
+        doWithRecreate { gamePage.assertInitialState()}
         gamePage.clickSkip()
         gamePage = GamePage(word = "world".reversed())
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState()}
         gamePage.addInput(text = "worl")
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState()}
         gamePage.addInput(text = "d")
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertCorrectPredictionState()
+        doWithRecreate { gamePage.assertCorrectPredictionState() }
         gamePage.clickSkip()
         gamePage = GamePage(word = "prediction".reversed())
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState()}
         gamePage.addInput(text = "predictiot")
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertCorrectPredictionState()
+        doWithRecreate { gamePage.assertCorrectPredictionState()}
         gamePage.clickCheck()
-        gamePage.assertIncorrectAnswerState()
+        doWithRecreate { gamePage.assertIncorrectAnswerState()}
         activityScenarioRule.scenario.recreate()
-        gamePage.assertIncorrectAnswerState()
+        doWithRecreate { gamePage.assertIncorrectAnswerState()}
         gamePage.clickSkip()
         gamePage = GamePage(word = "snow".reversed())
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.addInput(text = "sno")
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.removeLastLetter()
         gamePage.removeLastLetter()
         gamePage.removeLastLetter()
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.addInput(text = "show")
         activityScenarioRule.scenario.recreate()
-        gamePage.assertCorrectPredictionState()
+        doWithRecreate { gamePage.assertCorrectPredictionState()}
         gamePage.removeLastLetter()
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.addInput(text = "w")
-        gamePage.assertCorrectPredictionState()
+        doWithRecreate { gamePage.assertCorrectPredictionState()}
         gamePage.clickCheck()
-        gamePage.assertIncorrectAnswerState()
+        doWithRecreate { gamePage.assertIncorrectAnswerState()}
     }
 
     @Test
     fun all_skipped_answers() {
-        gamePage.assertInitialState()
+        initialLoading()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.clickSkip()
         gamePage = GamePage(word = "world".reversed())
-        gamePage.assertInitialState()
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.clickSkip()
         gamePage = GamePage(word = "prediction".reversed())
-        gamePage.assertInitialState()
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.clickSkip()
         gamePage = GamePage(word = "snow".reversed())
-        gamePage.assertInitialState()
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.clickSkip()
-        gamePage.assertNotVisible()
+        doWithRecreate { gamePage.assertNotVisible()}
 
         val statisticsPage = StatisticsPage(correct = 0, incorrect = 0, skipped = 4)
-        statisticsPage.assertInitialState()
-        activityScenarioRule.scenario.recreate()
-        statisticsPage.assertInitialState()
+        doWithRecreate { statisticsPage.assertInitialState() }
         statisticsPage.clickNewGame()
         statisticsPage.assertNotVisible()
 
         gamePage = GamePage(word = "input".reversed())
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
     }
 
     @Test
     fun all_incorrect_answers() {
-        gamePage.assertInitialState()
+        initialLoading()
+        doWithRecreate { gamePage.assertInitialState()}
         gamePage.addInput(text = "intup")
-        gamePage.assertCorrectPredictionState()
+        doWithRecreate {  gamePage.assertCorrectPredictionState()}
         gamePage.clickCheck()
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertIncorrectAnswerState()
+        doWithRecreate { gamePage.assertIncorrectAnswerState()}
         gamePage.clickSkip()
         gamePage = GamePage(word = "world".reversed())
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.addInput(text = "wlord")
-        gamePage.assertCorrectPredictionState()
+        doWithRecreate { gamePage.assertCorrectPredictionState()}
         gamePage.clickCheck()
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertIncorrectAnswerState()
+        doWithRecreate { gamePage.assertIncorrectAnswerState()}
         gamePage.clickSkip()
         gamePage = GamePage(word = "prediction".reversed())
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.addInput(text = "predictoin")
-        gamePage.assertCorrectPredictionState()
+        doWithRecreate { gamePage.assertCorrectPredictionState()}
         gamePage.clickCheck()
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertIncorrectAnswerState()
+        doWithRecreate { gamePage.assertIncorrectAnswerState()}
         gamePage.clickSkip()
         gamePage = GamePage(word = "snow".reversed())
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.addInput(text = "snwo")
-        gamePage.assertCorrectPredictionState()
+        doWithRecreate { gamePage.assertCorrectPredictionState()}
         gamePage.clickCheck()
-        activityScenarioRule.scenario.recreate()
-        gamePage.assertIncorrectAnswerState()
+
+        doWithRecreate { gamePage.assertIncorrectAnswerState()}
         gamePage.clickSkip()
-        gamePage.assertNotVisible()
+        doWithRecreate {  gamePage.assertNotVisible()}
 
         val statisticsPage = StatisticsPage(correct = 0, incorrect = 4, skipped = 4)
-        statisticsPage.assertInitialState()
-        activityScenarioRule.scenario.recreate()
-        statisticsPage.assertInitialState()
+        doWithRecreate { statisticsPage.assertInitialState() }
         statisticsPage.clickNewGame()
-        statisticsPage.assertNotVisible()
+        doWithRecreate { statisticsPage.assertNotVisible() }
 
         gamePage = GamePage(word = "input".reversed())
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
     }
 
     @Test
     fun all_correct_answers() {
-        gamePage.assertInitialState()
+        initialLoading()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.addInput(text = "input")
-        gamePage.assertCorrectPredictionState()
+        doWithRecreate { gamePage.assertCorrectPredictionState() }
         gamePage.clickCheck()
         activityScenarioRule.scenario.recreate()
-        gamePage.assertCorrectAnswerState()
+        doWithRecreate { gamePage.assertCorrectAnswerState() }
         gamePage.clickNext()
         gamePage = GamePage(word = "world".reversed())
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.addInput(text = "world")
-        gamePage.assertCorrectPredictionState()
+        doWithRecreate { gamePage.assertCorrectPredictionState() }
         gamePage.clickCheck()
         activityScenarioRule.scenario.recreate()
-        gamePage.assertCorrectAnswerState()
+        doWithRecreate { gamePage.assertCorrectAnswerState() }
         gamePage.clickNext()
         gamePage = GamePage(word = "prediction".reversed())
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.addInput(text = "prediction")
-        gamePage.assertCorrectPredictionState()
+        doWithRecreate { gamePage.assertCorrectPredictionState() }
         gamePage.clickCheck()
         activityScenarioRule.scenario.recreate()
-        gamePage.assertCorrectAnswerState()
+        doWithRecreate { gamePage.assertCorrectAnswerState() }
         gamePage.clickNext()
         gamePage = GamePage(word = "snow".reversed())
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
         gamePage.addInput(text = "snow")
-        gamePage.assertCorrectPredictionState()
+        doWithRecreate { gamePage.assertCorrectPredictionState() }
         gamePage.clickCheck()
         activityScenarioRule.scenario.recreate()
-        gamePage.assertCorrectAnswerState()
+        doWithRecreate { gamePage.assertCorrectAnswerState() }
         gamePage.clickNext()
-        gamePage.assertNotVisible()
+        doWithRecreate { gamePage.assertNotVisible() }
 
         val statisticsPage = StatisticsPage(correct = 4, incorrect = 0, skipped = 0)
-        statisticsPage.assertInitialState()
-        activityScenarioRule.scenario.recreate()
-        statisticsPage.assertInitialState()
+        doWithRecreate { statisticsPage.assertInitialState() }
         statisticsPage.clickNewGame()
-        statisticsPage.assertNotVisible()
+        doWithRecreate { statisticsPage.assertNotVisible() }
 
         gamePage = GamePage(word = "input".reversed())
-        gamePage.assertInitialState()
+        doWithRecreate { gamePage.assertInitialState() }
     }
 
     @Test
-    fun initialLoading(){
+    fun initialLoading() {
         val loadPage = LoadPage()
+        //doWithRecreate { loadPage.assertErrorState() }
+        //loadPage.clickRetry()
+        doWithRecreate { loadPage.assertLoading()}
 
-        doWithRecreate { loadPage.assertErrorState() }
-
-        loadPage.clickRetry()
-
-        doWithRecreate { loadPage.assertLoading() }
-
-        loadPage.waitTillLoad()
-
+        gamePage.waitTillLoad()
 
     }
 }

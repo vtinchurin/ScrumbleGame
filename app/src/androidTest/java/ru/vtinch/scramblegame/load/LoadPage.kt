@@ -1,7 +1,10 @@
 package ru.vtinch.scramblegame.load
 
 import android.widget.LinearLayout
-import ru.easycode.zerotoheroandroidtdd.waitTillDisplayed
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Root
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
+import ru.vtinch.scramblegame.core.waitTillDisplayed
 import ru.vtinch.scramblegame.R
 import ru.vtinch.scramblegame.core.AbstractPage
 import ru.vtinch.scramblegame.core.elements.ButtonUi
@@ -46,13 +49,5 @@ class LoadPage : AbstractPage(
         errorUi.assertNotVisible()
         retryUi.assertNotVisible()
     }
-
-    fun waitTillLoad() {
-        waitTillDisplayed(R.id.progressUi,3000)
-    }
-
-
-
-
 
 }

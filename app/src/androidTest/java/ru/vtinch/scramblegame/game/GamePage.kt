@@ -1,10 +1,13 @@
 package ru.vtinch.scramblegame.game
 
 import android.widget.LinearLayout
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import ru.vtinch.scramblegame.R
 import ru.vtinch.scramblegame.core.AbstractPage
 import ru.vtinch.scramblegame.core.elements.ButtonUi
 import ru.vtinch.scramblegame.core.elements.GameTextUi
+import ru.vtinch.scramblegame.core.waitTillDisplayed
 
 class GamePage(
     private val word: String,
@@ -93,6 +96,8 @@ class GamePage(
     fun assertNotVisible() {
         wordUi.doesNotExist()
     }
-
+    fun waitTillLoad() {
+        onView(isRoot()).perform(waitTillDisplayed(R.id.answerText,5000))
+    }
 }
 

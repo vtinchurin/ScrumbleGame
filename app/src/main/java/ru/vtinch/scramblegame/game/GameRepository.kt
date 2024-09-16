@@ -1,6 +1,6 @@
 package ru.vtinch.scramblegame.game
 
-import ru.vtinch.scramblegame.core.Cache
+import ru.vtinch.scramblegame.core.cache.Cache
 
 interface GameRepository {
 
