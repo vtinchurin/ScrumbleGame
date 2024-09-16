@@ -7,7 +7,6 @@ interface MyViewModel {
 
     abstract class AbstractViewModel : MyViewModel {
 
-
         protected fun <T : Any> handleAsync(
             heavyOperation: () -> T,
             uiUpdate: (T) -> Unit
@@ -18,8 +17,6 @@ interface MyViewModel {
                     uiUpdate.invoke(result)
                 }
             }.start()
-
-
         }
     }
 }

@@ -17,8 +17,8 @@ class GameModule(private val core: Core) : Module<GameViewModel> {
                 corrects = core.corrects,
                 incorrect = core.incorrect,
                 skipped = core.skipped,
-                //dataCache = core.stringsCache,
-                words = listOf("input", "world", "prediction", "snow"),
+                dataCache = core.stringsCache,
+                //words = listOf("input", "world", "prediction", "snow"),
                 strategy = core.strategy
 
             ),

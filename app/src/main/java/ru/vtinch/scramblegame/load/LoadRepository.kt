@@ -14,7 +14,7 @@ interface LoadRepository {
         private val stringCache: Cache.Mutable<Set<String>>,
     ) : LoadRepository {
 
-        private val url: String = "https://random-word-api.vercel.app/api?words=4"
+        private val url: String = "https://random-word-api.vercel.app/api?words=10"
         override fun load(): LoadResult {
             val connection = URL(url).openConnection() as HttpURLConnection
             try {
