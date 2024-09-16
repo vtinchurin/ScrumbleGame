@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame.core
+package ru.vtinch.scramblegame.core.cache
 
 interface Cache {
 

@@ -5,7 +5,7 @@ import ru.vtinch.scramblegame.di.Core
 import ru.vtinch.scramblegame.di.Module
 import ru.vtinch.scramblegame.load.LoadRepository
 import ru.vtinch.scramblegame.load.LoadViewModel
-import ru.vtinch.scramblegame.load.UiObservable
+import ru.vtinch.scramblegame.core.customLiveData.UiObservable
 
 class LoadModule(
     private val core: Core
@@ -16,7 +16,7 @@ class LoadModule(
                 Gson(),
                 stringCache = core.stringsCache,
             ),
-            observable = UiObservable.Base()
+            observable = UiObservable.Single()
         )
     }
 }

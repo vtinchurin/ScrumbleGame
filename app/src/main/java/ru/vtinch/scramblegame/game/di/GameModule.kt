@@ -4,6 +4,7 @@ import ru.vtinch.scramblegame.di.Core
 import ru.vtinch.scramblegame.di.Module
 import ru.vtinch.scramblegame.game.GameRepository
 import ru.vtinch.scramblegame.game.GameViewModel
+import ru.vtinch.scramblegame.game.Strategy
 import ru.vtinch.scramblegame.game.UiStateLiveDataWrapper
 
 class GameModule(private val core: Core) : Module<GameViewModel> {
@@ -16,7 +17,8 @@ class GameModule(private val core: Core) : Module<GameViewModel> {
                 corrects = core.corrects,
                 incorrect = core.incorrect,
                 skipped = core.skipped,
-                dataCache = core.stringsCache,
+                //dataCache = core.stringsCache,
+                words = listOf("input", "world", "prediction", "snow"),
                 strategy = core.strategy
 
             ),

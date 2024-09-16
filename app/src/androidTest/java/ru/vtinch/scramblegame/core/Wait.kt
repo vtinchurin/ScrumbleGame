@@ -1,12 +1,14 @@
-package ru.easycode.zerotoheroandroidtdd
+package ru.vtinch.scramblegame.core
 
 import android.view.View
 import androidx.test.espresso.PerformException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.util.HumanReadables
+import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
 import java.util.concurrent.TimeoutException
 

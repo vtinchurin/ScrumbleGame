@@ -1,7 +1,7 @@
 package ru.vtinch.scramblegame.load
 
 import com.google.gson.Gson
-import ru.vtinch.scramblegame.core.Cache
+import ru.vtinch.scramblegame.core.cache.Cache
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -31,4 +31,4 @@ interface LoadRepository {
     }
 }
 
-class Response : ArrayList<String>()
+

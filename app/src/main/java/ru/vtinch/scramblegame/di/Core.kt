@@ -1,8 +1,8 @@
 package ru.vtinch.scramblegame.di
 
 import android.content.SharedPreferences
-import ru.vtinch.scramblegame.core.IntCache
-import ru.vtinch.scramblegame.core.StringSetCache
+import ru.vtinch.scramblegame.core.cache.IntCache
+import ru.vtinch.scramblegame.core.cache.StringSetCache
 import ru.vtinch.scramblegame.game.Strategy
 
 class Core(
@@ -14,5 +14,5 @@ class Core(
     val skipped = IntCache("skipped", sharedPreferences, defaultValue = 0)
     val incorrect = IntCache("incorrect", sharedPreferences, defaultValue = 0)
     val stringsCache = StringSetCache("words", sharedPreferences, defaultValue = emptySet())
-    val strategy = Strategy.Test()
+    val strategy = Strategy.Game
 }

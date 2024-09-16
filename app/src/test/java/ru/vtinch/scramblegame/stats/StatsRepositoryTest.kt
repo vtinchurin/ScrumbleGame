@@ -3,7 +3,7 @@ package ru.vtinch.scramblegame.stats
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
-import ru.vtinch.scramblegame.core.Cache
+import ru.vtinch.scramblegame.core.cache.Cache
 
 class StatsRepositoryTest {
     private lateinit var repository: StatsRepository

@@ -49,7 +49,7 @@ interface LoadUiState {
         }
     }
 
-    object Navigate : LoadUiState {
+    object Success : LoadUiState {
         override fun navigate(navigate: NavigateToGame) {
             navigate.navigateToGame()
         }

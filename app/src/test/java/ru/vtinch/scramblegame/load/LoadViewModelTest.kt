@@ -2,20 +2,22 @@ package ru.vtinch.scramblegame.load
 
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
+import ru.vtinch.scramblegame.core.customLiveData.UiObservable
+import ru.vtinch.scramblegame.core.customLiveData.UiObserver
 
 class LoadViewModelTest {
 
     @Test
     fun sameFragment() {
         val repository = FakeLoadRepository.Base()
-        val observable = UiObservable.Base()
+        val observable = UiObservable.Single<LoadUiState>()
         val viewModel = LoadViewModel(
             repository = repository,
             observable = observable
         )
         val fragment = LoadFragment()
 
-        repository.expectedResult(LoadResult.Success())
+        repository.expectedResult(LoadResult.Success)
         viewModel.load(isFirstRun = true)
         assertEquals(1, repository.loadCalledCount)
         viewModel.startUpdate(observer = fragment)
@@ -23,20 +25,20 @@ class LoadViewModelTest {
         assertEquals(1, fragment.statesList.size)
 
         repository.returnResult()
-        assertEquals(LoadUiState.Navigate, fragment.statesList.last())
+        assertEquals(LoadUiState.Success, fragment.statesList.last())
     }
 
     @Test
     fun case2() {
         val repository = FakeLoadRepository.Base()
-        val observable = UiObservable.Base()
+        val observable = UiObservable.Single<LoadUiState>()
         val viewModel = LoadViewModel(
             repository = repository,
             observable = observable
         )
         val fragment = LoadFragment()
 
-        repository.expectedResult(LoadResult.Error())
+        repository.expectedResult(LoadResult.Error)
         viewModel.load(isFirstRun = true)
         assertEquals(1, repository.loadCalledCount)
         viewModel.startUpdate(observer = fragment)
@@ -59,12 +61,11 @@ class LoadViewModelTest {
     }
 }
 
-private class LoadFragment : (LoadUiState) -> Unit {
+private class LoadFragment : UiObserver<LoadUiState> {
     val statesList = mutableListOf<LoadUiState>()
-    override fun invoke(p1: LoadUiState) {
-        statesList.add(p1)
+    override fun updateUi(data: LoadUiState) {
+        statesList.add(data)
     }
-
 }
 
 private interface FakeLoadRepository : LoadRepository {
@@ -80,9 +81,10 @@ private interface FakeLoadRepository : LoadRepository {
         }
 
         var loadCalledCount = 0
-        override fun load(resultCallback: (LoadResult) -> Unit) {
-            loadResultCallback = resultCallback
-            loadCalledCount++
+        override fun load(): LoadResult {
+            loadCalledCount +=1
+            return loadResult!!
+
         }
 
         fun returnResult() {

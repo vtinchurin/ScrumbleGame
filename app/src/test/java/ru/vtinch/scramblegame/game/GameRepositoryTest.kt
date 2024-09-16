@@ -3,7 +3,7 @@ package ru.vtinch.scramblegame.game
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
-import ru.vtinch.scramblegame.core.Cache
+import ru.vtinch.scramblegame.core.cache.Cache
 
 class GameRepositoryTest {
 
@@ -22,7 +22,7 @@ class GameRepositoryTest {
         skipped = FakeCache.Base()
         incorrect = FakeCache.Base()
         index = FakeCache.Base()
-        strategy = Strategy.Test()
+        strategy = Strategy.Test
         repository = GameRepository.Base(
             index = index,
             corrects = correct,
@@ -84,8 +84,8 @@ private interface FakeCache : Cache.Mutable<Int> {
             assertEquals(current,value)
         }
 
-        override fun save(index: Int) {
-            current=index
+        override fun save(value: Int) {
+            current=value
         }
 
         override fun restore(): Int {
