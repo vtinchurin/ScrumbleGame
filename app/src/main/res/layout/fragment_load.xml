@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         />
 
-    <ru.vtinch.scramblegame.game.view.button.MyButton
+    <ru.vtinch.scramblegame.load.view.button.CustomRetryButton
         android:id="@+id/retry_button"
         android:text="@string/retry"
         android:layout_width="wrap_content"
