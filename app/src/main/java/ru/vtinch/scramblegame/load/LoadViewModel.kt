@@ -9,7 +9,7 @@ class LoadViewModel(
     private val observable: UiObservable<LoadUiState>,
 ) : MyViewModel.AbstractViewModel() {
 
-    fun load(isFirstRun: Boolean = false){
+    fun load(isFirstRun: Boolean = true){
         if (isFirstRun) {
          observable.updateUi(LoadUiState.Progress)
             handleAsync({
