@@ -6,6 +6,7 @@ import ru.vtinch.scramblegame.game.view.input.CustomInput
 import ru.vtinch.scramblegame.game.view.input.InputState
 import ru.vtinch.scramblegame.game.view.questionTextView.QuestionText
 import ru.vtinch.scramblegame.game.view.questionTextView.TextUiState
+import ru.vtinch.scramblegame.presentation_core.CustomView
 import ru.vtinch.scramblegame.presentation_core.CustomViewUi
 
 interface GameUiState {
@@ -13,9 +14,9 @@ interface GameUiState {
     fun show(
         text: QuestionText,
         userInput: CustomInput,
-        skip: GameButton,
-        next: GameButton,
-        check: GameButton,
+        skip: CustomView,
+        next: CustomView,
+        check: CustomView,
     ) = Unit
 
     fun navigate(navigate: Navigation) = Unit
@@ -26,9 +27,9 @@ interface GameUiState {
         override fun show(
             text: QuestionText,
             userInput: CustomInput,
-            skip: GameButton,
-            next: GameButton,
-            check: GameButton,
+            skip: CustomView,
+            next: CustomView,
+            check: CustomView,
         ) {
             check.update(checkState)
         }
@@ -40,9 +41,9 @@ interface GameUiState {
         override fun show(
             text: QuestionText,
             userInput: CustomInput,
-            skip: GameButton,
-            next: GameButton,
-            check: GameButton,
+            skip: CustomView,
+            next: CustomView,
+            check: CustomView,
         ) {
             super.show(text, userInput, skip, next, check)
             text.update(TextUiState.Initial(question))
@@ -58,9 +59,9 @@ interface GameUiState {
         override fun show(
             text: QuestionText,
             userInput: CustomInput,
-            skip: GameButton,
-            next: GameButton,
-            check: GameButton,
+            skip: CustomView,
+            next: CustomView,
+            check: CustomView,
         ) {
             super.show(text, userInput, skip, next, check)
         }
@@ -71,9 +72,9 @@ interface GameUiState {
         override fun show(
             text: QuestionText,
             userInput: CustomInput,
-            skip: GameButton,
-            next: GameButton,
-            check: GameButton,
+            skip: CustomView,
+            next: CustomView,
+            check: CustomView,
         ) {
             super.show(text, userInput, skip, next, check)
         }
@@ -85,9 +86,9 @@ interface GameUiState {
         override fun show(
             text: QuestionText,
             userInput: CustomInput,
-            skip: GameButton,
-            next: GameButton,
-            check: GameButton,
+            skip: CustomView,
+            next: CustomView,
+            check: CustomView,
         ) {
             super.show(text, userInput, skip, next, check)
             text.update(TextUiState.Correct(answer))
@@ -101,9 +102,9 @@ interface GameUiState {
         override fun show(
             text: QuestionText,
             userInput: CustomInput,
-            skip: GameButton,
-            next: GameButton,
-            check: GameButton,
+            skip: CustomView,
+            next: CustomView,
+            check: CustomView,
         ) {
             super.show(text, userInput, skip, next, check)
             text.update(TextUiState.Incorrect)
