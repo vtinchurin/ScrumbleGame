@@ -12,5 +12,4 @@ class CustomGameButton : AbstractMaterialButton, GameButton {
         attrs,
         defStyleAttr
     )
-
 }

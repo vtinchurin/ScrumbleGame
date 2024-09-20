@@ -13,7 +13,7 @@ interface TextUiState: Serializable {
 
         override fun update(textUiState: QuestionText) {
             textUiState.setText(text)
-
+            textUiState.setBg(bgResId)
         }
     }
 

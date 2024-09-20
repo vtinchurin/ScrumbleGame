@@ -20,7 +20,6 @@ abstract class AbstractMaterialButton : MaterialButton, MutableView {
         defStyleAttr
     )
 
-
     override fun update(text: String) {
         this.text = text
     }
@@ -37,6 +36,8 @@ abstract class AbstractMaterialButton : MaterialButton, MutableView {
     override fun update(isEnabled: Boolean) {
         this.isEnabled = isEnabled
     }
+
+    override fun update(data: Triple<Int, Int, Int>) = Unit
 
     override fun onSaveInstanceState(): Parcelable {
         super.onSaveInstanceState().let {
