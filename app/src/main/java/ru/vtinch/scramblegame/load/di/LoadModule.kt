@@ -1,11 +1,12 @@
 package ru.vtinch.scramblegame.load.di
 
 import com.google.gson.Gson
+import ru.vtinch.scramblegame.core.RunAsync
+import ru.vtinch.scramblegame.core.customLiveData.UiObservable
 import ru.vtinch.scramblegame.di.Core
 import ru.vtinch.scramblegame.di.Module
 import ru.vtinch.scramblegame.load.LoadRepository
 import ru.vtinch.scramblegame.load.LoadViewModel
-import ru.vtinch.scramblegame.core.customLiveData.UiObservable
 
 class LoadModule(
     private val core: Core
@@ -16,7 +17,8 @@ class LoadModule(
                 Gson(),
                 stringCache = core.stringsCache,
             ),
-            observable = UiObservable.Single()
+            observable = UiObservable.Single(),
+            runAsync = RunAsync.Base()
         )
     }
 }

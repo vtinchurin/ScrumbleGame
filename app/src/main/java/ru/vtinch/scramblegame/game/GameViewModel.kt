@@ -13,7 +13,7 @@ class GameViewModel(
     private val liveDataWrapper: UiStateLiveDataWrapper.Mutable,
     private val gameRepository: GameRepository,
     private val clearViewModel: ClearViewModel,
-) : MyViewModel.AbstractViewModel(), UiStateLiveDataWrapper.Read {
+) : MyViewModel, UiStateLiveDataWrapper.Read {
 
     init {
         //Log.d("vm","create Game VM")

@@ -1,5 +1,6 @@
 package ru.vtinch.scramblegame.load
 
+import ru.vtinch.scramblegame.core.RunAsync
 import ru.vtinch.scramblegame.core.customLiveData.UiObservable
 import ru.vtinch.scramblegame.core.customLiveData.UiObserver
 import ru.vtinch.scramblegame.di.MyViewModel
@@ -7,12 +8,13 @@ import ru.vtinch.scramblegame.di.MyViewModel
 class LoadViewModel(
     private val repository: LoadRepository,
     private val observable: UiObservable<LoadUiState>,
-) : MyViewModel.AbstractViewModel() {
+    private val runAsync: RunAsync
+) : MyViewModel {
 
     fun load(isFirstRun: Boolean = true){
         if (isFirstRun) {
          observable.updateUi(LoadUiState.Progress)
-            handleAsync({
+            runAsync.handleAsync({
                 val result = repository.load()
                 if (result == LoadResult.Success) {
                     LoadUiState.Success

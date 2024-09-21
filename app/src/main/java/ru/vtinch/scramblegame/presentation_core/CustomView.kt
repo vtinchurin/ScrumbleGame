@@ -23,18 +23,19 @@ interface CustomView {
     }
 
     /**
-     * Mutable Interface for Abstract View as Template for own CV
+     * Interface for Abstract View as Template for own CV
      */
 
-    interface Mutable : UpdateVisibility, UpdateDisabled, UpdateText
+    interface Common : UpdateVisibility, UpdateDisabled, UpdateText
 
     /**
-     * Special things
+     * Special
      */
 
-    interface SetStatistic:CustomView{
-        fun update(data:Triple<Int,Int,Int>)
+    interface SetStatistic : CustomView {
+        fun update(data: Triple<Int, Int, Int>)
     }
+
     interface SetBackground : CustomView {
         fun updateBgRes(@DrawableRes resId: Int)
     }

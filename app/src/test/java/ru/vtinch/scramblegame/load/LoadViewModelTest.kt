@@ -1,58 +1,62 @@
 package ru.vtinch.scramblegame.load
 
 import junit.framework.TestCase.assertEquals
+import org.junit.Before
 import org.junit.Test
+import ru.vtinch.scramblegame.core.RunAsync
 import ru.vtinch.scramblegame.core.customLiveData.UiObservable
 import ru.vtinch.scramblegame.core.customLiveData.UiObserver
 
 class LoadViewModelTest {
 
+    private lateinit var repository: FakeLoadRepository
+    private lateinit var observable: UiObservable.Single<LoadUiState>
+    private lateinit var viewModel: LoadViewModel
+    private lateinit var fragment: LoadFragment
+    private lateinit var runAsync: FakeRunAsync
+
+    @Before
+    fun setup() {
+        repository = FakeLoadRepository.Base()
+        observable = UiObservable.Single()
+        runAsync = FakeRunAsync.Base()
+        viewModel = LoadViewModel(
+            repository = repository,
+            observable = observable,
+            runAsync = runAsync
+        )
+        fragment = LoadFragment()
+    }
     @Test
     fun sameFragment() {
-        val repository = FakeLoadRepository.Base()
-        val observable = UiObservable.Single<LoadUiState>()
-        val viewModel = LoadViewModel(
-            repository = repository,
-            observable = observable
-        )
-        val fragment = LoadFragment()
-
         repository.expectedResult(LoadResult.Success)
         viewModel.load(isFirstRun = true)
-        assertEquals(1, repository.loadCalledCount)
+        assertEquals(1, repository.loadCalledCount())
         viewModel.startUpdate(observer = fragment)
         assertEquals(LoadUiState.Progress, fragment.statesList.first())
         assertEquals(1, fragment.statesList.size)
 
-        repository.returnResult()
+        runAsync.returnResult()
         assertEquals(LoadUiState.Success, fragment.statesList.last())
     }
 
     @Test
     fun case2() {
-        val repository = FakeLoadRepository.Base()
-        val observable = UiObservable.Single<LoadUiState>()
-        val viewModel = LoadViewModel(
-            repository = repository,
-            observable = observable
-        )
-        val fragment = LoadFragment()
-
         repository.expectedResult(LoadResult.Error)
         viewModel.load(isFirstRun = true)
-        assertEquals(1, repository.loadCalledCount)
+        assertEquals(1, repository.loadCalledCount())
         viewModel.startUpdate(observer = fragment)
         assertEquals(LoadUiState.Progress, fragment.statesList.first())
         assertEquals(1, fragment.statesList.size)
 
         viewModel.stopUpdate()
 
-        repository.returnResult()
+        runAsync.returnResult()
         assertEquals(1, fragment.statesList.size)
 
         val newFragment = LoadFragment()
         viewModel.load(isFirstRun = false)
-        assertEquals(1, repository.loadCalledCount)
+        assertEquals(1, repository.loadCalledCount())
         viewModel.startUpdate(observer = newFragment)
 
         assertEquals(LoadUiState.Error, newFragment.statesList.last())
@@ -71,25 +75,48 @@ private class LoadFragment : UiObserver<LoadUiState> {
 private interface FakeLoadRepository : LoadRepository {
 
     fun expectedResult(loadResult: LoadResult)
+    fun loadCalledCount(): Int
 
     class Base : FakeLoadRepository {
 
         private var loadResult: LoadResult? = null
-        private var loadResultCallback: (LoadResult) -> Unit = {}
+        private var loadCalledCount = 0
+
         override fun expectedResult(loadResult: LoadResult) {
             this.loadResult = loadResult
         }
 
-        var loadCalledCount = 0
+        override fun loadCalledCount(): Int {
+            return loadCalledCount
+        }
         override fun load(): LoadResult {
             loadCalledCount +=1
             return loadResult!!
 
         }
 
-        fun returnResult() {
-            loadResultCallback.invoke(loadResult!!)
-        }
     }
 
+}
+
+private interface FakeRunAsync : RunAsync {
+    fun returnResult()
+
+    class Base : FakeRunAsync {
+
+        private lateinit var result: Any
+        private var cached: (Any) -> Unit = {}
+
+        override fun <T : Any> handleAsync(
+            heavyOperation: () -> T,
+            uiUpdate: (T) -> Unit
+        ) {
+            result = heavyOperation.invoke()
+            cached = uiUpdate as (Any) -> Unit
+        }
+
+        override fun returnResult() {
+            cached.invoke(result)
+        }
+    }
 }

@@ -1,13 +1,14 @@
-package ru.vtinch.scramblegame.presentation_core.textView
+package ru.vtinch.scramblegame.presentation_core.button
 
 import android.content.Context
 import android.os.Parcelable
 import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatButton
 import ru.vtinch.scramblegame.presentation_core.CustomSavedState
 import ru.vtinch.scramblegame.presentation_core.CustomView
 import ru.vtinch.scramblegame.presentation_core.CustomViewState
 
-abstract class AbstractTextView : androidx.appcompat.widget.AppCompatTextView, CustomView.Common {
+abstract class AbstractAppCompatButton : AppCompatButton, CustomView.Common {
 
     private lateinit var state: CustomViewState
 
@@ -18,6 +19,10 @@ abstract class AbstractTextView : androidx.appcompat.widget.AppCompatTextView, C
         attrs,
         defStyleAttr
     )
+
+    override fun update(text: String) {
+        this.text = text
+    }
 
     override fun update(state: CustomViewState) {
         this.state = state
@@ -30,10 +35,6 @@ abstract class AbstractTextView : androidx.appcompat.widget.AppCompatTextView, C
 
     override fun update(isEnabled: Boolean) {
         this.isEnabled = isEnabled
-    }
-
-    override fun update(text: String) {
-        this.text = text
     }
 
     override fun onSaveInstanceState(): Parcelable? {

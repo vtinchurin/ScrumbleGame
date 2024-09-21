@@ -8,12 +8,12 @@ interface CustomViewState : Serializable {
 
     abstract class CastTo<K : CustomView> : CustomViewState {
 
-            abstract val callback: (K) -> Unit
+        abstract val callback: (K) -> Unit
 
         override fun update(button: CustomView) {
-                callback.invoke(button as K)
-            }
+            callback.invoke(button as K)
         }
     }
+}
 
 

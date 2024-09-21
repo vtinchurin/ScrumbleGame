@@ -5,6 +5,7 @@ import ru.vtinch.scramblegame.presentation_core.CustomView
 import ru.vtinch.scramblegame.presentation_core.CustomViewState
 
 interface QuestionText : CustomView.UpdateText, CustomView.SetBackground {
+
     abstract class Abstract(
         private val text: String,
         protected val resId: Int,

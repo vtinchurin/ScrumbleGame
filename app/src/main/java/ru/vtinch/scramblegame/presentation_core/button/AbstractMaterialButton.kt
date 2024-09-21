@@ -8,7 +8,7 @@ import ru.vtinch.scramblegame.presentation_core.CustomSavedState
 import ru.vtinch.scramblegame.presentation_core.CustomView
 import ru.vtinch.scramblegame.presentation_core.CustomViewState
 
-abstract class AbstractMaterialButton : MaterialButton, CustomView.Mutable {
+abstract class AbstractMaterialButton : MaterialButton, CustomView.Common {
 
     private lateinit var state: CustomViewState
 
