@@ -1,5 +1,7 @@
 package ru.vtinch.scramblegame.presentation_core
 
+import androidx.annotation.DrawableRes
+
 interface CustomView {
 
     fun update(state: CustomViewUi)
@@ -17,5 +19,8 @@ interface CustomView {
     }
     interface SetStatistic:CustomView{
         fun update(data:Triple<Int,Int,Int>)
+    }
+    interface SetBackground : CustomView {
+        fun updateBgRes(@DrawableRes resId: Int)
     }
 }

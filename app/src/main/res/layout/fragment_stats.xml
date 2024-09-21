@@ -6,7 +6,7 @@
     android:padding="24dp"
     android:layout_height="match_parent">
 
-    <ru.vtinch.scramblegame.stats.view.statisticsTextView.StatsTextView
+    <ru.vtinch.scramblegame.stats.view.textView.CustomStatsTextView
         android:id="@+id/statistics_text"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
         android:text="@string/stats"
