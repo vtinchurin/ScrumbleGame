@@ -4,10 +4,10 @@ import android.content.Context
 import android.os.Parcelable
 import android.util.AttributeSet
 import ru.vtinch.scramblegame.presentation_core.CustomSavedState
+import ru.vtinch.scramblegame.presentation_core.CustomView
 import ru.vtinch.scramblegame.presentation_core.CustomViewUi
-import ru.vtinch.scramblegame.presentation_core.MutableView
 
-abstract class AbstractTextView : androidx.appcompat.widget.AppCompatTextView, MutableView {
+abstract class AbstractTextView : androidx.appcompat.widget.AppCompatTextView, CustomView.Mutable {
 
     private lateinit var state: CustomViewUi
 

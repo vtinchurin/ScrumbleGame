@@ -5,10 +5,10 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import com.google.android.material.button.MaterialButton
 import ru.vtinch.scramblegame.presentation_core.CustomSavedState
+import ru.vtinch.scramblegame.presentation_core.CustomView
 import ru.vtinch.scramblegame.presentation_core.CustomViewUi
-import ru.vtinch.scramblegame.presentation_core.MutableView
 
-abstract class AbstractMaterialButton : MaterialButton, MutableView {
+abstract class AbstractMaterialButton : MaterialButton, CustomView.Mutable {
 
     private lateinit var state: CustomViewUi
 

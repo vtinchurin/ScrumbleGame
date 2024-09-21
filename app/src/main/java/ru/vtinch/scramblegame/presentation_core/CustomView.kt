@@ -6,6 +6,10 @@ interface CustomView {
 
     fun update(state: CustomViewUi)
 
+    /**
+     * Common things for all views
+     */
+
     interface UpdateVisibility : CustomView {
         fun update(visibility: Int)
     }
@@ -17,6 +21,17 @@ interface CustomView {
     interface UpdateText : CustomView {
         fun update(text: String)
     }
+
+    /**
+     * Mutable Interface for Abstract View as Template for own CV
+     */
+
+    interface Mutable : UpdateVisibility, UpdateDisabled, UpdateText
+
+    /**
+     * Special things
+     */
+
     interface SetStatistic:CustomView{
         fun update(data:Triple<Int,Int,Int>)
     }
