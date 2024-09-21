@@ -2,11 +2,11 @@ package ru.vtinch.scramblegame.presentation_core
 
 import java.io.Serializable
 
-interface CustomViewUi : Serializable {
+interface CustomViewState : Serializable {
 
     fun update(button: CustomView)
 
-    abstract class CastTo<K : CustomView> : CustomViewUi {
+    abstract class CastTo<K : CustomView> : CustomViewState {
 
             abstract val callback: (K) -> Unit
 

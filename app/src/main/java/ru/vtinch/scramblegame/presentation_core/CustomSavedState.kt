@@ -9,18 +9,18 @@ import android.view.View
 
 class CustomSavedState : View.BaseSavedState {
 
-    private lateinit var state: CustomViewUi
+    private lateinit var state: CustomViewState
 
     constructor(superState: Parcelable) : super(superState)
 
     private constructor(parcelIn: Parcel, loader: ClassLoader) : super(parcelIn, loader) {
         state = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             parcelIn.readSerializable(
-                CustomViewUi::class.java.classLoader,
-                CustomViewUi::class.java
-            ) as CustomViewUi
+                CustomViewState::class.java.classLoader,
+                CustomViewState::class.java
+            ) as CustomViewState
         } else {
-            parcelIn.readSerializable() as CustomViewUi
+            parcelIn.readSerializable() as CustomViewState
         }
     }
 
@@ -31,9 +31,9 @@ class CustomSavedState : View.BaseSavedState {
         out.writeSerializable(state)
     }
 
-    fun restore(): CustomViewUi = state
+    fun restore(): CustomViewState = state
 
-    fun save(uiState: CustomViewUi) {
+    fun save(uiState: CustomViewState) {
         state = uiState
     }
 

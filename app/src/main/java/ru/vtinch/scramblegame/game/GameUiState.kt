@@ -6,7 +6,7 @@ import ru.vtinch.scramblegame.game.view.input.CustomInput
 import ru.vtinch.scramblegame.game.view.input.InputState
 import ru.vtinch.scramblegame.game.view.textView.QuestionText
 import ru.vtinch.scramblegame.presentation_core.CustomView
-import ru.vtinch.scramblegame.presentation_core.CustomViewUi
+import ru.vtinch.scramblegame.presentation_core.CustomViewState
 
 interface GameUiState {
 
@@ -21,7 +21,7 @@ interface GameUiState {
     fun navigate(navigate: Navigation) = Unit
 
     abstract class Abstract(
-        private val checkState: CustomViewUi = GameButton.Disabled,
+        private val checkState: CustomViewState = GameButton.Disabled,
     ) : GameUiState {
         override fun show(
             text: CustomView,

@@ -2,13 +2,13 @@ package ru.vtinch.scramblegame.game.view.textView
 
 import ru.vtinch.scramblegame.R
 import ru.vtinch.scramblegame.presentation_core.CustomView
-import ru.vtinch.scramblegame.presentation_core.CustomViewUi
+import ru.vtinch.scramblegame.presentation_core.CustomViewState
 
 interface QuestionText : CustomView.UpdateText, CustomView.SetBackground {
     abstract class Abstract(
         private val text: String,
         protected val resId: Int,
-    ) : CustomViewUi.CastTo<QuestionText>() {
+    ) : CustomViewState.CastTo<QuestionText>() {
         override val callback: (QuestionText) -> Unit = {
             it.update(text)
             it.updateBgRes(resId)

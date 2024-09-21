@@ -5,11 +5,11 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import ru.vtinch.scramblegame.presentation_core.CustomSavedState
 import ru.vtinch.scramblegame.presentation_core.CustomView
-import ru.vtinch.scramblegame.presentation_core.CustomViewUi
+import ru.vtinch.scramblegame.presentation_core.CustomViewState
 
 abstract class AbstractTextView : androidx.appcompat.widget.AppCompatTextView, CustomView.Mutable {
 
-    private lateinit var state: CustomViewUi
+    private lateinit var state: CustomViewState
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
@@ -19,7 +19,7 @@ abstract class AbstractTextView : androidx.appcompat.widget.AppCompatTextView, C
         defStyleAttr
     )
 
-    override fun update(state: CustomViewUi) {
+    override fun update(state: CustomViewState) {
         this.state = state
         state.update(this)
     }

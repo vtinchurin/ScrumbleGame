@@ -3,12 +3,11 @@ package ru.vtinch.scramblegame.load
 import android.view.View
 import android.widget.TextView
 import ru.vtinch.scramblegame.game.NavigateToGame
-import ru.vtinch.scramblegame.game.view.button.GameButton
 import ru.vtinch.scramblegame.load.view.button.RetryButton
 import ru.vtinch.scramblegame.load.view.progressView.LoadProgressUiState
 import ru.vtinch.scramblegame.load.view.progressView.MyProgress
 import ru.vtinch.scramblegame.presentation_core.CustomView
-import ru.vtinch.scramblegame.presentation_core.CustomViewUi
+import ru.vtinch.scramblegame.presentation_core.CustomViewState
 
 interface LoadUiState {
 
@@ -17,7 +16,7 @@ interface LoadUiState {
 
     abstract class Abstract(
         //private val errorTextState:ErrorTextState,
-        private val retryButtonState: CustomViewUi,
+        private val retryButtonState: CustomViewState,
         private val progressState: LoadProgressUiState
     ) : LoadUiState {
         override fun show(errorText: TextView, retryButton: CustomView, progressUi: MyProgress) {

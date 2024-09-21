@@ -2,14 +2,14 @@ package ru.vtinch.scramblegame.game.view.button
 
 import android.view.View
 import ru.vtinch.scramblegame.presentation_core.CustomView
-import ru.vtinch.scramblegame.presentation_core.CustomViewUi
+import ru.vtinch.scramblegame.presentation_core.CustomViewState
 
 interface GameButton : CustomView.UpdateVisibility, CustomView.UpdateDisabled {
 
     abstract class Abstract(
         private val visibility: Int,
         private val isEnabled: Boolean,
-    ) : CustomViewUi.CastTo<GameButton>() {
+    ) : CustomViewState.CastTo<GameButton>() {
 
         override val callback:(GameButton)->Unit ={
             it.update(visibility)

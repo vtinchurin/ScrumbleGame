@@ -6,11 +6,11 @@ import android.util.AttributeSet
 import com.google.android.material.button.MaterialButton
 import ru.vtinch.scramblegame.presentation_core.CustomSavedState
 import ru.vtinch.scramblegame.presentation_core.CustomView
-import ru.vtinch.scramblegame.presentation_core.CustomViewUi
+import ru.vtinch.scramblegame.presentation_core.CustomViewState
 
 abstract class AbstractMaterialButton : MaterialButton, CustomView.Mutable {
 
-    private lateinit var state: CustomViewUi
+    private lateinit var state: CustomViewState
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
@@ -24,7 +24,7 @@ abstract class AbstractMaterialButton : MaterialButton, CustomView.Mutable {
         this.text = text
     }
 
-    override fun update(state: CustomViewUi) {
+    override fun update(state: CustomViewState) {
         this.state = state
         state.update(this)
     }

@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 
 interface CustomView {
 
-    fun update(state: CustomViewUi)
+    fun update(state: CustomViewState)
 
     /**
      * Common things for all views
