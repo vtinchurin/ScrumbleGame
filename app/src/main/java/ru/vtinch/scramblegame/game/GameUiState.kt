@@ -4,15 +4,14 @@ import ru.vtinch.scramblegame.core.Navigation
 import ru.vtinch.scramblegame.game.view.button.GameButton
 import ru.vtinch.scramblegame.game.view.input.CustomInput
 import ru.vtinch.scramblegame.game.view.input.InputState
-import ru.vtinch.scramblegame.game.view.questionTextView.QuestionText
-import ru.vtinch.scramblegame.game.view.questionTextView.TextUiState
+import ru.vtinch.scramblegame.game.view.textView.QuestionText
 import ru.vtinch.scramblegame.presentation_core.CustomView
 import ru.vtinch.scramblegame.presentation_core.CustomViewUi
 
 interface GameUiState {
 
     fun show(
-        text: QuestionText,
+        text: CustomView,
         userInput: CustomInput,
         skip: CustomView,
         next: CustomView,
@@ -25,7 +24,7 @@ interface GameUiState {
         private val checkState: CustomViewUi = GameButton.Disabled,
     ) : GameUiState {
         override fun show(
-            text: QuestionText,
+            text: CustomView,
             userInput: CustomInput,
             skip: CustomView,
             next: CustomView,
@@ -39,14 +38,14 @@ interface GameUiState {
 
     data class Initial(private val question: String) : Abstract() {
         override fun show(
-            text: QuestionText,
+            text: CustomView,
             userInput: CustomInput,
             skip: CustomView,
             next: CustomView,
             check: CustomView,
         ) {
             super.show(text, userInput, skip, next, check)
-            text.update(TextUiState.Initial(question))
+            text.update(QuestionText.Initial(question))
             next.update(GameButton.Gone)
             skip.update(GameButton.Enabled)
             userInput.update(InputState.Initial)
@@ -57,7 +56,7 @@ interface GameUiState {
         checkState = GameButton.Enabled
     ) {
         override fun show(
-            text: QuestionText,
+            text: CustomView,
             userInput: CustomInput,
             skip: CustomView,
             next: CustomView,
@@ -70,7 +69,7 @@ interface GameUiState {
 
     object IncorrectPrediction : Abstract() {
         override fun show(
-            text: QuestionText,
+            text: CustomView,
             userInput: CustomInput,
             skip: CustomView,
             next: CustomView,
@@ -84,14 +83,14 @@ interface GameUiState {
         checkState = GameButton.Gone
     ) {
         override fun show(
-            text: QuestionText,
+            text: CustomView,
             userInput: CustomInput,
             skip: CustomView,
             next: CustomView,
             check: CustomView,
         ) {
             super.show(text, userInput, skip, next, check)
-            text.update(TextUiState.Correct(answer))
+            text.update(QuestionText.Correct(answer))
             skip.update(GameButton.Invisible)
             next.update(GameButton.Enabled)
             userInput.update(InputState.Correct)
@@ -100,14 +99,14 @@ interface GameUiState {
 
     object IncorrectAnswer : Abstract() {
         override fun show(
-            text: QuestionText,
+            text: CustomView,
             userInput: CustomInput,
             skip: CustomView,
             next: CustomView,
             check: CustomView,
         ) {
             super.show(text, userInput, skip, next, check)
-            text.update(TextUiState.Incorrect)
+            text.update(QuestionText.Incorrect)
             userInput.update(InputState.Incorrect)
         }
     }

@@ -1,16 +1,15 @@
-package ru.vtinch.scramblegame.game.view.questionTextView
+package ru.vtinch.scramblegame.presentation_core.textView
 
 import android.content.Context
 import android.os.Parcelable
 import android.util.AttributeSet
-import android.widget.TextView
-import androidx.core.graphics.component1
-import ru.vtinch.scramblegame.R
+import ru.vtinch.scramblegame.presentation_core.CustomSavedState
+import ru.vtinch.scramblegame.presentation_core.CustomViewUi
+import ru.vtinch.scramblegame.presentation_core.MutableView
 
+abstract class AbstractTextView : androidx.appcompat.widget.AppCompatTextView, MutableView {
 
-class QuestionTextView : androidx.appcompat.widget.AppCompatTextView, QuestionText {
-
-    private lateinit var state : TextUiState
+    private lateinit var state: CustomViewUi
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
@@ -20,35 +19,34 @@ class QuestionTextView : androidx.appcompat.widget.AppCompatTextView, QuestionTe
         defStyleAttr
     )
 
-    override fun getFreezesText() = true
-
-    override fun update(state: TextUiState) {
+    override fun update(state: CustomViewUi) {
         this.state = state
         state.update(this)
     }
 
-    override fun setText(text: String) {
-        this.text = text
+    override fun update(visibility: Int) {
+        this.visibility = visibility
     }
 
-    override fun setBg(bgResId: Int) {
-        this.setBackgroundResource(bgResId)
+    override fun update(isEnabled: Boolean) {
+        this.isEnabled = isEnabled
+    }
+
+    override fun update(text: String) {
+        this.text = text
     }
 
     override fun onSaveInstanceState(): Parcelable? {
         return super.onSaveInstanceState()?.let {
-            val savedState = QuestionSavedState(it)
+            val savedState = CustomSavedState(it)
             savedState.save(state)
             return savedState
         }
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        val restoredState = state as QuestionSavedState
+        val restoredState = state as CustomSavedState
         super.onRestoreInstanceState(restoredState.superState)
         update(restoredState.restore())
     }
-
 }
-
-

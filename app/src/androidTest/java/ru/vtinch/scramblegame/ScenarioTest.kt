@@ -204,8 +204,9 @@ class ScenarioTest {
     @Test
     fun initialLoading() {
         val loadPage = LoadPage()
-        //doWithRecreate { loadPage.assertErrorState() }
-        //loadPage.clickRetry()
+
+//        doWithRecreate { loadPage.assertErrorState() }
+//        loadPage.clickRetry()
         doWithRecreate { loadPage.assertLoading()}
 
         gamePage.waitTillLoad()
