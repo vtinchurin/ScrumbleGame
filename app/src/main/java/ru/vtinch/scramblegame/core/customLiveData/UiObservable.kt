@@ -6,22 +6,22 @@ interface UiObservable<T : Any> : Update<T> {
 
     class Single<T : Any> : UiObservable<T> {
 
-        private var cashedData: T? = null
-        private var cashedObserver: UiObserver<T> = UiObserver.Empty()
+        private var cachedData: T? = null
+        private var cachedObserver: UiObserver<T> = UiObserver.Empty()
 
         override fun update(observer: UiObserver<T>) {
-            cashedObserver = observer
-            if (cashedData != null) {
-                cashedObserver.updateUi(cashedData!!)
-                cashedData = null
+            cachedObserver = observer
+            if (cachedData != null) {
+                cachedObserver.updateUi(cachedData!!)
+                cachedData = null
             }
         }
 
         override fun updateUi(data: T) {
-            if (cashedObserver.isEmpty())
-                cashedData = data
+            if (cachedObserver.isEmpty())
+                cachedData = data
             else
-                cashedObserver.updateUi(data)
+                cachedObserver.updateUi(data)
         }
     }
 }
