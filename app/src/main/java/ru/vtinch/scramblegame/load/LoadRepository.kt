@@ -1,34 +1,42 @@
 package ru.vtinch.scramblegame.load
 
-import com.google.gson.Gson
 import ru.vtinch.scramblegame.core.cache.Cache
-import java.net.HttpURLConnection
-import java.net.URL
 
 interface LoadRepository {
 
     fun load(): LoadResult
 
     class Base(
-        private val gson: Gson,
+        private val service: WordService,
         private val stringCache: Cache.Mutable<Set<String>>,
     ) : LoadRepository {
 
-        private val url: String = "https://random-word-api.vercel.app/api?words=10"
         override fun load(): LoadResult {
-            val connection = URL(url).openConnection() as HttpURLConnection
+//            val connection = URL(url).openConnection() as HttpURLConnection
+//            try {
+//                val data = connection.inputStream.bufferedReader().use { it.readText() }
+//                val response = gson.fromJson(data, Response::class.java)
+//                stringCache.save(response.toSet())
+//                return LoadResult.Success
+//            } catch (e: Exception) {
+//                return LoadResult.Error
+//            } finally {
+//                connection.disconnect()
+//            }
             try {
-                val data = connection.inputStream.bufferedReader().use { it.readText() }
-                val response = gson.fromJson(data, Response::class.java)
-                stringCache.save(response.toSet())
-                return LoadResult.Success
+                val result = service.load().execute()
+                if (result.isSuccessful) {
+                    val response = result.body()?.toSet()
+                    stringCache.save(response!!)
+                    return LoadResult.Success
+                } else
+                    return LoadResult.Error
             } catch (e: Exception) {
                 return LoadResult.Error
-            } finally {
-                connection.disconnect()
             }
         }
     }
 }
+
 
 
