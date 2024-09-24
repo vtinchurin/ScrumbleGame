@@ -1,5 +1,8 @@
 package ru.vtinch.scramblegame.load
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import ru.vtinch.scramblegame.core.RunAsync
 import ru.vtinch.scramblegame.core.customLiveData.UiObservable
 import ru.vtinch.scramblegame.core.customLiveData.UiObserver
@@ -11,10 +14,13 @@ class LoadViewModel(
     private val runAsync: RunAsync
 ) : MyViewModel {
 
+    private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+
     fun load(isFirstRun: Boolean = true){
         if (isFirstRun) {
          observable.updateUi(LoadUiState.Progress)
-            runAsync.handleAsync({
+            runAsync.handleAsync(
+                coroutineScope = viewModelScope, {
                 val result = repository.load()
                 if (result == LoadResult.Success) {
                     LoadUiState.Success
@@ -25,9 +31,6 @@ class LoadViewModel(
             }
         }
     }
-
-
-
 
     fun startUpdate(observer: UiObserver<LoadUiState>) {
         observable.update(observer)

@@ -4,14 +4,14 @@ import ru.vtinch.scramblegame.core.cache.Cache
 
 interface LoadRepository {
 
-    fun load(): LoadResult
+    suspend fun load(): LoadResult
 
     class Base(
         private val service: WordService,
         private val stringCache: Cache.Mutable<Set<String>>,
     ) : LoadRepository {
 
-        override fun load(): LoadResult {
+        override suspend fun load(): LoadResult {
 //            val connection = URL(url).openConnection() as HttpURLConnection
 //            try {
 //                val data = connection.inputStream.bufferedReader().use { it.readText() }
