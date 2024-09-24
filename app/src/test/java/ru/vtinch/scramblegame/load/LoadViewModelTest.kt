@@ -1,6 +1,8 @@
 package ru.vtinch.scramblegame.load
 
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import ru.vtinch.scramblegame.core.RunAsync
@@ -27,6 +29,7 @@ class LoadViewModelTest {
         )
         fragment = LoadFragment()
     }
+
     @Test
     fun sameFragment() {
         repository.expectedResult(LoadResult.Success)
@@ -89,8 +92,9 @@ private interface FakeLoadRepository : LoadRepository {
         override fun loadCalledCount(): Int {
             return loadCalledCount
         }
-        override fun load(): LoadResult {
-            loadCalledCount +=1
+
+        override suspend fun load(): LoadResult {
+            loadCalledCount += 1
             return loadResult!!
 
         }
@@ -108,11 +112,14 @@ private interface FakeRunAsync : RunAsync {
         private var cached: (Any) -> Unit = {}
 
         override fun <T : Any> handleAsync(
-            heavyOperation: () -> T,
+            coroutineScope: CoroutineScope,
+            heavyOperation: suspend () -> T,
             uiUpdate: (T) -> Unit
         ) {
-            result = heavyOperation.invoke()
-            cached = uiUpdate as (Any) -> Unit
+            runBlocking {
+                result = heavyOperation.invoke()
+                cached = uiUpdate as (Any) -> Unit
+            }
         }
 
         override fun returnResult() {

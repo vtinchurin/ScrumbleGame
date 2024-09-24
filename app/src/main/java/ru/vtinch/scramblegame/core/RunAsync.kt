@@ -1,25 +1,29 @@
 package ru.vtinch.scramblegame.core
 
-import android.os.Handler
-import android.os.Looper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 interface RunAsync {
     fun <T : Any> handleAsync(
-        heavyOperation: () -> T,
+        coroutineScope: CoroutineScope,
+        heavyOperation: suspend () -> T,
         uiUpdate: (T) -> Unit
     )
 
     class Base : RunAsync {
         override fun <T : Any> handleAsync(
-            heavyOperation: () -> T,
+            coroutineScope: CoroutineScope,
+            heavyOperation: suspend () -> T,
             uiUpdate: (T) -> Unit
         ) {
-            Thread {
+            coroutineScope.launch(Dispatchers.IO) {
                 val result = heavyOperation.invoke()
-                Handler(Looper.getMainLooper()).post {
+                withContext(Dispatchers.Main) {
                     uiUpdate.invoke(result)
                 }
-            }.start()
+            }
         }
     }
 }
