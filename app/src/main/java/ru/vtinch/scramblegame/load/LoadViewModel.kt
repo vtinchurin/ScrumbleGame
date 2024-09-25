@@ -6,12 +6,14 @@ import kotlinx.coroutines.SupervisorJob
 import ru.vtinch.scramblegame.core.RunAsync
 import ru.vtinch.scramblegame.core.customLiveData.UiObservable
 import ru.vtinch.scramblegame.core.customLiveData.UiObserver
+import ru.vtinch.scramblegame.di.ClearViewModel
 import ru.vtinch.scramblegame.di.MyViewModel
 
 class LoadViewModel(
     private val repository: LoadRepository,
     private val observable: UiObservable<LoadUiState>,
-    private val runAsync: RunAsync
+    private val runAsync: RunAsync,
+    private val clearViewModel: ClearViewModel,
 ) : MyViewModel {
 
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
@@ -23,6 +25,7 @@ class LoadViewModel(
                 coroutineScope = viewModelScope, {
                 val result = repository.load()
                 if (result == LoadResult.Success) {
+                    clearViewModel.clear(this::class.java)
                     LoadUiState.Success
                 }
                 else LoadUiState.Error

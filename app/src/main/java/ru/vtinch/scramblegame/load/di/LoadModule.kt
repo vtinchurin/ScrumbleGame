@@ -1,6 +1,5 @@
 package ru.vtinch.scramblegame.load.di
 
-import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -38,7 +37,8 @@ class LoadModule(
                 stringCache = core.stringsCache,
             ),
             observable = UiObservable.Single(),
-            runAsync = RunAsync.Base()
+            runAsync = RunAsync.Base(),
+            clearViewModel = core.clearViewModel
         )
     }
 }
