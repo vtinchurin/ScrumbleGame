@@ -1,10 +1,6 @@
 package ru.vtinch.scramblegame.load
 
 import android.widget.LinearLayout
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Root
-import androidx.test.espresso.matcher.ViewMatchers.isRoot
-import ru.vtinch.scramblegame.core.waitTillDisplayed
 import ru.vtinch.scramblegame.R
 import ru.vtinch.scramblegame.core.AbstractPage
 import ru.vtinch.scramblegame.core.elements.ButtonUi
@@ -17,7 +13,6 @@ class LoadPage : AbstractPage(
 
     private val errorUi: DefaultTextUi = DefaultTextUi.Base(
         id = R.id.error_text,
-        textId = R.string.no_connectoin,
         containerClassTypeMatcher = containerIdMatcher,
         containerIdMatcher = containerIdMatcher,
     )
