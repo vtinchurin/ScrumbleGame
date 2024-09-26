@@ -8,6 +8,8 @@ import org.junit.Test
 import ru.vtinch.scramblegame.core.RunAsync
 import ru.vtinch.scramblegame.core.customLiveData.UiObservable
 import ru.vtinch.scramblegame.core.customLiveData.UiObserver
+import ru.vtinch.scramblegame.di.ClearViewModel
+import ru.vtinch.scramblegame.di.MyViewModel
 
 class LoadViewModelTest {
 
@@ -16,16 +18,25 @@ class LoadViewModelTest {
     private lateinit var viewModel: LoadViewModel
     private lateinit var fragment: LoadFragment
     private lateinit var runAsync: FakeRunAsync
+    private lateinit var clearViewModel : ClearViewModel
 
     @Before
     fun setup() {
         repository = FakeLoadRepository.Base()
         observable = UiObservable.Single()
         runAsync = FakeRunAsync.Base()
+        clearViewModel = object : ClearViewModel {
+            private var clazz : Class<out MyViewModel>? = null
+            override fun clear(viewModelClass: Class<out MyViewModel>) {
+                clazz = viewModelClass
+            }
+        }
         viewModel = LoadViewModel(
             repository = repository,
             observable = observable,
-            runAsync = runAsync
+            runAsync = runAsync,
+            clearViewModel
+
         )
         fragment = LoadFragment()
     }

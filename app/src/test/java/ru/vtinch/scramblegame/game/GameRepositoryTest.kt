@@ -64,7 +64,7 @@ class GameRepositoryTest {
     }
     @Test
     fun isLast(){
-        repeat(7){
+        repeat(words.size){
             repository.next()
         }
         assertEquals(true,repository.isLast())

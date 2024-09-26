@@ -6,5 +6,5 @@ import retrofit2.http.Query
 
 interface WordService {
     @GET("api")
-    fun load(@Query("words") words:Int = 10): Call<Response>
+    fun load(@Query("words") words:Int = 10): Call<WordListDTO>
 }

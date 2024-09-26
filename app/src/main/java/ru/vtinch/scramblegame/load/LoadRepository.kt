@@ -26,8 +26,8 @@ interface LoadRepository {
             try {
                 val result = service.load().execute()
                 if (result.isSuccessful) {
-                    val response = result.body()?.toSet()
-                    stringCache.save(response!!)
+                    val response = result.body()?.words
+                    stringCache.save(response!!.toSet())
                     return LoadResult.Success
                 } else
                     return LoadResult.Error

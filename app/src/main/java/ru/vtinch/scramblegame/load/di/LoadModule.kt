@@ -24,7 +24,7 @@ class LoadModule(
             .build()
 
         val retrofit:Retrofit = Retrofit.Builder()
-            .baseUrl("https://random-word-api.vercel.app/")
+            .baseUrl("https://ao0ixd.buildship.run/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
