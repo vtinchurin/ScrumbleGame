@@ -12,17 +12,22 @@ interface LoadRepository {
     ) : LoadRepository {
 
         override suspend fun load(): LoadResult {
-//            val connection = URL(url).openConnection() as HttpURLConnection
-//            try {
-//                val data = connection.inputStream.bufferedReader().use { it.readText() }
-//                val response = gson.fromJson(data, Response::class.java)
-//                stringCache.save(response.toSet())
-//                return LoadResult.Success
-//            } catch (e: Exception) {
-//                return LoadResult.Error
-//            } finally {
-//                connection.disconnect()
-//            }
+
+            /**
+             *              Old version without Retrofit2
+             *             val connection = URL(url).openConnection() as HttpURLConnection
+             *             try {
+             *                 val data = connection.inputStream.bufferedReader().use { it.readText() }
+             *                 val response = gson.fromJson(data, WordService::class.java)
+             *                 stringCache.save(response.toSet())
+             *                 return LoadResult.Success
+             *             } catch (e: Exception) {
+             *                 return LoadResult.Error
+             *             } finally {
+             *                 connection.disconnect()
+             *             }
+             */
+
             try {
                 val result = service.load().execute()
                 if (result.isSuccessful) {

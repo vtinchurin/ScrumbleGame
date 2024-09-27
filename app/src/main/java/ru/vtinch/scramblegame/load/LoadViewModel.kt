@@ -33,6 +33,7 @@ class LoadViewModel(
                 observable.updateUi(it)
             }
         }
+        else observable.updateUi(LoadUiState.Empty)
     }
 
     fun startUpdate(observer: UiObserver<LoadUiState>) {
