@@ -19,10 +19,10 @@ interface InputState : Serializable {
 
     }
 
-    object Initial : Abstract(View.VISIBLE, true) {
+    object Initial : Abstract(View.VISIBLE, true){
         override fun update(userInput: UpdateInput) {
-            super.update(userInput)
             userInput.update("")
+            super.update(userInput)
         }
     }
 
