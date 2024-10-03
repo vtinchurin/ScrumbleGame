@@ -14,6 +14,10 @@ class CustomQuestionTextView : AbstractTextView, QuestionText {
         defStyleAttr
     )
 
+    override fun update(text: String) {
+        this.text = text
+    }
+
     override fun updateBgRes(resId: Int) {
         this.setBackgroundResource(resId)
     }

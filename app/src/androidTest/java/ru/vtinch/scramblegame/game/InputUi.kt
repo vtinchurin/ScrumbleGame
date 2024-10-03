@@ -36,7 +36,8 @@ class InputUi(containerIdMatcher: Matcher<View>, containerClassTypeMatcher: Matc
     )
 
     fun addInput(text: String) {
-        inputInteraction.perform(click(),typeText(text), closeSoftKeyboard())
+        inputInteraction.perform(click(),typeText(text))
+        inputInteraction.perform(closeSoftKeyboard())
     }
 
     fun removeLetter() {

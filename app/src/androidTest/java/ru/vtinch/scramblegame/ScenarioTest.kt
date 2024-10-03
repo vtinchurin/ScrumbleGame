@@ -67,8 +67,7 @@ class ScenarioTest {
         doWithRecreate { gamePage.assertCorrectPredictionState()}
         gamePage.clickCheck()
         doWithRecreate { gamePage.assertIncorrectAnswerState()}
-        activityScenarioRule.scenario.recreate()
-        doWithRecreate { gamePage.assertIncorrectAnswerState()}
+        gamePage.waitTillError()
         gamePage.clickSkip()
         gamePage = GamePage(word = "snow".reversed())
         doWithRecreate { gamePage.assertInitialState() }
@@ -110,6 +109,7 @@ class ScenarioTest {
         statisticsPage.clickNewGame()
         statisticsPage.assertNotVisible()
 
+        initialLoading()
         gamePage = GamePage(word = "input".reversed())
         doWithRecreate { gamePage.assertInitialState() }
     }
@@ -122,13 +122,15 @@ class ScenarioTest {
         doWithRecreate {  gamePage.assertCorrectPredictionState()}
         gamePage.clickCheck()
         doWithRecreate { gamePage.assertIncorrectAnswerState()}
+        gamePage.waitTillError()
         gamePage.clickSkip()
         gamePage = GamePage(word = "world".reversed())
         doWithRecreate { gamePage.assertInitialState() }
-        gamePage.addInput(text = "wlord")
+        gamePage.addInput(text = "wrdlo")
         doWithRecreate { gamePage.assertCorrectPredictionState()}
         gamePage.clickCheck()
         doWithRecreate { gamePage.assertIncorrectAnswerState()}
+        gamePage.waitTillError()
         gamePage.clickSkip()
         gamePage = GamePage(word = "prediction".reversed())
         doWithRecreate { gamePage.assertInitialState() }
@@ -136,10 +138,11 @@ class ScenarioTest {
         doWithRecreate { gamePage.assertCorrectPredictionState()}
         gamePage.clickCheck()
         doWithRecreate { gamePage.assertIncorrectAnswerState()}
+        gamePage.waitTillError()
         gamePage.clickSkip()
         gamePage = GamePage(word = "snow".reversed())
         doWithRecreate { gamePage.assertInitialState() }
-        gamePage.addInput(text = "snwo")
+        gamePage.addInput(text = "nswo")
         doWithRecreate { gamePage.assertCorrectPredictionState()}
         gamePage.clickCheck()
 
@@ -151,7 +154,7 @@ class ScenarioTest {
         doWithRecreate { statisticsPage.assertInitialState() }
         statisticsPage.clickNewGame()
         doWithRecreate { statisticsPage.assertNotVisible() }
-
+        initialLoading()
         gamePage = GamePage(word = "input".reversed())
         doWithRecreate { gamePage.assertInitialState() }
     }
@@ -196,7 +199,7 @@ class ScenarioTest {
         doWithRecreate { statisticsPage.assertInitialState() }
         statisticsPage.clickNewGame()
         doWithRecreate { statisticsPage.assertNotVisible() }
-
+        initialLoading()
         gamePage = GamePage(word = "input".reversed())
         doWithRecreate { gamePage.assertInitialState() }
     }
@@ -205,8 +208,9 @@ class ScenarioTest {
     fun initialLoading() {
         val loadPage = LoadPage()
 
-//        doWithRecreate { loadPage.assertErrorState() }
-//        loadPage.clickRetry()
+        doWithRecreate { loadPage.assertErrorState() }
+
+        loadPage.clickRetry()
         doWithRecreate { loadPage.assertLoading()}
 
         gamePage.waitTillLoad()

@@ -13,4 +13,8 @@ class CustomRetryButton : AbstractMaterialButton, RetryButton {
         attrs,
         defStyleAttr
     )
+
+    override fun update(visibility: Int) {
+        this.visibility = visibility
+    }
 }
