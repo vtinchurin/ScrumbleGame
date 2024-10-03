@@ -23,12 +23,6 @@ interface CustomView {
     }
 
     /**
-     * Interface for Abstract View as Template for own CV
-     */
-
-    interface Common : UpdateVisibility, UpdateDisabled, UpdateText
-
-    /**
      * Special
      */
 

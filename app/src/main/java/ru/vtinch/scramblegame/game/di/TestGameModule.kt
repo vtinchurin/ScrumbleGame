@@ -7,7 +7,7 @@ import ru.vtinch.scramblegame.game.GameViewModel
 import ru.vtinch.scramblegame.game.Strategy
 import ru.vtinch.scramblegame.game.UiStateLiveDataWrapper
 
-class GameModule(private val core: Core) : Module<GameViewModel> {
+class TestGameModule(private val core: Core) : Module<GameViewModel> {
 
     override fun viewModel(): GameViewModel {
 
@@ -17,8 +17,8 @@ class GameModule(private val core: Core) : Module<GameViewModel> {
                 corrects = core.corrects,
                 incorrect = core.incorrect,
                 skipped = core.skipped,
-                dataCache = core.stringsCache,
-                strategy = Strategy.Game
+                words = listOf("input", "world", "prediction", "snow"),
+                strategy = Strategy.Test
 
             ),
             liveDataWrapper = UiStateLiveDataWrapper.Base(),

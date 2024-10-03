@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
 
-    <TextView
+    <ru.vtinch.scramblegame.load.view.errorTextView.CustomErrorText
         android:text="@string/no_connectoin"
         android:textColor="@color/red"
         android:id="@+id/error_text"

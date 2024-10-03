@@ -7,6 +7,7 @@ import ru.vtinch.scramblegame.R
 import ru.vtinch.scramblegame.core.AbstractPage
 import ru.vtinch.scramblegame.core.elements.ButtonUi
 import ru.vtinch.scramblegame.core.elements.GameTextUi
+import ru.vtinch.scramblegame.core.waitTillBackGround
 import ru.vtinch.scramblegame.core.waitTillDisplayed
 
 class GamePage(
@@ -98,6 +99,9 @@ class GamePage(
     }
     fun waitTillLoad() {
         onView(isRoot()).perform(waitTillDisplayed(R.id.answerText,5000))
+    }
+    fun waitTillError(){
+        onView(isRoot()).perform(waitTillBackGround(R.id.answerText,R.drawable.bg_red,2000))
     }
 }
 

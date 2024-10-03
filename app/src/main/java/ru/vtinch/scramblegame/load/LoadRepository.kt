@@ -1,5 +1,6 @@
 package ru.vtinch.scramblegame.load
 
+import kotlinx.coroutines.delay
 import ru.vtinch.scramblegame.core.cache.Cache
 
 interface LoadRepository {
@@ -39,6 +40,23 @@ interface LoadRepository {
             } catch (e: Exception) {
                 return LoadResult.Error
             }
+        }
+    }
+
+    class Test : LoadRepository {
+
+        private var error = true
+
+        override suspend fun load(): LoadResult {
+
+            return if (error){
+                error = false
+                LoadResult.Error
+            } else{
+                delay(1500)
+                LoadResult.Success
+            }
+
         }
     }
 }

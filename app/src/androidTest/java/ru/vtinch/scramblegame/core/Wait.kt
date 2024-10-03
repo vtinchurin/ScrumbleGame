@@ -10,9 +10,12 @@ import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.util.HumanReadables
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
+import ru.vtinch.scramblegame.R
 import java.util.concurrent.TimeoutException
 
 fun waitTillDisplayed(id: Int, timeout: Long) = waitForView(id, isDisplayed(), timeout)
+
+fun waitTillBackGround(id: Int,resId: Int, timeout: Long) = waitForView(id, BackgroundDrawableMatcher(resId),timeout)
 
 fun waitForView(id: Int, viewMatcher: Matcher<View>, timeout: Long): ViewAction {
     return object : ViewAction {

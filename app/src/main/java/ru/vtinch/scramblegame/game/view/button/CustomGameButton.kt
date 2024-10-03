@@ -12,4 +12,12 @@ class CustomGameButton : AbstractMaterialButton, GameButton {
         attrs,
         defStyleAttr
     )
+
+    override fun update(visibility: Int) {
+        this.visibility = visibility
+    }
+
+    override fun update(isEnabled: Boolean) {
+        this.isEnabled = isEnabled
+    }
 }
