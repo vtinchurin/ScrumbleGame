@@ -1,6 +1,7 @@
 package ru.vtinch.scramblegame.stats
 
 import androidx.lifecycle.LiveData
+import ru.vtinch.scramblegame.core.customLiveData.UiObservable
 import ru.vtinch.scramblegame.di.ClearViewModel
 import ru.vtinch.scramblegame.di.MyViewModel
 
@@ -8,7 +9,7 @@ class StatsViewModel(
     private val statsRepository: StatsRepository,
     private val liveDataWrapper: StatsUiStateLiveDataWrapper.Mutable,
     private val clearViewModel: ClearViewModel,
-): MyViewModel,StatsUiStateLiveDataWrapper.Read {
+): MyViewModel.Abstract(),StatsUiStateLiveDataWrapper.Read {
 
     init {
         //Log.d("vm","create Stats VM")

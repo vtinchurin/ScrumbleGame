@@ -1,6 +1,7 @@
 package ru.vtinch.scramblegame.game
 
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import ru.vtinch.scramblegame.core.cache.Cache
@@ -23,7 +24,7 @@ class GameRepositoryTest {
         incorrect = FakeCache.Base()
         index = FakeCache.Base()
         strategy = Strategy.Test
-        repository = GameRepository.Base(
+        repository = GameRepository.Test(
             index = index,
             corrects = correct,
             incorrect = incorrect,
@@ -35,15 +36,20 @@ class GameRepositoryTest {
     }
     @Test
     fun test(){
+        var question = ""
+        runBlocking  {
+            question = repository.getQuestion()
+        }
 
-        var question = repository.getQuestion()
         index.assertValue(0)
         assertEquals("input".reversed(),question)
         repository.checkPrediction("input")
         correct.assertValue(1)
         repository.next()
         index.assertValue(1)
-        question = repository.getQuestion()
+        runBlocking  {
+            question = repository.getQuestion()
+        }
         assertEquals("world".reversed(),question)
         repository.checkPrediction("wordl")
         incorrect.assertValue(1)

@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame.load
+package ru.vtinch.scramblegame.load.data.remote
 
 import retrofit2.Call
 import retrofit2.http.GET

@@ -14,26 +14,24 @@ class LoadViewModel(
     private val observable: UiObservable<LoadUiState>,
     private val runAsync: RunAsync,
     private val clearViewModel: ClearViewModel,
-) : MyViewModel {
+) : MyViewModel.Abstract() {
 
-    private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    //private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-    fun load(isFirstRun: Boolean = true){
+    fun load(isFirstRun: Boolean = true) {
         if (isFirstRun) {
-         observable.updateUi(LoadUiState.Progress)
+            observable.updateUi(LoadUiState.Progress)
             runAsync.handleAsync(
                 coroutineScope = viewModelScope, {
-                val result = repository.load()
-                if (result == LoadResult.Success) {
-                    clearViewModel.clear(this::class.java)
-                    LoadUiState.Success
-                }
-                else LoadUiState.Error
-            }){
+                    val result = repository.load()
+                    if (result == LoadResult.Success) {
+                        clearViewModel.clear(this::class.java)
+                        LoadUiState.Success
+                    } else LoadUiState.Error
+                }) {
                 observable.updateUi(it)
             }
-        }
-        else observable.updateUi(LoadUiState.Empty)
+        } else observable.updateUi(LoadUiState.Empty)
     }
 
     fun startUpdate(observer: UiObserver<LoadUiState>) {

@@ -8,12 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import ru.vtinch.scramblegame.core.AbstractFragment
 import ru.vtinch.scramblegame.core.Navigation
-import ru.vtinch.scramblegame.di.ProvideViewModel
 import ru.vtinch.scramblegame.databinding.FragmentGameBinding
+import ru.vtinch.scramblegame.di.ProvideViewModel
 
-class GameFragment : AbstractFragment<FragmentGameBinding>() {
-
-    private lateinit var viewModel : GameViewModel
+class GameFragment : AbstractFragment<FragmentGameBinding, GameViewModel>() {
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit

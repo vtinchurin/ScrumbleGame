@@ -1,12 +1,11 @@
 package ru.vtinch.scramblegame
 
 import android.app.Application
-import android.content.Context
 import ru.vtinch.scramblegame.di.ClearViewModel
-import ru.vtinch.scramblegame.di.ProvideViewModel
-import ru.vtinch.scramblegame.di.ManageViewModels
 import ru.vtinch.scramblegame.di.Core
+import ru.vtinch.scramblegame.di.ManageViewModels
 import ru.vtinch.scramblegame.di.MyViewModel
+import ru.vtinch.scramblegame.di.ProvideViewModel
 
 class App : Application(), ProvideViewModel {
 
@@ -20,8 +19,7 @@ class App : Application(), ProvideViewModel {
 
     override fun onCreate() {
         super.onCreate()
-        val sharedPreferences = getSharedPreferences("myApp", Context.MODE_PRIVATE)
-        val core = Core(sharedPreferences,clear)
+        val core = Core(applicationContext,clear)
         factory = ManageViewModels.Factory(ProvideViewModel.Base(core = core))
     }
 
