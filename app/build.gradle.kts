@@ -61,8 +61,9 @@ dependencies {
     implementation(libs.converter.gson)
 
     implementation(libs.room)
-    annotationProcessor(libs.room.ksp)
+    ksp (libs.room.ksp)
     testImplementation(libs.room.test)
+
 
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
