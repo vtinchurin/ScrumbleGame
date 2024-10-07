@@ -2,10 +2,12 @@ package ru.vtinch.scramblegame.core
 
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import ru.vtinch.scramblegame.di.MyViewModel
 
-abstract class AbstractFragment<T: ViewBinding>: Fragment() {
+abstract class AbstractFragment<B : ViewBinding,V : MyViewModel> : Fragment() {
 
-    protected var _binding: T? = null
+    protected lateinit var viewModel : V
+    protected var _binding: B? = null
     protected val binding get() = _binding!!
 
 

@@ -10,9 +10,9 @@ import ru.vtinch.scramblegame.core.customLiveData.UiObserver
 import ru.vtinch.scramblegame.databinding.FragmentLoadBinding
 import ru.vtinch.scramblegame.di.ProvideViewModel
 
-class LoadFragment : AbstractFragment<FragmentLoadBinding>() {
+class LoadFragment : AbstractFragment<FragmentLoadBinding, LoadViewModel>() {
 
-    private lateinit var viewModel: LoadViewModel
+    //private lateinit var viewModel: LoadViewModel
 
     private val update = object: UiObserver<LoadUiState> {
         override fun updateUi(data: LoadUiState) {
@@ -37,6 +37,7 @@ class LoadFragment : AbstractFragment<FragmentLoadBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel = (requireActivity() as ProvideViewModel).viewModel(LoadViewModel::class.java)
 
 

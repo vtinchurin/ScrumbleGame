@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame.load
+package ru.vtinch.scramblegame.load.data.remote
 
 import com.google.gson.annotations.SerializedName
 

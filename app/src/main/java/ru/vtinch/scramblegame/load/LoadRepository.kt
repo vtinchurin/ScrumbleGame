@@ -1,7 +1,10 @@
 package ru.vtinch.scramblegame.load
 
+import android.util.Log
 import kotlinx.coroutines.delay
-import ru.vtinch.scramblegame.core.cache.Cache
+import ru.vtinch.scramblegame.load.data.local.WordCache
+import ru.vtinch.scramblegame.load.data.local.WordDao
+import ru.vtinch.scramblegame.load.data.remote.WordService
 
 interface LoadRepository {
 
@@ -9,7 +12,7 @@ interface LoadRepository {
 
     class Base(
         private val service: WordService,
-        private val stringCache: Cache.Mutable<Set<String>>,
+        private val dao: WordDao,
     ) : LoadRepository {
 
         override suspend fun load(): LoadResult {
@@ -33,11 +36,17 @@ interface LoadRepository {
                 val result = service.load().execute()
                 if (result.isSuccessful) {
                     val response = result.body()?.words
-                    stringCache.save(response!!.toSet())
+                    val list = response!!.mapIndexed { index, word ->
+                        WordCache(index, word)
+                    }
+                    dao.clearAll()
+                    dao.addWords(list)
                     return LoadResult.Success
                 } else
-                    return LoadResult.Error
+                    Log.d("tvn", "Empty Body")
+                return LoadResult.Error
             } catch (e: Exception) {
+                Log.d("tvn", e.message.toString())
                 return LoadResult.Error
             }
         }
@@ -49,10 +58,10 @@ interface LoadRepository {
 
         override suspend fun load(): LoadResult {
 
-            return if (error){
+            return if (error) {
                 error = false
                 LoadResult.Error
-            } else{
+            } else {
                 delay(1500)
                 LoadResult.Success
             }

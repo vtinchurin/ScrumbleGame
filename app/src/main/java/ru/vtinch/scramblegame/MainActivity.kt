@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(), Navigation, ProvideViewModel {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (savedInstanceState ==null)
+        if (savedInstanceState == null)
             navigateToLoad()
     }
 

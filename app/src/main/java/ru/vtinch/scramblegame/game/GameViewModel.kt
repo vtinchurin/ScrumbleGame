@@ -1,11 +1,9 @@
 package ru.vtinch.scramblegame.game
 
 import androidx.lifecycle.LiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.vtinch.scramblegame.core.RunAsync
 import ru.vtinch.scramblegame.di.ClearViewModel
 import ru.vtinch.scramblegame.di.MyViewModel
 
@@ -13,29 +11,33 @@ class GameViewModel(
     private val liveDataWrapper: UiStateLiveDataWrapper.Mutable,
     private val gameRepository: GameRepository,
     private val clearViewModel: ClearViewModel,
-) : MyViewModel, UiStateLiveDataWrapper.Read {
+    private val runAsync: RunAsync,
+) : MyViewModel.Abstract(), UiStateLiveDataWrapper.Read {
 
     init {
         //Log.d("vm","create Game VM")
     }
 
     private lateinit var question: String
-    private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var processDeath = true
 
-    fun init(firstRun: Boolean = false) {
-        question = gameRepository.getQuestion()
-        if (firstRun) {
-            processDeath = false
-            //Log.d("tvn95", "First run")
-            liveDataWrapper.update(GameUiState.Initial(question))
-        } else {
-            liveDataWrapper.update(GameUiState.Empty)
-            if (processDeath) {
-                //Log.d("tvn95", "Process Death")
+    fun init(firstRun: Boolean = true) {
+        runAsync.handleAsync(viewModelScope,{
+            question = gameRepository.getQuestion()
+        }){
+            if (firstRun) {
                 processDeath = false
-            } else {}
+                //Log.d("tvn95", "First run")
+                liveDataWrapper.update(GameUiState.Initial(question))
+
+            } else {
+                liveDataWrapper.update(GameUiState.Empty)
+                if (processDeath) {
+                    //Log.d("tvn95", "Process Death")
+                    processDeath = false
+                } else {}
                 //Log.d("tvn95", "Activity Death")
+            }
         }
     }
 
@@ -72,10 +74,12 @@ class GameViewModel(
             clearViewModel.clear(GameViewModel::class.java)
         }
         else{
-            question = gameRepository.getQuestion()
-            liveDataWrapper.update(GameUiState.Initial(question))
+            runAsync.handleAsync(viewModelScope,{
+                question = gameRepository.getQuestion()
+            }){
+                liveDataWrapper.update(GameUiState.Initial(question))
+            }
         }
-
     }
 
     override fun liveData(): LiveData<GameUiState> {

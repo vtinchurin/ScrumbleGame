@@ -1,5 +1,6 @@
 package ru.vtinch.scramblegame.game.di
 
+import ru.vtinch.scramblegame.core.RunAsync
 import ru.vtinch.scramblegame.di.Core
 import ru.vtinch.scramblegame.di.Module
 import ru.vtinch.scramblegame.game.GameRepository
@@ -12,7 +13,7 @@ class TestGameModule(private val core: Core) : Module<GameViewModel> {
     override fun viewModel(): GameViewModel {
 
         return GameViewModel(
-            gameRepository = GameRepository.Base(
+            gameRepository = GameRepository.Test(
                 index = core.index,
                 corrects = core.corrects,
                 incorrect = core.incorrect,
@@ -22,7 +23,8 @@ class TestGameModule(private val core: Core) : Module<GameViewModel> {
 
             ),
             liveDataWrapper = UiStateLiveDataWrapper.Base(),
-            clearViewModel = core.clearViewModel
+            clearViewModel = core.clearViewModel,
+            runAsync = RunAsync.Base()
         )
     }
 }

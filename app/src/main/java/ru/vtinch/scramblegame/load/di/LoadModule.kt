@@ -10,7 +10,7 @@ import ru.vtinch.scramblegame.di.Core
 import ru.vtinch.scramblegame.di.Module
 import ru.vtinch.scramblegame.load.LoadRepository
 import ru.vtinch.scramblegame.load.LoadViewModel
-import ru.vtinch.scramblegame.load.WordService
+import ru.vtinch.scramblegame.load.data.remote.WordService
 
 class LoadModule(
     private val core: Core
@@ -34,7 +34,7 @@ class LoadModule(
         return LoadViewModel(
             repository = LoadRepository.Base(
                 service = service,
-                stringCache = core.stringsCache,
+                dao = core.cacheModule.dao(),
             ),
             observable = UiObservable.Single(),
             runAsync = RunAsync.Base(),

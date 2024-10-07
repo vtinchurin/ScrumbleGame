@@ -114,7 +114,7 @@ private interface FakeLoadRepository : LoadRepository {
 
 }
 
-private interface FakeRunAsync : RunAsync {
+interface FakeRunAsync : RunAsync {
     fun returnResult()
 
     class Base : FakeRunAsync {

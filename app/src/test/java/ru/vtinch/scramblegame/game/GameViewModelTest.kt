@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import ru.vtinch.scramblegame.core.RunAsync
 import ru.vtinch.scramblegame.di.ClearViewModel
 import ru.vtinch.scramblegame.di.MyViewModel
+import ru.vtinch.scramblegame.load.FakeRunAsync
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -20,6 +22,7 @@ class GameViewModelTest {
     private lateinit var liveDataWrapper: FakeLiveDataWrapper
     private lateinit var viewModel: GameViewModel
     private lateinit var clearViewModel: ClearViewModel
+    private lateinit var runAsync: FakeRunAsync
 
     @Before
     fun setup() {
@@ -32,11 +35,13 @@ class GameViewModelTest {
                 clazz = viewModelClass
             }
         }
+        runAsync = FakeRunAsync.Base()
 
         viewModel = GameViewModel(
             gameRepository = repository,
             liveDataWrapper = liveDataWrapper,
-            clearViewModel = clearViewModel
+            clearViewModel = clearViewModel,
+            runAsync = runAsync
         )
     }
 
@@ -46,6 +51,8 @@ class GameViewModelTest {
         repository.assertCall(words = listOf("word"))
 
         viewModel.init(true)
+        runAsync.returnResult()
+
 
         liveDataWrapper.actualState(GameUiState.Initial("drow"))
     }
@@ -56,6 +63,7 @@ class GameViewModelTest {
 
         viewModel.init()
         viewModel.skip()
+        runAsync.returnResult()
 
         liveDataWrapper.actualState(GameUiState.Initial("wohs"))
     }
@@ -66,6 +74,7 @@ class GameViewModelTest {
 
         viewModel.init()
         viewModel.handleUserInput("qwe")
+
 
         liveDataWrapper.actualState(GameUiState.IncorrectPrediction)
     }
@@ -95,11 +104,13 @@ class GameViewModelTest {
         repository.assertCall(words = listOf("word", "show"))
 
         viewModel.init()
+        runAsync.returnResult()
         viewModel.check("word")
 
         liveDataWrapper.actualState(GameUiState.CorrectAnswer("word"))
 
         viewModel.next()
+        runAsync.returnResult()
 
         liveDataWrapper.actualState(GameUiState.Initial("wohs"))
     }
@@ -130,7 +141,7 @@ private interface FakeGameRepository : GameRepository {
             list.addAll(words)
         }
 
-        override fun getQuestion(): String {
+        override suspend fun getQuestion(): String {
             return list[index].reversed()
         }
 
