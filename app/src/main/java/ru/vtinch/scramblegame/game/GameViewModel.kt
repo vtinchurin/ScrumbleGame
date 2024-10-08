@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.vtinch.scramblegame.core.RunAsync
+import ru.vtinch.scramblegame.core.uiObservable.UiObservable
 import ru.vtinch.scramblegame.di.ClearViewModel
 import ru.vtinch.scramblegame.di.MyViewModel
 
@@ -12,7 +13,8 @@ class GameViewModel(
     private val gameRepository: GameRepository,
     private val clearViewModel: ClearViewModel,
     private val runAsync: RunAsync,
-) : MyViewModel.Abstract(), UiStateLiveDataWrapper.Read {
+) : MyViewModel.Abstract<GameUiState>(observable = UiObservable.Single()),
+    UiStateLiveDataWrapper.Read {
 
     init {
         //Log.d("vm","create Game VM")

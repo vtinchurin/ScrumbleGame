@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame.core.customLiveData
+package ru.vtinch.scramblegame.core.uiObservable
 
 interface UiObservable<T : Any> : Update<T> {
 

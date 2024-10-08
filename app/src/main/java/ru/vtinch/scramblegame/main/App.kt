@@ -1,4 +1,4 @@
-package ru.vtinch.scramblegame
+package ru.vtinch.scramblegame.main
 
 import android.app.Application
 import ru.vtinch.scramblegame.di.ClearViewModel
@@ -19,7 +19,7 @@ class App : Application(), ProvideViewModel {
 
     override fun onCreate() {
         super.onCreate()
-        val core = Core(applicationContext,clear)
+        val core = Core(applicationContext, clear)
         factory = ManageViewModels.Factory(ProvideViewModel.Base(core = core))
     }
 

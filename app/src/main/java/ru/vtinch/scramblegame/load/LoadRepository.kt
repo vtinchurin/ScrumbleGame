@@ -15,6 +15,10 @@ interface LoadRepository {
         private val dao: WordDao,
     ) : LoadRepository {
 
+        init {
+            Log.d("tvn", "Init LoadRepo")
+        }
+
         override suspend fun load(): LoadResult {
 
             /**
@@ -39,7 +43,6 @@ interface LoadRepository {
                     val list = response!!.mapIndexed { index, word ->
                         WordCache(index, word)
                     }
-                    dao.clearAll()
                     dao.addWords(list)
                     return LoadResult.Success
                 } else

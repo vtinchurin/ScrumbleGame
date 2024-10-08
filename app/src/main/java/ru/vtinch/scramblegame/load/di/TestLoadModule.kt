@@ -1,7 +1,7 @@
 package ru.vtinch.scramblegame.load.di
 
 import ru.vtinch.scramblegame.core.RunAsync
-import ru.vtinch.scramblegame.core.customLiveData.UiObservable
+import ru.vtinch.scramblegame.core.uiObservable.UiObservable
 import ru.vtinch.scramblegame.di.Core
 import ru.vtinch.scramblegame.di.Module
 import ru.vtinch.scramblegame.load.LoadRepository

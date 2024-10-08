@@ -6,8 +6,8 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import ru.vtinch.scramblegame.core.RunAsync
-import ru.vtinch.scramblegame.core.customLiveData.UiObservable
-import ru.vtinch.scramblegame.core.customLiveData.UiObserver
+import ru.vtinch.scramblegame.core.uiObservable.UiObservable
+import ru.vtinch.scramblegame.core.uiObservable.UiObserver
 import ru.vtinch.scramblegame.di.ClearViewModel
 import ru.vtinch.scramblegame.di.MyViewModel
 
