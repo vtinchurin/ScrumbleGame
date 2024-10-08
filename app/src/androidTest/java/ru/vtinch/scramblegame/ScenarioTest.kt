@@ -1,13 +1,17 @@
 package ru.vtinch.scramblegame
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.vtinch.scramblegame.game.GamePage
 import ru.vtinch.scramblegame.load.LoadPage
+import ru.vtinch.scramblegame.main.MainActivity
 import ru.vtinch.scramblegame.stats.StatisticsPage
 
 
@@ -31,6 +35,14 @@ class ScenarioTest {
         gamePage = GamePage(word = "input".reversed())
     }
 
+    @After
+    fun close() {
+        val sharedPreferences = ApplicationProvider
+            .getApplicationContext<Context>()
+            .getSharedPreferences("myApp", Context.MODE_PRIVATE)
+        sharedPreferences.edit().clear().apply()
+    }
+
     @Test
     fun caseNumber1() {
         initialLoading()
@@ -45,8 +57,6 @@ class ScenarioTest {
         gamePage.clickNext()
         gamePage = GamePage(word = "world".reversed())
         doWithRecreate { gamePage.assertInitialState() }
-
-
     }
 
     @Test
