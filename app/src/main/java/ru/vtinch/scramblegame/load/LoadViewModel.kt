@@ -25,7 +25,7 @@ class LoadViewModel(
                 }) {
                 observable.updateUi(it)
             }
-        } else observable.updateUi(LoadUiState.Empty)
+        }
     }
 
 }

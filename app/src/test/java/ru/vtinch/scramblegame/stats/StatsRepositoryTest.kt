@@ -17,6 +17,7 @@ class StatsRepositoryTest {
         corrects = FakeIntCache.Base()
         incorrects = FakeIntCache.Base()
         skipped = FakeIntCache.Base()
+        index = FakeIntCache.Base()
         repository = StatsRepository.Base(
             corrects = corrects,
             incorrect = incorrects,
