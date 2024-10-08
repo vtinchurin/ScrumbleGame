@@ -6,13 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import ru.vtinch.scramblegame.core.AbstractFragment
 import ru.vtinch.scramblegame.core.Navigation
-import ru.vtinch.scramblegame.core.customLiveData.UiObserver
+import ru.vtinch.scramblegame.core.uiObservable.UiObserver
 import ru.vtinch.scramblegame.databinding.FragmentLoadBinding
 import ru.vtinch.scramblegame.di.ProvideViewModel
 
 class LoadFragment : AbstractFragment<FragmentLoadBinding, LoadViewModel>() {
-
-    //private lateinit var viewModel: LoadViewModel
 
     private val update = object: UiObserver<LoadUiState> {
         override fun updateUi(data: LoadUiState) {

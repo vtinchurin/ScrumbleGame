@@ -17,18 +17,22 @@ interface GameRepository {
         private val corrects: Cache.Mutable<Int>,
         private val skipped: Cache.Mutable<Int>,
         private val incorrect: Cache.Mutable<Int>,
+        private val question: Cache.Mutable<String>,
         private val strategy: Strategy,
         private val dao: WordDao,
     ) : GameRepository {
 
-        private var word = ""
         override suspend fun getQuestion(): String {
-            word = dao.getWord(index.restore()).word
-            return strategy.getQuestion(word)
+            if (question.restore() == "") {
+                val word = dao.getWord(index.restore()).word
+                val shuffled = strategy.getQuestion(word)
+                question.save(shuffled)
+            }
+            return question.restore()
         }
 
         override fun checkPrediction(prediction: String): Boolean {
-            val isCorrect = word == prediction
+            val isCorrect = question.restore() == prediction
             if (isCorrect)
                 corrects.save(corrects.restore() + 1)
             else
@@ -38,12 +42,13 @@ interface GameRepository {
 
         override fun next() {
             index.save(index.restore() + 1)
+            question.save("")
         }
 
         override fun isLast() = index.restore() == 10
 
         override fun clear() {
-            index.save(0)
+            //index.save(0)
         }
 
         override fun skip() {
@@ -60,9 +65,6 @@ interface GameRepository {
         private val strategy: Strategy,
         private val words: List<String>,
     ) : GameRepository {
-
-        //private val words = listOf("input", "world", "prediction", "snow")
-
 
         override suspend fun getQuestion(): String {
             // Log.d("tvn", strategy.getQuestion(words[index.restore()]))

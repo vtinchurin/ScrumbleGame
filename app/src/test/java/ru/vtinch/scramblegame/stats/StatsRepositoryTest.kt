@@ -10,6 +10,7 @@ class StatsRepositoryTest {
     private lateinit var corrects: FakeIntCache
     private lateinit var incorrects: FakeIntCache
     private lateinit var skipped: FakeIntCache
+    private lateinit var index: FakeIntCache
 
     @Before
     fun setup() {
@@ -20,6 +21,7 @@ class StatsRepositoryTest {
             corrects = corrects,
             incorrect = incorrects,
             skipped = skipped,
+            index = index
         )
 
         corrects.save(1)

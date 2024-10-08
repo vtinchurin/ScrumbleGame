@@ -14,6 +14,7 @@ class StatsModule(private val core: Core) : Module<StatsViewModel> {
                 corrects = core.corrects,
                 incorrect = core.incorrect,
                 skipped = core.skipped,
+                index = core.index
             ),
             liveDataWrapper = StatsUiStateLiveDataWrapper.Base(),
             clearViewModel = core.clearViewModel
