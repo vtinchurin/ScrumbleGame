@@ -16,32 +16,20 @@ class GameViewModel(
 ) : MyViewModel.Abstract<GameUiState>(observable = UiObservable.Single()),
     UiStateLiveDataWrapper.Read {
 
-    init {
-        //Log.d("vm","create Game VM")
-    }
-
     private lateinit var question: String
-    private var processDeath = true
 
     fun init(firstRun: Boolean = true) {
-        runAsync.handleAsync(viewModelScope,{
-            question = gameRepository.getQuestion()
-        }){
-            if (firstRun) {
-                processDeath = false
-                //Log.d("tvn95", "First run")
+        if (firstRun) {
+            runAsync.handleAsync(viewModelScope, {
+                question = gameRepository.getQuestion()
+            }) {
                 liveDataWrapper.update(GameUiState.Initial(question))
-
-            } else {
-                liveDataWrapper.update(GameUiState.Empty)
-                if (processDeath) {
-                    //Log.d("tvn95", "Process Death")
-                    processDeath = false
-                } else {}
-                //Log.d("tvn95", "Activity Death")
+            }
+        } else {
+            liveDataWrapper.update(GameUiState.Empty)
             }
         }
-    }
+
 
     fun handleUserInput(input: String) {
         if (input.length == question.length) {
@@ -74,11 +62,10 @@ class GameViewModel(
             liveDataWrapper.update(GameUiState.Navigate)
             gameRepository.clear()
             clearViewModel.clear(GameViewModel::class.java)
-        }
-        else{
-            runAsync.handleAsync(viewModelScope,{
+        } else {
+            runAsync.handleAsync(viewModelScope, {
                 question = gameRepository.getQuestion()
-            }){
+            }) {
                 liveDataWrapper.update(GameUiState.Initial(question))
             }
         }
@@ -87,5 +74,4 @@ class GameViewModel(
     override fun liveData(): LiveData<GameUiState> {
         return liveDataWrapper.liveData()
     }
-
 }

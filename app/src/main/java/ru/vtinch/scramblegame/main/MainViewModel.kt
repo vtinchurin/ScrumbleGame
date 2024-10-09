@@ -11,19 +11,29 @@ import ru.vtinch.scramblegame.stats.StatsScreen
 class MainViewModel(
     private val index: IntCache,
 ) : MyViewModel {
+
+    private var processDeath = true
+
     fun init(isFirsRin: Boolean): Screen {
         return if (isFirsRin){
+            processDeath = false
+            Log.d("tvn", "First run")
             if (index.restore() == -1) {
-                Log.d("tvn", "index = -1")
                 index.save(0)
                 LoadScreen
             } else if (index.restore() == 10) {
-                Log.d("tvn", "index = 10")
                 StatsScreen
             } else{
-                Log.d("tvn", "index 0..9")
                 GameScreen
             }
-        } else Screen.Empty
+        } else {
+            if (processDeath) {
+                Log.d("tvn", "Process Death")
+                processDeath = false
+            } else {
+                Log.d("tvn", "Activity Death")
+            }
+            Screen.Empty
+        }
     }
 }
