@@ -34,3 +34,5 @@ interface CustomView {
         fun updateBgRes(@DrawableRes resId: Int)
     }
 }
+
+//todo REFACTOR TO FIRST VERSION
