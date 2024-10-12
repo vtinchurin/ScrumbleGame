@@ -28,6 +28,8 @@ interface ErrorText {
             defStyleAttr
         )
 
+        override fun getFreezesText(): Boolean = true
+
         override fun update(state: ErrorTextState) {
             this.state = state
             state.update(this)

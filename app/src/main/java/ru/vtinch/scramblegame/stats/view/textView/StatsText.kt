@@ -25,6 +25,8 @@ interface StatsText {
             defStyleAttr
         )
 
+        override fun getFreezesText(): Boolean = true
+
         override fun update(state: StatsTextState) {
             this.state = state
             state.update(this)

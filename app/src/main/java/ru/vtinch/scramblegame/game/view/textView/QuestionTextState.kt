@@ -23,7 +23,7 @@ interface QuestionTextState : Serializable {
     data class Correct(private val answer: String) :
         Abstract(text = answer, bgResId = R.drawable.bg_green)
 
-    data object Incorrect : Abstract(text = "", bgResId = R.drawable.bg_green) {
+    data object Incorrect : Abstract(text = "", bgResId = R.drawable.bg_red) {
         override fun update(view: QuestionText) {
             view.update(bgRes = bgResId)
         }
