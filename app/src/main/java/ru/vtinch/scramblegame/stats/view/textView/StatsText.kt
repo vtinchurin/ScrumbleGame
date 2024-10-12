@@ -1,16 +1,58 @@
 package ru.vtinch.scramblegame.stats.view.textView
 
-import ru.vtinch.scramblegame.presentation_core.CustomView
-import ru.vtinch.scramblegame.presentation_core.CustomViewState
+import android.content.Context
+import android.os.Parcelable
+import android.util.AttributeSet
+import androidx.appcompat.widget.AppCompatTextView
+import ru.vtinch.scramblegame.R
 
-interface StatsText : CustomView.SetStatistic {
-    data class Default(
-        private val correct: Int,
-        private val incorrect: Int,
-        private val skipped: Int,
-    ) : CustomViewState.CastTo<StatsText>() {
-        override val callback: (StatsText) -> Unit = {
-            it.update(Triple(correct, incorrect, skipped))
+
+interface StatsText {
+
+    fun update(state: StatsTextState)
+
+    fun update(data: Triple<Int, Int, Int>)
+
+    class Base : AppCompatTextView, StatsText {
+
+        private lateinit var state: StatsTextState
+
+        constructor(context: Context) : super(context)
+        constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+        constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+            context,
+            attrs,
+            defStyleAttr
+        )
+
+        override fun update(state: StatsTextState) {
+            this.state = state
+            state.update(this)
+        }
+
+        override fun update(data: Triple<Int, Int, Int>) {
+            this.text = resources.getString(R.string.stats, data.first, data.second, data.third)
+        }
+
+
+        /**
+         * You need remove nullable and first "return",
+         * if you use Material Views
+         */
+
+        override fun onSaveInstanceState(): Parcelable? {
+            return super.onSaveInstanceState()?.let {
+                val savedState = StatsTextSavedState(it)
+                savedState.save(state)
+                return savedState
+            }
+        }
+
+        override fun onRestoreInstanceState(state: Parcelable?) {
+            val restoredState = state as StatsTextSavedState
+            super.onRestoreInstanceState(restoredState.superState)
+            update(restoredState.restore())
         }
     }
 }
+

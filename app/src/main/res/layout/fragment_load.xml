@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/load_container"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:gravity="center"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
 
-    <ru.vtinch.scramblegame.load.view.errorTextView.CustomErrorText
-        android:text="@string/no_connectoin"
-        android:textColor="@color/red"
+    <view
         android:id="@+id/error_text"
-        android:freezesText="true"
-        android:visibility="gone"
+        class="ru.vtinch.scramblegame.load.view.errorTextView.ErrorText$Base"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        android:freezesText="true"
+        android:text="@string/no_connection"
+        android:textColor="@color/red"
+        android:visibility="gone" />
 
-    <ru.vtinch.scramblegame.load.view.button.CustomRetryButton
+    <view
         android:id="@+id/retry_button"
-        android:text="@string/retry"
+        class="ru.vtinch.scramblegame.load.view.button.RetryButton$Base"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="@string/retry" />
 
-    <ru.vtinch.scramblegame.load.view.progressView.MyProgress
+    <view
         android:id="@+id/progressUi"
+        class="ru.vtinch.scramblegame.load.view.progressView.LoadProgress$Base"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    </ru.vtinch.scramblegame.load.view.progressView.MyProgress>
-
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

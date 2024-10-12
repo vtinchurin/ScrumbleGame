@@ -1,21 +1,56 @@
 package ru.vtinch.scramblegame.load.view.button
 
-import android.view.View
-import ru.vtinch.scramblegame.presentation_core.CustomView
-import ru.vtinch.scramblegame.presentation_core.CustomViewState
+import android.content.Context
+import android.os.Parcelable
+import android.util.AttributeSet
+import com.google.android.material.button.MaterialButton
 
-interface RetryButton : CustomView.UpdateVisibility {
 
-    abstract class Abstract(
-        private val visibility: Int,
-    ) : CustomViewState.CastTo<RetryButton>() {
+interface RetryButton {
 
-        override val callback: (RetryButton) -> Unit = {
-            it.update(visibility)
+    fun update(state: RetryButtonState)
+
+    fun update(visibility: Int)
+
+    class Base : MaterialButton, RetryButton {
+
+        private lateinit var state: RetryButtonState
+
+        constructor(context: Context) : super(context)
+        constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+        constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+            context,
+            attrs,
+            defStyleAttr
+        )
+
+        override fun update(state: RetryButtonState) {
+            this.state = state
+            state.update(this)
         }
 
-    }
+        override fun update(visibility: Int) {
+            this.visibility = visibility
+        }
 
-    object Visible : Abstract(View.VISIBLE)
-    object Gone : Abstract(View.GONE)
+        /**
+         * You need remove nullable and first "return",
+         * if you use Material Views
+         */
+
+        override fun onSaveInstanceState(): Parcelable {
+            super.onSaveInstanceState().let {
+                val savedState = RetryButtonSavedState(it)
+                savedState.save(state)
+                return savedState
+            }
+        }
+
+        override fun onRestoreInstanceState(state: Parcelable?) {
+            val restoredState = state as RetryButtonSavedState
+            super.onRestoreInstanceState(restoredState.superState)
+            update(restoredState.restore())
+        }
+    }
 }
+

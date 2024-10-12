@@ -9,7 +9,8 @@
     android:padding="24dp">
 
 
-    <ru.vtinch.scramblegame.game.view.button.CustomGameButton
+    <view
+        class="ru.vtinch.scramblegame.game.view.button.GameButton$Base"
         android:id="@+id/skipButton"
         style="@style/Widget.Material3.Button.TextButton"
         android:textColor="@color/design_default_color_primary_variant"
@@ -23,7 +24,8 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <ru.vtinch.scramblegame.game.view.textView.CustomQuestionTextView
+    <view
+        class="ru.vtinch.scramblegame.game.view.textView.QuestionText$Base"
         android:id="@+id/answerText"
         android:layout_width="match_parent"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -51,7 +53,8 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <ru.vtinch.scramblegame.game.view.button.CustomGameButton
+    <view
+        class="ru.vtinch.scramblegame.game.view.button.GameButton$Base"
 
         android:id="@+id/checkButton"
         android:layout_width="match_parent"
@@ -60,7 +63,8 @@
         android:enabled="false"
         android:text="@string/check" />
 
-    <ru.vtinch.scramblegame.game.view.button.CustomGameButton
+    <view
+        class="ru.vtinch.scramblegame.game.view.button.GameButton$Base"
 
         android:id="@+id/nextButton"
         android:layout_width="match_parent"

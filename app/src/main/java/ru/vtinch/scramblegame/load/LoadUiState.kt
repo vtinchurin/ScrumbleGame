@@ -2,23 +2,27 @@ package ru.vtinch.scramblegame.load
 
 import ru.vtinch.scramblegame.game.NavigateToGame
 import ru.vtinch.scramblegame.load.view.button.RetryButton
+import ru.vtinch.scramblegame.load.view.button.RetryButtonState
 import ru.vtinch.scramblegame.load.view.errorTextView.ErrorText
-import ru.vtinch.scramblegame.load.view.progressView.LoadProgressUiState
-import ru.vtinch.scramblegame.load.view.progressView.MyProgress
-import ru.vtinch.scramblegame.presentation_core.CustomView
-import ru.vtinch.scramblegame.presentation_core.CustomViewState
+import ru.vtinch.scramblegame.load.view.errorTextView.ErrorTextState
+import ru.vtinch.scramblegame.load.view.progressView.LoadProgress
+import ru.vtinch.scramblegame.load.view.progressView.LoadProgressState
 
 interface LoadUiState {
 
-    fun show(errorText: CustomView, retryButton: CustomView, progressUi: MyProgress) = Unit
+    fun show(errorText: ErrorText, retryButton: RetryButton, progressUi: LoadProgress) = Unit
     fun navigate(navigate: NavigateToGame) = Unit
 
     abstract class Abstract(
-        private val errorTextState:CustomViewState,
-        private val retryButtonState: CustomViewState,
-        private val progressState: LoadProgressUiState
+        private val errorTextState: ErrorTextState,
+        private val retryButtonState: RetryButtonState,
+        private val progressState: LoadProgressState
     ) : LoadUiState {
-        override fun show(errorText: CustomView, retryButton: CustomView, progressUi: MyProgress) {
+        override fun show(
+            errorText: ErrorText,
+            retryButton: RetryButton,
+            progressUi: LoadProgress
+        ) {
             errorText.update(errorTextState)
             retryButton.update(retryButtonState)
             progressUi.update(progressState)
@@ -28,21 +32,29 @@ interface LoadUiState {
     object Empty : LoadUiState
 
     object Progress : Abstract(
-        errorTextState = ErrorText.Gone,
-        retryButtonState = RetryButton.Gone,
-        progressState = LoadProgressUiState.Visible()
+        errorTextState = ErrorTextState.Gone,
+        retryButtonState = RetryButtonState.Gone,
+        progressState = LoadProgressState.Visible
     ) {
-        override fun show(errorText: CustomView, retryButton: CustomView, progressUi: MyProgress) {
+        override fun show(
+            errorText: ErrorText,
+            retryButton: RetryButton,
+            progressUi: LoadProgress
+        ) {
             super.show(errorText, retryButton, progressUi)
         }
     }
 
     object Error : Abstract(
-        errorTextState = ErrorText.Visible,
-        retryButtonState = RetryButton.Visible,
-        progressState = LoadProgressUiState.Gone()
+        errorTextState = ErrorTextState.Default,
+        retryButtonState = RetryButtonState.Visible,
+        progressState = LoadProgressState.Gone
     ) {
-        override fun show(errorText: CustomView, retryButton: CustomView, progressUi: MyProgress) {
+        override fun show(
+            errorText: ErrorText,
+            retryButton: RetryButton,
+            progressUi: LoadProgress
+        ) {
             super.show(errorText, retryButton, progressUi)
         }
     }

@@ -1,26 +1,61 @@
 package ru.vtinch.scramblegame.game.view.textView
 
-import ru.vtinch.scramblegame.R
-import ru.vtinch.scramblegame.presentation_core.CustomView
-import ru.vtinch.scramblegame.presentation_core.CustomViewState
+import android.content.Context
+import android.os.Parcelable
+import android.util.AttributeSet
 
-interface QuestionText : CustomView.UpdateText, CustomView.SetBackground {
 
-    abstract class Abstract(
-        private val text: String,
-        protected val resId: Int,
-    ) : CustomViewState.CastTo<QuestionText>() {
-        override val callback: (QuestionText) -> Unit = {
-            it.update(text)
-            it.updateBgRes(resId)
+interface QuestionText {
+
+    fun update(state: QuestionTextState)
+
+    fun update(text: String)
+
+    fun update(bgRes: Int)
+
+    class Base : androidx.appcompat.widget.AppCompatTextView, QuestionText {
+
+        private lateinit var state: QuestionTextState
+
+        constructor(context: Context) : super(context)
+        constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+        constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+            context,
+            attrs,
+            defStyleAttr
+        )
+
+        override fun update(state: QuestionTextState) {
+            this.state = state
+            state.update(this)
         }
-    }
 
-    data class Initial(private val question: String) : Abstract(question, R.drawable.bg_gray)
-    data class Correct(private val answer: String) : Abstract(answer, R.drawable.bg_green)
-    object Incorrect : Abstract("", R.drawable.bg_red) {
-        override val callback: (QuestionText) -> Unit = {
-            it.updateBgRes(resId = resId)
+        override fun update(text: String) {
+            this.text = text
+        }
+
+        override fun update(bgRes: Int) {
+            this.setBackgroundResource(bgRes)
+        }
+
+        /**
+         * You need remove nullable and first "return",
+         * if you use Material Views
+         */
+
+        override fun onSaveInstanceState(): Parcelable? {
+            return super.onSaveInstanceState()?.let {
+                val savedState = QuestionTextSavedState(it)
+                savedState.save(state)
+                return savedState
+            }
+        }
+
+        override fun onRestoreInstanceState(state: Parcelable?) {
+            val restoredState = state as QuestionTextSavedState
+            super.onRestoreInstanceState(restoredState.superState)
+            update(restoredState.restore())
         }
     }
 }
+
