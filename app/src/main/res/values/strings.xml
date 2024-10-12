@@ -7,5 +7,5 @@
     <string name="stats">STATISTICS\n\n\nCorrect: %d\nIncorrect: %d\nSkipped: %d</string>
     <string name="new_game">NEW GAME</string>
     <string name="retry">retry</string>
-    <string name="no_connectoin">No internet connection</string>
+    <string name="no_connection">No internet connection</string>
 </resources>

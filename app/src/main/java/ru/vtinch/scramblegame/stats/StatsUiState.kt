@@ -2,13 +2,13 @@ package ru.vtinch.scramblegame.stats
 
 import android.widget.Button
 import ru.vtinch.scramblegame.core.Navigation
-import ru.vtinch.scramblegame.presentation_core.CustomView
 import ru.vtinch.scramblegame.stats.view.textView.StatsText
+import ru.vtinch.scramblegame.stats.view.textView.StatsTextState
 
 interface StatsUiState {
 
     fun show(
-        text: CustomView,
+        text: StatsText,
         button: Button,
     ) = Unit
 
@@ -19,8 +19,8 @@ interface StatsUiState {
         private val incorrect: Int,
         private val skipped: Int,
     ) : StatsUiState {
-        override fun show(text: CustomView, button: Button) {
-            text.update(StatsText.Default(correct, incorrect, skipped))
+        override fun show(text: StatsText, button: Button) {
+            text.update(StatsTextState.Default(correct, incorrect, skipped))
         }
     }
 
