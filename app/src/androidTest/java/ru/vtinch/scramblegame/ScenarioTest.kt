@@ -25,11 +25,9 @@ class ScenarioTest {
 
 
     private fun ScenarioTest.doWithRecreate(block: () -> Unit) {
-        activityScenarioRule.scenario.recreate()
         block.invoke()
         activityScenarioRule.scenario.recreate()
         block.invoke()
-        activityScenarioRule.scenario.recreate()
     }
 
     @Before
