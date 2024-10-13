@@ -97,7 +97,7 @@ interface GameUiState {
         }
     }
 
-    object IncorrectAnswer : Abstract() {
+    data object IncorrectAnswer : Abstract() {
         override fun show(
             text: QuestionText,
             userInput: CustomInput,

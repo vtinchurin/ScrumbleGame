@@ -9,7 +9,7 @@
 
     <view
         android:id="@+id/error_text"
-        class="ru.vtinch.scramblegame.load.view.errorTextView.ErrorText$Base"
+        class="ru.vtinch.scramblegame.load.view.errorTextView.CustomErrorText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:freezesText="true"
@@ -18,15 +18,15 @@
         android:visibility="gone" />
 
     <view
+        class="ru.vtinch.scramblegame.load.view.button.CustomRetryButton"
         android:id="@+id/retry_button"
-        class="ru.vtinch.scramblegame.load.view.button.RetryButton$Base"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/retry" />
 
     <view
         android:id="@+id/progressUi"
-        class="ru.vtinch.scramblegame.load.view.progressView.LoadProgress$Base"
+        class="ru.vtinch.scramblegame.load.view.progressView.CustomLoadProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

@@ -35,29 +35,13 @@ interface LoadUiState {
         errorTextState = ErrorTextState.Gone,
         retryButtonState = RetryButtonState.Gone,
         progressState = LoadProgressState.Visible
-    ) {
-        override fun show(
-            errorText: ErrorText,
-            retryButton: RetryButton,
-            progressUi: LoadProgress
-        ) {
-            super.show(errorText, retryButton, progressUi)
-        }
-    }
+    )
 
     object Error : Abstract(
         errorTextState = ErrorTextState.Default,
         retryButtonState = RetryButtonState.Visible,
         progressState = LoadProgressState.Gone
-    ) {
-        override fun show(
-            errorText: ErrorText,
-            retryButton: RetryButton,
-            progressUi: LoadProgress
-        ) {
-            super.show(errorText, retryButton, progressUi)
-        }
-    }
+    )
 
     object Success : LoadUiState {
         override fun navigate(navigate: NavigateToGame) {

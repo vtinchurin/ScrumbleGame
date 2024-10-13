@@ -12,13 +12,13 @@ import ru.vtinch.scramblegame.di.ProvideViewModel
 
 class LoadFragment : AbstractFragment<FragmentLoadBinding, LoadViewModel>() {
 
-    private val update = object: UiObserver<LoadUiState> {
+    private val update = object : UiObserver<LoadUiState> {
         override fun updateUi(data: LoadUiState) {
             data.show(
-                    binding.errorText,
-                    binding.retryButton,
-                    binding.progressUi
-                )
+                binding.errorText,
+                binding.retryButton,
+                binding.progressUi
+            )
             data.navigate(requireActivity() as Navigation)
         }
     }
