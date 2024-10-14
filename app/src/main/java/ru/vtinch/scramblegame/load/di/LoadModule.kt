@@ -36,8 +36,8 @@ class LoadModule(
                 service = service,
                 dao = core.cacheModule.dao(),
             ),
-            observable = UiObservable.Single(),
             runAsync = RunAsync.Base(),
+            observable = UiObservable.Base(),
             clearViewModel = core.clearViewModel
         )
     }

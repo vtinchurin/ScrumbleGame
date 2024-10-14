@@ -1,6 +1,7 @@
 package ru.vtinch.scramblegame.game
 
 import ru.vtinch.scramblegame.core.Navigation
+import ru.vtinch.scramblegame.di.UiState
 import ru.vtinch.scramblegame.game.view.button.GameButton
 import ru.vtinch.scramblegame.game.view.button.GameButtonState
 import ru.vtinch.scramblegame.game.view.input.CustomInput
@@ -8,7 +9,7 @@ import ru.vtinch.scramblegame.game.view.input.InputState
 import ru.vtinch.scramblegame.game.view.textView.QuestionText
 import ru.vtinch.scramblegame.game.view.textView.QuestionTextState
 
-interface GameUiState {
+interface GameUiState : UiState {
 
     fun show(
         text: QuestionText,
@@ -17,8 +18,6 @@ interface GameUiState {
         next: GameButton,
         check: GameButton,
     ) = Unit
-
-    fun navigate(navigate: Navigation) = Unit
 
     abstract class Abstract(
         private val checkState: GameButtonState = GameButtonState.Disabled,
@@ -54,30 +53,9 @@ interface GameUiState {
 
     object CorrectPrediction : Abstract(
         checkState = GameButtonState.Enabled
-    ) {
-        override fun show(
-            text: QuestionText,
-            userInput: CustomInput,
-            skip: GameButton,
-            next: GameButton,
-            check: GameButton,
-        ) {
-            super.show(text, userInput, skip, next, check)
-        }
+    )
 
-    }
-
-    object IncorrectPrediction : Abstract() {
-        override fun show(
-            text: QuestionText,
-            userInput: CustomInput,
-            skip: GameButton,
-            next: GameButton,
-            check: GameButton,
-        ) {
-            super.show(text, userInput, skip, next, check)
-        }
-    }
+    object IncorrectPrediction : Abstract()
 
     data class CorrectAnswer(private val answer: String) : Abstract(
         checkState = GameButtonState.Gone

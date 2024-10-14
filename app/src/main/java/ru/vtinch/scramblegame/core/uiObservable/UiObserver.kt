@@ -1,6 +1,6 @@
 package ru.vtinch.scramblegame.core.uiObservable
 
-interface UiObserver<T : Any> : Update<T> {
+fun interface UiObserver<T : Any> : Update<T> {
 
     fun isEmpty(): Boolean = false
 

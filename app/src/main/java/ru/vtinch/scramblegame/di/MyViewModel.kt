@@ -6,18 +6,21 @@ import kotlinx.coroutines.SupervisorJob
 import ru.vtinch.scramblegame.core.uiObservable.UiObservable
 import ru.vtinch.scramblegame.core.uiObservable.UiObserver
 
-interface MyViewModel{
+interface MyViewModel {
 
     interface Async<T : Any> : MyViewModel {
+
         fun startUpdate(observer: UiObserver<T>)
+
         fun stopUpdate()
+
     }
 
     abstract class Abstract<T : Any>(
         protected val observable: UiObservable<T>,
     ) : Async<T> {
-        
-        protected val viewModelScope = CoroutineScope(SupervisorJob()+ Dispatchers.Main.immediate)
+
+        protected val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
         override fun startUpdate(observer: UiObserver<T>) {
             observable.update(observer)

@@ -8,10 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import ru.vtinch.scramblegame.core.AbstractFragment
 import ru.vtinch.scramblegame.core.Navigation
+import ru.vtinch.scramblegame.core.uiObservable.UiObserver
 import ru.vtinch.scramblegame.databinding.FragmentGameBinding
 import ru.vtinch.scramblegame.di.ProvideViewModel
 
-class GameFragment : AbstractFragment<FragmentGameBinding, GameViewModel>() {
+class GameFragment : AbstractFragment<FragmentGameBinding, GameUiState, GameViewModel>() {
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -22,6 +23,17 @@ class GameFragment : AbstractFragment<FragmentGameBinding, GameViewModel>() {
             viewModel.handleUserInput(s.toString())
         }
 
+    }
+
+    override val update = UiObserver<GameUiState> { uiState ->
+        uiState.show(
+            text = binding.answerText,
+            userInput = binding.customInput,
+            next = binding.nextButton,
+            check = binding.checkButton,
+            skip = binding.skipButton
+        )
+        uiState.navigate(requireActivity() as Navigation)
     }
 
     override fun onCreateView(
@@ -37,18 +49,6 @@ class GameFragment : AbstractFragment<FragmentGameBinding, GameViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (requireActivity().application as ProvideViewModel).viewModel(GameViewModel::class.java)
-
-        viewModel.liveData().observe(viewLifecycleOwner) {
-
-            it.show(
-                text = binding.answerText,
-                userInput = binding.customInput,
-                next = binding.nextButton,
-                check = binding.checkButton,
-                skip = binding.skipButton
-            )
-            it.navigate(requireActivity() as Navigation)
-        }
 
         binding.nextButton.setOnClickListener {
             viewModel.next()

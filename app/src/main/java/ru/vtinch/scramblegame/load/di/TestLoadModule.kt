@@ -11,9 +11,9 @@ class TestLoadModule(private val core: Core): Module<LoadViewModel> {
     override fun viewModel(): LoadViewModel {
         return LoadViewModel(
             repository = LoadRepository.Test(),
-            observable = UiObservable.Single(),
             runAsync = RunAsync.Base(),
-            clearViewModel = core.clearViewModel
+            clearViewModel = core.clearViewModel,
+            observable = UiObservable.Base()
         )
     }
 }

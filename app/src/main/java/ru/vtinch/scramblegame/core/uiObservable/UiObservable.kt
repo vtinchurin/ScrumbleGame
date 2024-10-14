@@ -4,9 +4,9 @@ interface UiObservable<T : Any> : Update<T> {
 
     fun update(observer: UiObserver<T> = UiObserver.Empty())
 
-    class Single<T : Any> : UiObservable<T> {
+    abstract class Single<T : Any> : UiObservable<T> {
 
-        private var cachedData: T? = null
+        protected var cachedData: T? = null
         private var cachedObserver: UiObserver<T> = UiObserver.Empty()
 
         override fun update(observer: UiObserver<T>) {
@@ -24,4 +24,6 @@ interface UiObservable<T : Any> : Update<T> {
                 cachedObserver.updateUi(data)
         }
     }
+
+    class Base<T : Any> : Single<T>()
 }

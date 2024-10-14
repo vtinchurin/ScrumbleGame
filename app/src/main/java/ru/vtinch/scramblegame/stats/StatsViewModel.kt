@@ -1,14 +1,14 @@
 package ru.vtinch.scramblegame.stats
 
-import androidx.lifecycle.LiveData
+import ru.vtinch.scramblegame.core.uiObservable.UiObservable
 import ru.vtinch.scramblegame.di.ClearViewModel
 import ru.vtinch.scramblegame.di.MyViewModel
 
 class StatsViewModel(
     private val statsRepository: StatsRepository,
-    private val liveDataWrapper: StatsUiStateLiveDataWrapper.Mutable,
     private val clearViewModel: ClearViewModel,
-) : MyViewModel, StatsUiStateLiveDataWrapper.Read {
+    observable: UiObservable<StatsUiState>,
+) : MyViewModel.Abstract<StatsUiState>(observable) {
 
     init {
         //Log.d("vm","create Stats VM")
@@ -18,8 +18,8 @@ class StatsViewModel(
     fun update(isFirstRun: Boolean = true) {
         if (isFirstRun) {
             val (a, b, c) = statsRepository.getScore()
-            liveDataWrapper.update(StatsUiState.Default(a, b, c))
-        } else liveDataWrapper.update(StatsUiState.Empty)
+            observable.updateUi(StatsUiState.Default(a, b, c))
+        } else observable.updateUi(StatsUiState.Empty)
     }
 
 
@@ -27,11 +27,7 @@ class StatsViewModel(
     fun newGame(){
         statsRepository.clear()
         clearViewModel.clear(StatsViewModel::class.java)
-        liveDataWrapper.update(StatsUiState.Navigate)
-    }
-
-    override fun liveData(): LiveData<StatsUiState> {
-        return liveDataWrapper.liveData()
+        observable.updateUi(StatsUiState.Navigate)
     }
 
 }
