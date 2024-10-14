@@ -1,20 +1,17 @@
 package ru.vtinch.scramblegame.game
 
-import androidx.lifecycle.LiveData
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.vtinch.scramblegame.core.RunAsync
 import ru.vtinch.scramblegame.core.uiObservable.UiObservable
 import ru.vtinch.scramblegame.di.ClearViewModel
 import ru.vtinch.scramblegame.di.MyViewModel
 
 class GameViewModel(
-    private val liveDataWrapper: UiStateLiveDataWrapper.Mutable,
     private val gameRepository: GameRepository,
     private val clearViewModel: ClearViewModel,
     private val runAsync: RunAsync,
-) : MyViewModel.Abstract<GameUiState>(observable = UiObservable.Single()),
-    UiStateLiveDataWrapper.Read {
+    observable: UiObservable<GameUiState>,
+) : MyViewModel.Abstract<GameUiState>(observable) {
 
     private lateinit var question: String
 
@@ -23,30 +20,31 @@ class GameViewModel(
             runAsync.handleAsync(viewModelScope, {
                 question = gameRepository.getQuestion()
             }) {
-                liveDataWrapper.update(GameUiState.Initial(question))
+                observable.updateUi(GameUiState.Initial(question))
             }
         } else {
-            liveDataWrapper.update(GameUiState.Empty)
+            observable.updateUi(GameUiState.Empty)
             }
         }
 
 
     fun handleUserInput(input: String) {
         if (input.length == question.length) {
-            liveDataWrapper.update(GameUiState.CorrectPrediction)
+            observable.updateUi(GameUiState.CorrectPrediction)
         } else {
-            liveDataWrapper.update(GameUiState.IncorrectPrediction)
+            observable.updateUi(GameUiState.IncorrectPrediction)
         }
     }
 
     fun check(prediction: String) {
         if (gameRepository.checkPrediction(prediction)) {
-            liveDataWrapper.update(GameUiState.CorrectAnswer(prediction))
+            observable.updateUi(GameUiState.CorrectAnswer(prediction))
         } else {
-            viewModelScope.launch {
-                liveDataWrapper.update(GameUiState.IncorrectAnswer)
+            observable.updateUi(GameUiState.IncorrectAnswer)
+            runAsync.handleAsync(viewModelScope, {
                 delay(1500)
-                liveDataWrapper.update(GameUiState.Initial(question))
+            }) {
+                observable.updateUi(GameUiState.Initial(question))
             }
         }
     }
@@ -59,19 +57,14 @@ class GameViewModel(
     fun next() {
         gameRepository.next()
         if (gameRepository.isLast()) {
-            liveDataWrapper.update(GameUiState.Navigate)
-            gameRepository.clear()
+            observable.updateUi(GameUiState.Navigate)
             clearViewModel.clear(GameViewModel::class.java)
         } else {
             runAsync.handleAsync(viewModelScope, {
                 question = gameRepository.getQuestion()
             }) {
-                liveDataWrapper.update(GameUiState.Initial(question))
+                observable.updateUi(GameUiState.Initial(question))
             }
         }
-    }
-
-    override fun liveData(): LiveData<GameUiState> {
-        return liveDataWrapper.liveData()
     }
 }

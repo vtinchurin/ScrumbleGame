@@ -10,17 +10,15 @@ import ru.vtinch.scramblegame.core.uiObservable.UiObserver
 import ru.vtinch.scramblegame.databinding.FragmentLoadBinding
 import ru.vtinch.scramblegame.di.ProvideViewModel
 
-class LoadFragment : AbstractFragment<FragmentLoadBinding, LoadViewModel>() {
+class LoadFragment : AbstractFragment<FragmentLoadBinding, LoadUiState, LoadViewModel>() {
 
-    private val update = object : UiObserver<LoadUiState> {
-        override fun updateUi(data: LoadUiState) {
-            data.show(
-                binding.errorText,
-                binding.retryButton,
-                binding.progressUi
-            )
-            data.navigate(requireActivity() as Navigation)
-        }
+    override val update = UiObserver<LoadUiState> {
+        it.show(
+            binding.errorText,
+            binding.retryButton,
+            binding.progressUi
+        )
+        it.navigate(requireActivity() as Navigation)
     }
 
     override fun onCreateView(
@@ -44,15 +42,5 @@ class LoadFragment : AbstractFragment<FragmentLoadBinding, LoadViewModel>() {
         }
 
         viewModel.load(isFirstRun = savedInstanceState == null)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.startUpdate(observer = update)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.stopUpdate()
     }
 }

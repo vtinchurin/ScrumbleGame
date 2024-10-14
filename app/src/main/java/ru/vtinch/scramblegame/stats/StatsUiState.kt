@@ -2,17 +2,16 @@ package ru.vtinch.scramblegame.stats
 
 import android.widget.Button
 import ru.vtinch.scramblegame.core.Navigation
+import ru.vtinch.scramblegame.di.UiState
 import ru.vtinch.scramblegame.stats.view.textView.StatsText
 import ru.vtinch.scramblegame.stats.view.textView.StatsTextState
 
-interface StatsUiState {
+interface StatsUiState : UiState {
 
     fun show(
         text: StatsText,
         button: Button,
     ) = Unit
-
-    fun navigate(navigate: Navigation) = Unit
 
     data class Default(
         private val correct: Int,

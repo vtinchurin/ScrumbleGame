@@ -6,15 +6,15 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import ru.vtinch.scramblegame.core.RunAsync
-import ru.vtinch.scramblegame.core.uiObservable.UiObservable
 import ru.vtinch.scramblegame.core.uiObservable.UiObserver
 import ru.vtinch.scramblegame.di.ClearViewModel
 import ru.vtinch.scramblegame.di.MyViewModel
+import ru.vtinch.scramblegame.game.FakeObservable
 
 class LoadViewModelTest {
 
     private lateinit var repository: FakeLoadRepository
-    private lateinit var observable: UiObservable.Single<LoadUiState>
+    private lateinit var observable: FakeObservable<LoadUiState>
     private lateinit var viewModel: LoadViewModel
     private lateinit var fragment: LoadFragment
     private lateinit var runAsync: FakeRunAsync
@@ -23,7 +23,7 @@ class LoadViewModelTest {
     @Before
     fun setup() {
         repository = FakeLoadRepository.Base()
-        observable = UiObservable.Single()
+        observable = FakeObservable.Base()
         runAsync = FakeRunAsync.Base()
         clearViewModel = object : ClearViewModel {
             private var clazz : Class<out MyViewModel>? = null
@@ -33,9 +33,9 @@ class LoadViewModelTest {
         }
         viewModel = LoadViewModel(
             repository = repository,
-            observable = observable,
             runAsync = runAsync,
-            clearViewModel
+            clearViewModel,
+            observable = observable
 
         )
         fragment = LoadFragment()

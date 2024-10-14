@@ -1,10 +1,9 @@
 package ru.vtinch.scramblegame.game
 
-import androidx.lifecycle.LiveData
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import ru.vtinch.scramblegame.core.RunAsync
+import ru.vtinch.scramblegame.core.uiObservable.UiObservable
 import ru.vtinch.scramblegame.di.ClearViewModel
 import ru.vtinch.scramblegame.di.MyViewModel
 import ru.vtinch.scramblegame.load.FakeRunAsync
@@ -19,16 +18,15 @@ import ru.vtinch.scramblegame.load.FakeRunAsync
 class GameViewModelTest {
 
     private lateinit var repository: FakeGameRepository
-    private lateinit var liveDataWrapper: FakeLiveDataWrapper
     private lateinit var viewModel: GameViewModel
     private lateinit var clearViewModel: ClearViewModel
     private lateinit var runAsync: FakeRunAsync
+    private lateinit var observable: FakeObservable<GameUiState>
 
     @Before
     fun setup() {
-
         repository = FakeGameRepository.Base()
-        liveDataWrapper = FakeLiveDataWrapper.Base()
+        observable = FakeObservable.Base()
         clearViewModel = object : ClearViewModel{
             private var clazz :Class<out MyViewModel>? = null
             override fun clear(viewModelClass: Class<out MyViewModel>) {
@@ -39,9 +37,9 @@ class GameViewModelTest {
 
         viewModel = GameViewModel(
             gameRepository = repository,
-            liveDataWrapper = liveDataWrapper,
             clearViewModel = clearViewModel,
-            runAsync = runAsync
+            runAsync = runAsync,
+            observable = observable
         )
     }
 
@@ -53,8 +51,7 @@ class GameViewModelTest {
         viewModel.init(true)
         runAsync.returnResult()
 
-
-        liveDataWrapper.actualState(GameUiState.Initial("drow"))
+        observable.assertState(GameUiState.Initial("drow"))
     }
 
     @Test
@@ -65,7 +62,7 @@ class GameViewModelTest {
         viewModel.skip()
         runAsync.returnResult()
 
-        liveDataWrapper.actualState(GameUiState.Initial("wohs"))
+        observable.assertState(GameUiState.Initial("wohs"))
     }
 
     @Test
@@ -76,7 +73,7 @@ class GameViewModelTest {
         viewModel.handleUserInput("qwe")
 
 
-        liveDataWrapper.actualState(GameUiState.IncorrectPrediction)
+        observable.assertState(GameUiState.IncorrectPrediction)
     }
 
     @Test
@@ -86,7 +83,7 @@ class GameViewModelTest {
         viewModel.init()
         viewModel.handleUserInput("qwewe")
 
-        liveDataWrapper.actualState(GameUiState.IncorrectPrediction)
+        observable.assertState(GameUiState.IncorrectPrediction)
     }
 
     @Test
@@ -96,7 +93,7 @@ class GameViewModelTest {
         viewModel.init()
         viewModel.handleUserInput("wdeq")
 
-        liveDataWrapper.actualState(GameUiState.CorrectPrediction)
+        observable.assertState(GameUiState.CorrectPrediction)
     }
 
     @Test
@@ -107,23 +104,23 @@ class GameViewModelTest {
         runAsync.returnResult()
         viewModel.check("word")
 
-        liveDataWrapper.actualState(GameUiState.CorrectAnswer("word"))
+        observable.assertState(GameUiState.CorrectAnswer("word"))
 
         viewModel.next()
         runAsync.returnResult()
 
-        liveDataWrapper.actualState(GameUiState.Initial("wohs"))
+        observable.assertState(GameUiState.Initial("wohs"))
     }
 
-//    @Test
-//    fun testIncorrectAnswer() {
-//        repository.assertCall(words = listOf("word", "show"))
-//
-//        viewModel.init()
-//        viewModel.check("dwor")
-//
-//        liveDataWrapper.actualState(GameUiState.IncorrectAnswer)
-//    }
+    @Test
+    fun testIncorrectAnswer() {
+        repository.assertCall(words = listOf("word", "show"))
+
+        viewModel.init()
+        viewModel.check("dwor")
+
+        observable.assertState(GameUiState.IncorrectAnswer)
+    }
 
 }
 
@@ -169,26 +166,15 @@ private interface FakeGameRepository : GameRepository {
 
 }
 
+interface FakeObservable<T : Any> : UiObservable<T> {
 
-private interface FakeLiveDataWrapper: UiStateLiveDataWrapper.Mutable {
+    fun assertState(state: T)
 
-    fun actualState(state: GameUiState)
+    class Base<T : Any> : FakeObservable<T>, UiObservable.Single<T>() {
 
-    class Base : FakeLiveDataWrapper {
-
-        private var actual: GameUiState? = null
-
-        override fun actualState(state: GameUiState) {
-            assertEquals(state, actual)
+        override fun assertState(state: T) {
+            assertEquals(state, cachedData)
         }
-
-        override fun liveData(): LiveData<GameUiState> {
-            throw IllegalStateException("not use in test")
-        }
-
-        override fun update(value: GameUiState) {
-            actual = value
-        }
-
     }
+
 }

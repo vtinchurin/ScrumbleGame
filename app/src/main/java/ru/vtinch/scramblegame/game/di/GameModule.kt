@@ -1,12 +1,12 @@
 package ru.vtinch.scramblegame.game.di
 
 import ru.vtinch.scramblegame.core.RunAsync
+import ru.vtinch.scramblegame.core.uiObservable.UiObservable
 import ru.vtinch.scramblegame.di.Core
 import ru.vtinch.scramblegame.di.Module
 import ru.vtinch.scramblegame.game.GameRepository
 import ru.vtinch.scramblegame.game.GameViewModel
 import ru.vtinch.scramblegame.game.Strategy
-import ru.vtinch.scramblegame.game.UiStateLiveDataWrapper
 
 class GameModule(private val core: Core) : Module<GameViewModel> {
 
@@ -22,8 +22,8 @@ class GameModule(private val core: Core) : Module<GameViewModel> {
                 dao = core.cacheModule.dao(),
                 question = core.question
             ),
-            liveDataWrapper = UiStateLiveDataWrapper.Base(),
             clearViewModel = core.clearViewModel,
+            observable = UiObservable.Base(),
             runAsync = RunAsync.Base()
         )
     }

@@ -7,9 +7,9 @@ import ru.vtinch.scramblegame.di.MyViewModel
 
 class LoadViewModel(
     private val repository: LoadRepository,
-    observable: UiObservable<LoadUiState>,
     private val runAsync: RunAsync,
     private val clearViewModel: ClearViewModel,
+    observable: UiObservable<LoadUiState>,
 ) : MyViewModel.Abstract<LoadUiState>(observable) {
 
     fun load(isFirstRun: Boolean = true) {

@@ -1,16 +1,16 @@
 package ru.vtinch.scramblegame.stats
 
-import androidx.lifecycle.LiveData
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import ru.vtinch.scramblegame.di.ClearViewModel
 import ru.vtinch.scramblegame.di.MyViewModel
+import ru.vtinch.scramblegame.game.FakeObservable
 
 class StatsViewModelTest {
 
     private lateinit var repository: FakeStatsRepository
-    private lateinit var liveDataWrapper: FakeStatsLiveDataWrapper
+    private lateinit var observable: FakeObservable<StatsUiState>
     private lateinit var viewModel: StatsViewModel
     private lateinit var clearViewModel: ClearViewModel
 
@@ -19,14 +19,17 @@ class StatsViewModelTest {
 
         repository = FakeStatsRepository.Base()
         repository.setScore(Triple(1,2,5))
-        liveDataWrapper = FakeStatsLiveDataWrapper.Base()
+        observable = FakeObservable.Base()
         clearViewModel = object : ClearViewModel{
             private var clazz :Class<out MyViewModel>? = null
             override fun clear(viewModelClass: Class<out MyViewModel>) {
                 clazz = viewModelClass
             }
         }
-        viewModel = StatsViewModel(statsRepository = repository, liveDataWrapper = liveDataWrapper, clearViewModel = clearViewModel)
+        viewModel = StatsViewModel(
+            statsRepository = repository,
+            observable = observable, clearViewModel = clearViewModel
+        )
 
 
     }
@@ -35,9 +38,9 @@ class StatsViewModelTest {
     fun test(){
 
         viewModel.update()
-        liveDataWrapper.actualState(StatsUiState.Default(1,2,5))
+        observable.assertState(StatsUiState.Default(1, 2, 5))
         viewModel.newGame()
-        liveDataWrapper.actualState(StatsUiState.Navigate)
+        observable.assertState(StatsUiState.Navigate)
         repository.actualScore()
 
     }
@@ -69,26 +72,5 @@ private interface FakeStatsRepository: StatsRepository{
         override fun getScore(): Triple<Int, Int, Int> {
             return score
         }
-    }
-}
-private interface FakeStatsLiveDataWrapper:StatsUiStateLiveDataWrapper.Mutable{
-
-    fun actualState(state: StatsUiState)
-    class Base : FakeStatsLiveDataWrapper {
-
-        private var actual: StatsUiState? = null
-
-        override fun actualState(state: StatsUiState) {
-            assertEquals(state, actual)
-        }
-
-        override fun liveData(): LiveData<StatsUiState> {
-            throw IllegalStateException("not use in test")
-        }
-
-        override fun update(value: StatsUiState) {
-            actual = value
-        }
-
     }
 }

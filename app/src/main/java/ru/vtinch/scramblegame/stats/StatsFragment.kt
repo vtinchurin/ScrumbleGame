@@ -6,11 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import ru.vtinch.scramblegame.core.AbstractFragment
 import ru.vtinch.scramblegame.core.Navigation
+import ru.vtinch.scramblegame.core.uiObservable.UiObserver
 import ru.vtinch.scramblegame.databinding.FragmentStatsBinding
 import ru.vtinch.scramblegame.di.ProvideViewModel
 
-class StatsFragment : AbstractFragment<FragmentStatsBinding, StatsViewModel>() {
-    //private lateinit var viewModel: StatsViewModel
+class StatsFragment : AbstractFragment<FragmentStatsBinding, StatsUiState, StatsViewModel>() {
+
+    override val update = UiObserver<StatsUiState> {
+        it.show(
+            text = binding.statisticsText,
+            button = binding.newGameButton
+        )
+        it.navigate(requireActivity() as Navigation)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,16 +35,6 @@ class StatsFragment : AbstractFragment<FragmentStatsBinding, StatsViewModel>() {
 
 
         viewModel = (requireActivity() as ProvideViewModel).viewModel(StatsViewModel::class.java)
-
-        viewModel.liveData().observe(viewLifecycleOwner) {
-
-            it.show(
-                binding.statisticsText,
-                binding.newGameButton
-            )
-            it.navigate(requireActivity() as Navigation)
-        }
-
 
         viewModel.update(savedInstanceState == null)
 

@@ -1,6 +1,7 @@
 package ru.vtinch.scramblegame.load
 
-import ru.vtinch.scramblegame.game.NavigateToGame
+import ru.vtinch.scramblegame.core.Navigation
+import ru.vtinch.scramblegame.di.UiState
 import ru.vtinch.scramblegame.load.view.button.RetryButton
 import ru.vtinch.scramblegame.load.view.button.RetryButtonState
 import ru.vtinch.scramblegame.load.view.errorTextView.ErrorText
@@ -8,10 +9,9 @@ import ru.vtinch.scramblegame.load.view.errorTextView.ErrorTextState
 import ru.vtinch.scramblegame.load.view.progressView.LoadProgress
 import ru.vtinch.scramblegame.load.view.progressView.LoadProgressState
 
-interface LoadUiState {
+interface LoadUiState : UiState {
 
     fun show(errorText: ErrorText, retryButton: RetryButton, progressUi: LoadProgress) = Unit
-    fun navigate(navigate: NavigateToGame) = Unit
 
     abstract class Abstract(
         private val errorTextState: ErrorTextState,
@@ -44,7 +44,7 @@ interface LoadUiState {
     )
 
     object Success : LoadUiState {
-        override fun navigate(navigate: NavigateToGame) {
+        override fun navigate(navigate: Navigation) {
             navigate.navigateToGame()
         }
     }
