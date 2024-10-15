@@ -19,7 +19,7 @@ interface StatsRepository {
             corrects.save(0)
             skipped.save(0)
             incorrect.save(0)
-            index.save(0)
+            index.save(-1)
         }
 
         override fun getScore(): Triple<Int, Int, Int> {

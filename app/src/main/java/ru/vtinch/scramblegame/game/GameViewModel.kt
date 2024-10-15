@@ -16,16 +16,18 @@ class GameViewModel(
     private lateinit var question: String
 
     fun init(firstRun: Boolean = true) {
+        if (gameRepository.isLast()) {
+            observable.updateUi(GameUiState.Navigate)
+            clearViewModel.clear(this::class.java)
+        }
         if (firstRun) {
             runAsync.handleAsync(viewModelScope, {
                 question = gameRepository.getQuestion()
             }) {
                 observable.updateUi(GameUiState.Initial(question))
             }
-        } else {
-            observable.updateUi(GameUiState.Empty)
-            }
-        }
+            } else observable.updateUi(GameUiState.Empty)
+    }
 
 
     fun handleUserInput(input: String) {
@@ -56,15 +58,6 @@ class GameViewModel(
 
     fun next() {
         gameRepository.next()
-        if (gameRepository.isLast()) {
-            observable.updateUi(GameUiState.Navigate)
-            clearViewModel.clear(GameViewModel::class.java)
-        } else {
-            runAsync.handleAsync(viewModelScope, {
-                question = gameRepository.getQuestion()
-            }) {
-                observable.updateUi(GameUiState.Initial(question))
-            }
-        }
+        init()
     }
 }

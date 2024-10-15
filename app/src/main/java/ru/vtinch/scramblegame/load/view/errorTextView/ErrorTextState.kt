@@ -19,11 +19,5 @@ interface ErrorTextState : Serializable {
     }
 
     data object Gone : Abstract(View.GONE)
-    data object Default : Abstract(View.VISIBLE)
-    data class Custom(private val text: String) : Abstract(View.VISIBLE) {
-        override fun update(view: ErrorText) {
-            view.update(text)
-            view.update(visibility)
-        }
-    }
+    data class Default(private val resId: Int) : Abstract(View.VISIBLE, textResId = resId)
 }

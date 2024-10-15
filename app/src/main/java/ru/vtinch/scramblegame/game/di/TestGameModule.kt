@@ -14,7 +14,7 @@ class TestGameModule(private val core: Core) : Module<GameViewModel> {
 
         return GameViewModel(
             gameRepository = GameRepository.Test(
-                index = core.index,
+                index = core.indexCache,
                 corrects = core.corrects,
                 incorrect = core.incorrect,
                 skipped = core.skipped,

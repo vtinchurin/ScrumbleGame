@@ -7,6 +7,7 @@ import ru.vtinch.scramblegame.di.Module
 import ru.vtinch.scramblegame.game.GameRepository
 import ru.vtinch.scramblegame.game.GameViewModel
 import ru.vtinch.scramblegame.game.Strategy
+import ru.vtinch.scramblegame.load.data.local.CacheDataSource
 
 class GameModule(private val core: Core) : Module<GameViewModel> {
 
@@ -14,12 +15,12 @@ class GameModule(private val core: Core) : Module<GameViewModel> {
 
         return GameViewModel(
             gameRepository = GameRepository.Base(
-                index = core.index,
+                index = core.indexCache,
                 corrects = core.corrects,
                 incorrect = core.incorrect,
                 skipped = core.skipped,
                 strategy = Strategy.Game,
-                dao = core.cacheModule.dao(),
+                cacheDataSource = CacheDataSource.Base(core.cacheModule.dao()),
                 question = core.question
             ),
             clearViewModel = core.clearViewModel,

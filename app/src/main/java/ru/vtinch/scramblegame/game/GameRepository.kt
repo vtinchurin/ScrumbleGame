@@ -1,7 +1,8 @@
 package ru.vtinch.scramblegame.game
 
+import android.util.Log
 import ru.vtinch.scramblegame.core.cache.Cache
-import ru.vtinch.scramblegame.load.data.local.WordDao
+import ru.vtinch.scramblegame.load.data.local.CacheDataSource
 
 interface GameRepository {
 
@@ -19,12 +20,12 @@ interface GameRepository {
         private val incorrect: Cache.Mutable<Int>,
         private val question: Cache.Mutable<String>,
         private val strategy: Strategy,
-        private val dao: WordDao,
+        private val cacheDataSource: CacheDataSource.Read,
     ) : GameRepository {
 
         override suspend fun getQuestion(): String {
             if (question.restore() == "") {
-                val word = dao.getWord(index.restore()).word
+                val word = cacheDataSource.word(index.restore())
                 val shuffled = strategy.getQuestion(word)
                 question.save(shuffled)
             }
@@ -45,7 +46,10 @@ interface GameRepository {
             question.save("")
         }
 
-        override fun isLast() = index.restore() == 10
+        override fun isLast(): Boolean {
+            Log.d("tvn", "${index.restore()}")
+            return index.restore() == 10
+        }
 
         override fun clear() {
             //index.save(0)

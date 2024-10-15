@@ -33,7 +33,6 @@ class StatsFragment : AbstractFragment<FragmentStatsBinding, StatsUiState, Stats
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         viewModel = (requireActivity() as ProvideViewModel).viewModel(StatsViewModel::class.java)
 
         viewModel.update(savedInstanceState == null)

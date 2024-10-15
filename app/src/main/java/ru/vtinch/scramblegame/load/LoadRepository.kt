@@ -2,24 +2,28 @@ package ru.vtinch.scramblegame.load
 
 import android.util.Log
 import kotlinx.coroutines.delay
-import ru.vtinch.scramblegame.load.data.local.WordCache
-import ru.vtinch.scramblegame.load.data.local.WordDao
-import ru.vtinch.scramblegame.load.data.remote.WordService
+import ru.vtinch.scramblegame.R
+import ru.vtinch.scramblegame.core.cache.Cache
+import ru.vtinch.scramblegame.load.data.local.CacheDataSource
+import ru.vtinch.scramblegame.load.data.remote.CloudDataSource
+import ru.vtinch.scramblegame.load.data.remote.HandleError
 
 interface LoadRepository {
 
-    suspend fun load(): LoadResult
+    suspend fun load()
 
     class Base(
-        private val service: WordService,
-        private val dao: WordDao,
+        private val cloudDataSource: CloudDataSource,
+        private val cacheDataSource: CacheDataSource.Save,
+        private val index: Cache.Save<Int>,
+        private val handleError: HandleError<Exception>
     ) : LoadRepository {
 
         init {
             Log.d("tvn", "Init LoadRepo")
         }
 
-        override suspend fun load(): LoadResult {
+        override suspend fun load() {
 
             /**
              *              Old version without Retrofit2
@@ -35,23 +39,15 @@ interface LoadRepository {
              *                 connection.disconnect()
              *             }
              */
-
             try {
-                val result = service.load().execute()
-                if (result.isSuccessful) {
-                    val response = result.body()?.words
-                    val list = response!!.mapIndexed { index, word ->
-                        WordCache(index, word)
-                    }
-                    dao.addWords(list)
-                    return LoadResult.Success
-                } else
-                    Log.d("tvn", "Empty Body")
-                return LoadResult.Error
+                val data = cloudDataSource.getWords()
+                cacheDataSource.save(data)
+                index.save(0)
             } catch (e: Exception) {
-                Log.d("tvn", e.message.toString())
-                return LoadResult.Error
+                throw handleError.handleError(e)
             }
+
+
         }
     }
 
@@ -59,19 +55,27 @@ interface LoadRepository {
 
         private var error = true
 
-        override suspend fun load(): LoadResult {
-
-            return if (error) {
+        override suspend fun load() {
+            delay(1500)
+            if (error) {
                 error = false
-                LoadResult.Error
-            } else {
-                delay(1500)
-                LoadResult.Success
+                throw DomainException.NoInternetConnectionException()
             }
-
         }
     }
 }
 
+interface DomainException {
+    fun toResource(): Int
 
+    abstract class Abstract : Exception(), DomainException
 
+    class NoInternetConnectionException : Abstract() {
+        override fun toResource() = R.string.no_connection
+
+    }
+
+    class ServiceUnavailable : Abstract() {
+        override fun toResource() = R.string.service_unavailable
+    }
+}
