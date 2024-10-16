@@ -8,7 +8,7 @@ import ru.vtinch.scramblegame.R
 
 class CustomStatsText : AppCompatTextView, StatsText {
 
-    private lateinit var state: StatsTextState
+    private var state: StatsTextState = StatsTextState.Empty
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)

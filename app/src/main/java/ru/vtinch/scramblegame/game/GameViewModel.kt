@@ -19,16 +19,16 @@ class GameViewModel(
         if (gameRepository.isLast()) {
             observable.updateUi(GameUiState.Navigate)
             clearViewModel.clear(this::class.java)
-        }
-        if (firstRun) {
+        } else
             runAsync.handleAsync(viewModelScope, {
                 question = gameRepository.getQuestion()
             }) {
-                observable.updateUi(GameUiState.Initial(question))
+                if (firstRun) {
+                    observable.updateUi(GameUiState.Initial(question))
+                } else
+                    observable.updateUi(GameUiState.Empty)
             }
-            } else observable.updateUi(GameUiState.Empty)
     }
-
 
     fun handleUserInput(input: String) {
         if (input.length == question.length) {

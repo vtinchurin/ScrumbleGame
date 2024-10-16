@@ -1,6 +1,5 @@
 package ru.vtinch.scramblegame.game
 
-import android.util.Log
 import ru.vtinch.scramblegame.core.cache.Cache
 import ru.vtinch.scramblegame.load.data.local.CacheDataSource
 
@@ -23,17 +22,20 @@ interface GameRepository {
         private val cacheDataSource: CacheDataSource.Read,
     ) : GameRepository {
 
+        private lateinit var word: String
+
         override suspend fun getQuestion(): String {
+            word = cacheDataSource.word(index.restore())
             if (question.restore() == "") {
-                val word = cacheDataSource.word(index.restore())
-                val shuffled = strategy.getQuestion(word)
-                question.save(shuffled)
+                strategy.getQuestion(word).let {
+                    question.save(it)
+                }
             }
             return question.restore()
         }
 
         override fun checkPrediction(prediction: String): Boolean {
-            val isCorrect = question.restore() == prediction
+            val isCorrect = word.lowercase() == prediction.lowercase()
             if (isCorrect)
                 corrects.save(corrects.restore() + 1)
             else
@@ -43,20 +45,20 @@ interface GameRepository {
 
         override fun next() {
             index.save(index.restore() + 1)
-            question.save("")
+            clear()
         }
 
         override fun isLast(): Boolean {
-            Log.d("tvn", "${index.restore()}")
             return index.restore() == 10
         }
 
         override fun clear() {
-            //index.save(0)
+            question.save("")
         }
 
         override fun skip() {
             skipped.save(skipped.restore() + 1)
+            clear()
         }
 
     }

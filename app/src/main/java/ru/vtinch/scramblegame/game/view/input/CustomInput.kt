@@ -10,7 +10,7 @@ import ru.vtinch.scramblegame.databinding.InputviewlayoutBinding
 
 class CustomInput : FrameLayout, UpdateInput {
 
-    private lateinit var state: InputState
+    private var state: InputState = InputState.Initial
 
     private val binding = InputviewlayoutBinding.inflate(LayoutInflater.from(this.context),this,true)
     constructor(context: Context):super(context)

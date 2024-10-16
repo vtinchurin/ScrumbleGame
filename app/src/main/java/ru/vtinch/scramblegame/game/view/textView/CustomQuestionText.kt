@@ -6,7 +6,7 @@ import android.util.AttributeSet
 
 class CustomQuestionText : androidx.appcompat.widget.AppCompatTextView, QuestionText {
 
-    private lateinit var state: QuestionTextState
+    private var state: QuestionTextState = QuestionTextState.Default
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)

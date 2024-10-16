@@ -36,15 +36,9 @@ class GameFragment : AbstractFragment<FragmentGameBinding, GameUiState, GameView
         )
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = FragmentGameBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
-    }
+    override fun inflate(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentGameBinding.inflate(inflater, container, false)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

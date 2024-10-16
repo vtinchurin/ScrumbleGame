@@ -1,7 +1,6 @@
 package ru.vtinch.scramblegame.main
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import ru.vtinch.scramblegame.R
 import ru.vtinch.scramblegame.core.Navigation
@@ -21,11 +20,8 @@ class MainActivity : AppCompatActivity(), Navigation, ProvideViewModel {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = (application as ProvideViewModel).viewModel(MainViewModel::class.java)
-        Log.d("tvn", "${savedInstanceState == null}")
         val screen : Screen = viewModel.init(savedInstanceState == null)
         navigate(screen)
-//        if (savedInstanceState == null)
-//            navigateToLoad()
     }
 
     override fun navigate(screen: Screen) {

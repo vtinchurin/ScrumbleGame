@@ -7,7 +7,7 @@ import com.google.android.material.button.MaterialButton
 
 class CustomRetryButton : MaterialButton, RetryButton {
 
-    private lateinit var state: RetryButtonState
+    private var state: RetryButtonState = RetryButtonState.Gone
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)

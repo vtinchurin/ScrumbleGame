@@ -16,4 +16,11 @@ interface StatsTextState : Serializable {
             view.update(data)
         }
     }
+
+    object Empty : StatsTextState {
+        override fun update(view: StatsText) {
+            val data = Triple(0, 0, 0)
+            view.update(data)
+        }
+    }
 }

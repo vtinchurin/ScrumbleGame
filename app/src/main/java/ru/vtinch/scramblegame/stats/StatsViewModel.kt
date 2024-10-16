@@ -26,7 +26,7 @@ class StatsViewModel(
 
     fun newGame(){
         statsRepository.clear()
-        clearViewModel.clear(StatsViewModel::class.java)
+        clearViewModel.clear(this::class.java)
         observable.updateUi(StatsUiState.Navigate)
     }
 
