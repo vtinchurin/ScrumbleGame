@@ -10,7 +10,7 @@ import ru.vtinch.scramblegame.core.uiObservable.UiObserver
 import ru.vtinch.scramblegame.di.MyViewModel
 import ru.vtinch.scramblegame.di.UiState
 
-abstract class AbstractFragment<binding : ViewBinding, uiState : UiState, viewModel : MyViewModel.Abstract<uiState>> :
+abstract class AbstractFragment<binding : ViewBinding, uiState : UiState, viewModel : MyViewModel.Async<uiState>> :
     Fragment() {
 
     protected abstract val update: UiObserver<uiState>

@@ -9,9 +9,9 @@ import ru.vtinch.scramblegame.di.MyViewModel
 class GameViewModel(
     private val gameRepository: GameRepository,
     private val clearViewModel: ClearViewModel,
-    private val runAsync: RunAsync,
+    runAsync: RunAsync,
     observable: UiObservable<GameUiState>,
-) : MyViewModel.Abstract<GameUiState>(observable) {
+) : MyViewModel.ObservableAsync<GameUiState>(observable, runAsync) {
 
     private lateinit var question: String
 
@@ -20,14 +20,21 @@ class GameViewModel(
             observable.updateUi(GameUiState.Navigate)
             clearViewModel.clear(this::class.java)
         } else
-            runAsync.handleAsync(viewModelScope, {
+            handleAsync {
                 question = gameRepository.getQuestion()
-            }) {
-                if (firstRun) {
-                    observable.updateUi(GameUiState.Initial(question))
-                } else
-                    observable.updateUi(GameUiState.Empty)
+                if (firstRun)
+                    GameUiState.Initial(question)
+                else
+                    GameUiState.Empty
             }
+//            runAsync.handleAsync(viewModelScope, {
+//                question = gameRepository.getQuestion()
+//            }) {
+//                if (firstRun) {
+//                    observable.updateUi(GameUiState.Initial(question))
+//                } else
+//                    observable.updateUi(GameUiState.Empty)
+//            }
     }
 
     fun handleUserInput(input: String) {
@@ -43,10 +50,9 @@ class GameViewModel(
             observable.updateUi(GameUiState.CorrectAnswer(prediction))
         } else {
             observable.updateUi(GameUiState.IncorrectAnswer)
-            runAsync.handleAsync(viewModelScope, {
+            handleAsync {
                 delay(1500)
-            }) {
-                observable.updateUi(GameUiState.Initial(question))
+                GameUiState.Initial(question)
             }
         }
     }
