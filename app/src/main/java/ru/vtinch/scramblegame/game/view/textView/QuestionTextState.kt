@@ -28,4 +28,6 @@ interface QuestionTextState : Serializable {
             view.update(bgRes = bgResId)
         }
     }
+
+    object Default : Abstract(text = "", bgResId = R.drawable.bg_gray)
 }

@@ -7,7 +7,7 @@ import com.google.android.material.button.MaterialButton
 
 class CustomGameButton : MaterialButton, GameButton {
 
-    private lateinit var state: GameButtonState
+    private var state: GameButtonState = GameButtonState.Gone
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)

@@ -12,7 +12,8 @@ class Core(
     private val sharedPreferences = context.getSharedPreferences("myApp", Context.MODE_PRIVATE)
     val cacheModule = CacheModule.Base(context)
     val isTest = false
-    val index = IntCache("index", sharedPreferences, defaultValue = -1)
+    val wordsCount = 10
+    val indexCache = IntCache("index", sharedPreferences, defaultValue = -1)
     val corrects = IntCache("corrects", sharedPreferences, defaultValue = 0)
     val skipped = IntCache("skipped", sharedPreferences, defaultValue = 0)
     val incorrect = IntCache("incorrect", sharedPreferences, defaultValue = 0)

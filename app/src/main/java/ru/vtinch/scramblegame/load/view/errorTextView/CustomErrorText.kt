@@ -7,7 +7,7 @@ import androidx.appcompat.widget.AppCompatTextView
 
 class CustomErrorText : AppCompatTextView, ErrorText {
 
-    private lateinit var state: ErrorTextState
+    private var state: ErrorTextState = ErrorTextState.Gone
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)

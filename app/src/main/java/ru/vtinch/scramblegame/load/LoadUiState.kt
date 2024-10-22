@@ -37,8 +37,8 @@ interface LoadUiState : UiState {
         progressState = LoadProgressState.Visible
     )
 
-    object Error : Abstract(
-        errorTextState = ErrorTextState.Default,
+    data class Error(private val resId: Int) : Abstract(
+        errorTextState = ErrorTextState.Default(resId),
         retryButtonState = RetryButtonState.Visible,
         progressState = LoadProgressState.Gone
     )

@@ -8,12 +8,7 @@ class StatsViewModel(
     private val statsRepository: StatsRepository,
     private val clearViewModel: ClearViewModel,
     observable: UiObservable<StatsUiState>,
-) : MyViewModel.Abstract<StatsUiState>(observable) {
-
-    init {
-        //Log.d("vm","create Stats VM")
-    }
-
+) : MyViewModel.Observable<StatsUiState>(observable) {
 
     fun update(isFirstRun: Boolean = true) {
         if (isFirstRun) {
@@ -22,12 +17,9 @@ class StatsViewModel(
         } else observable.updateUi(StatsUiState.Empty)
     }
 
-
-
-    fun newGame(){
+    fun newGame() {
         statsRepository.clear()
-        clearViewModel.clear(StatsViewModel::class.java)
+        clearViewModel.clear(this::class.java)
         observable.updateUi(StatsUiState.Navigate)
     }
-
 }

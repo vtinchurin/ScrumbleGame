@@ -14,7 +14,7 @@ class StatsModule(private val core: Core) : Module<StatsViewModel> {
                 corrects = core.corrects,
                 incorrect = core.incorrect,
                 skipped = core.skipped,
-                index = core.index
+                index = core.indexCache
             ),
             clearViewModel = core.clearViewModel,
             observable = UiObservable.Base()

@@ -20,19 +20,11 @@ class StatsFragment : AbstractFragment<FragmentStatsBinding, StatsUiState, Stats
         it.navigate(requireActivity() as Navigation)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = FragmentStatsBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
-    }
+    override fun inflate(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentStatsBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         viewModel = (requireActivity() as ProvideViewModel).viewModel(StatsViewModel::class.java)
 

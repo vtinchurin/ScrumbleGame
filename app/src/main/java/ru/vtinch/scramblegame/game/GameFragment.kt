@@ -26,6 +26,7 @@ class GameFragment : AbstractFragment<FragmentGameBinding, GameUiState, GameView
     }
 
     override val update = UiObserver<GameUiState> { uiState ->
+        uiState.navigate(requireActivity() as Navigation)
         uiState.show(
             text = binding.answerText,
             userInput = binding.customInput,
@@ -33,21 +34,15 @@ class GameFragment : AbstractFragment<FragmentGameBinding, GameUiState, GameView
             check = binding.checkButton,
             skip = binding.skipButton
         )
-        uiState.navigate(requireActivity() as Navigation)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = FragmentGameBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
-    }
+    override fun inflate(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentGameBinding.inflate(inflater, container, false)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel = (requireActivity().application as ProvideViewModel).viewModel(GameViewModel::class.java)
 
         binding.nextButton.setOnClickListener {

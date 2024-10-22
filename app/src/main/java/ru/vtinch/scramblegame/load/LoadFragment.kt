@@ -21,15 +21,9 @@ class LoadFragment : AbstractFragment<FragmentLoadBinding, LoadUiState, LoadView
         it.navigate(requireActivity() as Navigation)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = FragmentLoadBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
-    }
+    override fun inflate(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentLoadBinding.inflate(inflater, container, false)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -11,11 +11,9 @@ class App : Application(), ProvideViewModel {
 
     private lateinit var factory: ManageViewModels
 
-    private val clear : ClearViewModel = object : ClearViewModel {
-        override fun clear(viewModelClass: Class<out MyViewModel>) {
+    private val clear: ClearViewModel = ClearViewModel { viewModelClass ->
             factory.clear(viewModelClass)
         }
-    }
 
     override fun onCreate() {
         super.onCreate()

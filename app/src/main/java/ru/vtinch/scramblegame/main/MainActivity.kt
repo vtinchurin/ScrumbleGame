@@ -8,7 +8,6 @@ import ru.vtinch.scramblegame.core.Screen
 import ru.vtinch.scramblegame.databinding.ActivityMainBinding
 import ru.vtinch.scramblegame.di.MyViewModel
 import ru.vtinch.scramblegame.di.ProvideViewModel
-import kotlin.jvm.java
 
 
 class MainActivity : AppCompatActivity(), Navigation, ProvideViewModel {
@@ -21,11 +20,8 @@ class MainActivity : AppCompatActivity(), Navigation, ProvideViewModel {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = (application as ProvideViewModel).viewModel(MainViewModel::class.java)
-
         val screen : Screen = viewModel.init(savedInstanceState == null)
         navigate(screen)
-//        if (savedInstanceState == null)
-//            navigateToLoad()
     }
 
     override fun navigate(screen: Screen) {

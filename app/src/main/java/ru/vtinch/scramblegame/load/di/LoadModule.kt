@@ -10,6 +10,9 @@ import ru.vtinch.scramblegame.di.Core
 import ru.vtinch.scramblegame.di.Module
 import ru.vtinch.scramblegame.load.LoadRepository
 import ru.vtinch.scramblegame.load.LoadViewModel
+import ru.vtinch.scramblegame.load.data.local.CacheDataSource
+import ru.vtinch.scramblegame.load.data.remote.CloudDataSource
+import ru.vtinch.scramblegame.load.data.remote.HandleError
 import ru.vtinch.scramblegame.load.data.remote.WordService
 
 class LoadModule(
@@ -33,12 +36,15 @@ class LoadModule(
 
         return LoadViewModel(
             repository = LoadRepository.Base(
-                service = service,
-                dao = core.cacheModule.dao(),
+                cloudDataSource = CloudDataSource.Base(service, core.wordsCount),
+                cacheDataSource = CacheDataSource.Base(core.cacheModule.dao()),
+                index = core.indexCache,
+                handleError = HandleError.Data()
             ),
             runAsync = RunAsync.Base(),
             observable = UiObservable.Base(),
-            clearViewModel = core.clearViewModel
+            clearViewModel = core.clearViewModel,
+            handleError = HandleError.Ui()
         )
     }
 }

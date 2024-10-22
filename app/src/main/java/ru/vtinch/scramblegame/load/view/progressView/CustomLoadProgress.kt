@@ -7,7 +7,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator
 
 class CustomLoadProgress : CircularProgressIndicator, LoadProgress {
 
-    private lateinit var state: LoadProgressState
+    private var state: LoadProgressState = LoadProgressState.Gone
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)

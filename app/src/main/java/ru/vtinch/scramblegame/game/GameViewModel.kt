@@ -9,24 +9,33 @@ import ru.vtinch.scramblegame.di.MyViewModel
 class GameViewModel(
     private val gameRepository: GameRepository,
     private val clearViewModel: ClearViewModel,
-    private val runAsync: RunAsync,
+    runAsync: RunAsync,
     observable: UiObservable<GameUiState>,
-) : MyViewModel.Abstract<GameUiState>(observable) {
+) : MyViewModel.ObservableAsync<GameUiState>(observable, runAsync) {
 
     private lateinit var question: String
 
     fun init(firstRun: Boolean = true) {
-        if (firstRun) {
-            runAsync.handleAsync(viewModelScope, {
+        if (gameRepository.isLast()) {
+            observable.updateUi(GameUiState.Navigate)
+            clearViewModel.clear(this::class.java)
+        } else
+            handleAsync {
                 question = gameRepository.getQuestion()
-            }) {
-                observable.updateUi(GameUiState.Initial(question))
+                if (firstRun)
+                    GameUiState.Initial(question)
+                else
+                    GameUiState.Empty
             }
-        } else {
-            observable.updateUi(GameUiState.Empty)
-            }
-        }
-
+//            runAsync.handleAsync(viewModelScope, {
+//                question = gameRepository.getQuestion()
+//            }) {
+//                if (firstRun) {
+//                    observable.updateUi(GameUiState.Initial(question))
+//                } else
+//                    observable.updateUi(GameUiState.Empty)
+//            }
+    }
 
     fun handleUserInput(input: String) {
         if (input.length == question.length) {
@@ -41,10 +50,9 @@ class GameViewModel(
             observable.updateUi(GameUiState.CorrectAnswer(prediction))
         } else {
             observable.updateUi(GameUiState.IncorrectAnswer)
-            runAsync.handleAsync(viewModelScope, {
+            handleAsync {
                 delay(1500)
-            }) {
-                observable.updateUi(GameUiState.Initial(question))
+                GameUiState.Initial(question)
             }
         }
     }
@@ -56,15 +64,6 @@ class GameViewModel(
 
     fun next() {
         gameRepository.next()
-        if (gameRepository.isLast()) {
-            observable.updateUi(GameUiState.Navigate)
-            clearViewModel.clear(GameViewModel::class.java)
-        } else {
-            runAsync.handleAsync(viewModelScope, {
-                question = gameRepository.getQuestion()
-            }) {
-                observable.updateUi(GameUiState.Initial(question))
-            }
-        }
+        init()
     }
 }
