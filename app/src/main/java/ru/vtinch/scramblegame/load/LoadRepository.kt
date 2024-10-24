@@ -44,7 +44,9 @@ interface LoadRepository {
         }
     }
 
-    class Test : LoadRepository {
+    class Test(
+        private val index: Cache.Save<Int>,
+    ) : LoadRepository {
 
         private var error = true
 
@@ -53,7 +55,7 @@ interface LoadRepository {
             if (error) {
                 error = false
                 throw DomainException.NoInternetConnectionException()
-            }
+            } else index.save(0)
         }
     }
 }
