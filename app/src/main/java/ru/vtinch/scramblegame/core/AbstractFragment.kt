@@ -10,38 +10,42 @@ import ru.vtinch.scramblegame.core.uiObservable.UiObserver
 import ru.vtinch.scramblegame.di.MyViewModel
 import ru.vtinch.scramblegame.di.UiState
 
-abstract class AbstractFragment<binding : ViewBinding, uiState : UiState, viewModel : MyViewModel.Async<uiState>> :
-    Fragment() {
+interface AbstractFragment {
 
-    protected abstract val update: UiObserver<uiState>
-    protected lateinit var viewModel: viewModel
-    private var _binding: binding? = null
-    protected val binding get() = _binding!!
+    abstract class Ui<binding : ViewBinding> : Fragment(), AbstractFragment {
+        private var _binding: binding? = null
+        protected val binding get() = _binding!!
+        protected abstract fun inflate(inflater: LayoutInflater, container: ViewGroup?): binding
 
-    protected abstract fun inflate(inflater: LayoutInflater, container: ViewGroup?): binding
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?,
+        ): View {
+            _binding = inflate(inflater, container)
+            return binding.root
+        }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = inflate(inflater, container)
-        return binding.root
+        override fun onDestroyView() {
+            super.onDestroyView()
+            _binding = null
+        }
     }
 
+    abstract class Async<binding : ViewBinding, uiState : UiState, viewModel : MyViewModel.Async<uiState>> :
+        Ui<binding>() {
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+        protected abstract val update: UiObserver<uiState>
+        protected lateinit var viewModel: viewModel
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.startUpdate(update)
-    }
+        override fun onResume() {
+            super.onResume()
+            viewModel.startUpdate(update)
+        }
 
-    override fun onPause() {
-        super.onPause()
-        viewModel.stopUpdate()
+        override fun onPause() {
+            super.onPause()
+            viewModel.stopUpdate()
+        }
     }
 }

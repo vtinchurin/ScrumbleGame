@@ -12,7 +12,7 @@ import ru.vtinch.scramblegame.core.uiObservable.UiObserver
 import ru.vtinch.scramblegame.databinding.FragmentGameBinding
 import ru.vtinch.scramblegame.di.ProvideViewModel
 
-class GameFragment : AbstractFragment<FragmentGameBinding, GameUiState, GameViewModel>() {
+class GameFragment : AbstractFragment.Async<FragmentGameBinding, GameUiState, GameViewModel>() {
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit

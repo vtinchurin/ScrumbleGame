@@ -10,7 +10,7 @@ import ru.vtinch.scramblegame.core.uiObservable.UiObserver
 import ru.vtinch.scramblegame.databinding.FragmentLoadBinding
 import ru.vtinch.scramblegame.di.ProvideViewModel
 
-class LoadFragment : AbstractFragment<FragmentLoadBinding, LoadUiState, LoadViewModel>() {
+class LoadFragment : AbstractFragment.Async<FragmentLoadBinding, LoadUiState, LoadViewModel>() {
 
     override val update = UiObserver<LoadUiState> {
         it.show(

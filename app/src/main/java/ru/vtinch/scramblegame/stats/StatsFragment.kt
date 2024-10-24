@@ -10,7 +10,7 @@ import ru.vtinch.scramblegame.core.uiObservable.UiObserver
 import ru.vtinch.scramblegame.databinding.FragmentStatsBinding
 import ru.vtinch.scramblegame.di.ProvideViewModel
 
-class StatsFragment : AbstractFragment<FragmentStatsBinding, StatsUiState, StatsViewModel>() {
+class StatsFragment : AbstractFragment.Async<FragmentStatsBinding, StatsUiState, StatsViewModel>() {
 
     override val update = UiObserver<StatsUiState> {
         it.show(
