@@ -11,7 +11,7 @@ import ru.vtinch.scramblegame.load.data.remote.HandleError
 class TestLoadModule(private val core: Core): Module<LoadViewModel> {
     override fun viewModel(): LoadViewModel {
         return LoadViewModel(
-            repository = LoadRepository.Test(),
+            repository = LoadRepository.Test(core.indexCache),
             runAsync = RunAsync.Base(),
             clearViewModel = core.clearViewModel,
             observable = UiObservable.Base(),
