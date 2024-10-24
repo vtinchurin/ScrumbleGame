@@ -5,11 +5,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
+import ru.vtinch.scramblegame.R
 import ru.vtinch.scramblegame.core.RunAsync
 import ru.vtinch.scramblegame.core.uiObservable.UiObserver
 import ru.vtinch.scramblegame.di.ClearViewModel
 import ru.vtinch.scramblegame.di.MyViewModel
 import ru.vtinch.scramblegame.game.FakeObservable
+import ru.vtinch.scramblegame.load.data.remote.HandleError
 
 class LoadViewModelTest {
 
@@ -34,16 +36,15 @@ class LoadViewModelTest {
         viewModel = LoadViewModel(
             repository = repository,
             runAsync = runAsync,
-            clearViewModel,
-            observable = observable
-
+            clearViewModel = clearViewModel,
+            observable = observable,
+            handleError = HandleError.Ui()
         )
         fragment = LoadFragment()
     }
 
     @Test
     fun sameFragment() {
-        repository.expectedResult(LoadResult.Success)
         viewModel.load(isFirstRun = true)
         assertEquals(1, repository.loadCalledCount())
         viewModel.startUpdate(observer = fragment)
@@ -56,7 +57,7 @@ class LoadViewModelTest {
 
     @Test
     fun case2() {
-        repository.expectedResult(LoadResult.Error)
+        repository.expectedResult(loadResult = DomainException.NoInternetConnectionException())
         viewModel.load(isFirstRun = true)
         assertEquals(1, repository.loadCalledCount())
         viewModel.startUpdate(observer = fragment)
@@ -73,7 +74,10 @@ class LoadViewModelTest {
         assertEquals(1, repository.loadCalledCount())
         viewModel.startUpdate(observer = newFragment)
 
-        assertEquals(LoadUiState.Error, newFragment.statesList.last())
+        assertEquals(
+            LoadUiState.Error(resId = R.string.no_connection),
+            newFragment.statesList.last()
+        )
         assertEquals(1, newFragment.statesList.size)
 
     }
@@ -88,15 +92,16 @@ private class LoadFragment : UiObserver<LoadUiState> {
 
 private interface FakeLoadRepository : LoadRepository {
 
-    fun expectedResult(loadResult: LoadResult)
+    fun expectedResult(loadResult: Throwable)
+
     fun loadCalledCount(): Int
 
     class Base : FakeLoadRepository {
 
-        private var loadResult: LoadResult? = null
+        private var loadResult: Throwable? = null
         private var loadCalledCount = 0
 
-        override fun expectedResult(loadResult: LoadResult) {
+        override fun expectedResult(loadResult: Throwable) {
             this.loadResult = loadResult
         }
 
@@ -104,10 +109,13 @@ private interface FakeLoadRepository : LoadRepository {
             return loadCalledCount
         }
 
-        override suspend fun load(): LoadResult {
-            loadCalledCount += 1
-            return loadResult!!
-
+        override suspend fun load() {
+            try {
+                loadCalledCount += 1
+            } finally {
+                if (loadResult != null)
+                    throw loadResult as Exception
+            }
         }
 
     }

@@ -1,8 +1,8 @@
 package ru.vtinch.scramblegame.load
 
-interface LoadResult {
-
-    object Success : LoadResult
-
-    object Error : LoadResult
-}
+//interface LoadResult {
+//
+//    object Success : LoadResult
+//
+//    object Error : LoadResult
+//}

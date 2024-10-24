@@ -9,7 +9,7 @@ import ru.vtinch.scramblegame.load.data.remote.HandleError
 class LoadViewModel(
     private val repository: LoadRepository,
     private val clearViewModel: ClearViewModel,
-    private val handleError: HandleError.Ui,
+    private val handleError: HandleError<Int>,
     runAsync: RunAsync,
     observable: UiObservable<LoadUiState>,
 ) : MyViewModel.ObservableAsync<LoadUiState>(observable, runAsync) {
